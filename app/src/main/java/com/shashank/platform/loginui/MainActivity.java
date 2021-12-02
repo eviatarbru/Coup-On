@@ -2,7 +2,7 @@ package com.shashank.platform.loginui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.material.textfield.TextInputLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         this.imageView = findViewById(R.id.imageView);
         this.textView = findViewById(R.id.textView);
         this.email = findViewById(R.id.email);
         this.password = findViewById(R.id.password);
-        this.signUpButton = findViewById(R.id.signUpButton);
+        this.signUpButton = findViewById(R.id.nextPage);
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
             }
@@ -71,8 +69,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void signUpListener(View view)
     {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void signInListener(View view)
+    {
         System.out.println(this.email.getText());
         System.out.println(this.password.getText());
     }
 
+    public void ForgotPasswordBtn(View view)
+    {
+        Intent intent = new Intent(this, ForgotPasswordScreen.class);
+        startActivity(intent);
+    }
 }
