@@ -30,20 +30,20 @@ public class ForgotPasswordScreen extends AppCompatActivity {
 
                 public void onSwipeRight() {
                     if (count == 0) {
-                        imageView.setImageResource(R.drawable.good_night_img);
+                        imageView.setImageResource(R.drawable.nightcoupon);
                         count = 1;
                     } else {
-                        imageView.setImageResource(R.drawable.good_morning_img);
+                        imageView.setImageResource(R.drawable.lightcoupon);
                         count = 0;
                     }
                 }
 
                 public void onSwipeLeft() {
                     if (count == 0) {
-                        imageView.setImageResource(R.drawable.good_night_img);
+                        imageView.setImageResource(R.drawable.nightcoupon);
                         count = 1;
                     } else {
-                        imageView.setImageResource(R.drawable.good_morning_img);
+                        imageView.setImageResource(R.drawable.lightcoupon);
                         count = 0;
                     }
                 }
@@ -52,7 +52,6 @@ public class ForgotPasswordScreen extends AppCompatActivity {
                 }
 
             });
-
         }
 
 
@@ -61,5 +60,10 @@ public class ForgotPasswordScreen extends AppCompatActivity {
     public void verifyEmailBtn(View view)
     {
 
+    }
+
+    public void backScreen(View view) {
+        Intent intent = new Intent(this, LoginScreen.class);
+        startActivity(intent);
     }
 }

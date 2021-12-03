@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginScreen extends AppCompatActivity {
 
     private ImageView imageView;
     private TextView textView;
@@ -24,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+//        requestWindowFeature(Window.FEATURE_ACTION_BAR);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_login_screen);
         this.imageView = findViewById(R.id.imageView);
         this.textView = findViewById(R.id.textView);
         this.email = findViewById(R.id.email);
@@ -38,24 +36,24 @@ public class MainActivity extends AppCompatActivity {
 
             public void onSwipeRight() {
                 if (count == 0) {
-                    imageView.setImageResource(R.drawable.good_night_img);
-                    textView.setText("Night");
+                    imageView.setImageResource(R.drawable.lightcoupon);
+                    textView.setText("On");
                     count = 1;
                 } else {
-                    imageView.setImageResource(R.drawable.good_morning_img);
-                    textView.setText("Morning");
+                    imageView.setImageResource(R.drawable.nightcoupon);
+                    textView.setText("Off");
                     count = 0;
                 }
             }
 
             public void onSwipeLeft() {
                 if (count == 0) {
-                    imageView.setImageResource(R.drawable.good_night_img);
-                    textView.setText("Night");
+                    imageView.setImageResource(R.drawable.lightcoupon);
+                    textView.setText("On");
                     count = 1;
                 } else {
-                    imageView.setImageResource(R.drawable.good_morning_img);
-                    textView.setText("Morning");
+                    imageView.setImageResource(R.drawable.nightcoupon);
+                    textView.setText("Off");
                     count = 0;
                 }
             }
@@ -77,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     {
         System.out.println(this.email.getText());
         System.out.println(this.password.getText());
+        Intent intent = new Intent(this, SwipeCards.class);
+        startActivity(intent);
     }
 
     public void ForgotPasswordBtn(View view)
