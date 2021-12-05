@@ -1,10 +1,9 @@
-package com.shashank.platform.loginui;
+package com.shashank.platform.coup_on;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 

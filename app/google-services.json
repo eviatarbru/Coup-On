@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "517870398778",
+    "project_id": "coup-on-project",
+    "storage_bucket": "coup-on-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517870398778:android:9e7fec4b91747db2f9f403",
+        "android_client_info": {
+          "package_name": "com.shashank.platform.coup_on"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517870398778-g6626li6d5addb4r7jl2vhi8abqce1a9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7VeDTOPodILI5W-a5_2AhcmSlasmT9eU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517870398778-g6626li6d5addb4r7jl2vhi8abqce1a9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.shashank.platform.loginui">
+    package="com.shashank.platform.coup_on">
 
     <application
         android:allowBackup="true"
@@ -12,16 +12,16 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".SwipeCards"
+            android:name="com.shashank.platform.coup_on.SwipeCards"
             android:exported="false" />
         <activity
-            android:name=".ForgotPasswordScreen"
+            android:name="com.shashank.platform.coup_on.ForgotPasswordScreen"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name="com.shashank.platform.coup_on.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreen"
+            android:name="com.shashank.platform.coup_on.LoginScreen"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan">

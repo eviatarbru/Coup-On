@@ -1,4 +1,4 @@
-package com.shashank.platform.loginui;
+package com.shashank.platform.coup_on;
 
 import android.content.Context;
 import android.view.GestureDetector;
