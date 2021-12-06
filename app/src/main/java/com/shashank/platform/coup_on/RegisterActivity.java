@@ -15,11 +15,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Date;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
+    private EditText fullName;
+    private EditText dateOfBirth;
     private ImageView imageView;
     int count = 0;
 
@@ -48,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
         };
         this.email = (EditText) findViewById(R.id.email);
         this.password = (EditText) findViewById(R.id.password);
+        this.fullName = (EditText) findViewById(R.id.Fullname);
+        this.dateOfBirth = (EditText) findViewById(R.id.dateOfBirth);
         this.imageView = findViewById(R.id.imageView);
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
@@ -100,12 +108,19 @@ public class RegisterActivity extends AppCompatActivity {
     {
         final String email = this.email.getText().toString();
         final String password = this.password.getText().toString();
+        final String fullName = this.fullName.getText().toString();
+        final String dateOfbirth = this.dateOfBirth.getText().toString();
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful())
                 {
                     Toast.makeText(RegisterActivity.this, "sighn_up_error", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    String userID = mAuth.getCurrentUser().getUid();
+                    DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child(fullName).child(dateOfbirth).child("name");
                 }
             }
         });
