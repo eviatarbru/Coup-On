@@ -33,5 +33,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.1')
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.lorentzos.swipecards:library:1.0.9'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-database'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
