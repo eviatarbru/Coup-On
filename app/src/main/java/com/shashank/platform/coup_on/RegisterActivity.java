@@ -11,14 +11,21 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -32,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     //firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +60,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         };
-        this.email = (EditText) findViewById(R.id.email);
-        this.password = (EditText) findViewById(R.id.password);
-        this.fullName = (EditText) findViewById(R.id.Fullname);
-        this.dateOfBirth = (EditText) findViewById(R.id.dateOfBirth);
+        this.email = findViewById(R.id.email);
+        this.password = findViewById(R.id.password);
+        this.fullName = findViewById(R.id.Fullname);
+        this.dateOfBirth = findViewById(R.id.dateOfBirth);
         this.imageView = findViewById(R.id.imageView);
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
@@ -87,23 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    //Hides the system's UI
-    private void hideSystemUI()
-    {
-        // Enables regular immersive mode.
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                // Set the content to appear under the system bars so that the
-                // content doesn't resize when the system bars hide and show.
-                //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-
     public void registerListener(View view)
     {
         final String email = this.email.getText().toString();
@@ -115,12 +106,29 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful())
                 {
-                    Toast.makeText(RegisterActivity.this, "sighn_up_error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "sign_in_error", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    String userID = mAuth.getCurrentUser().getUid();
-                    DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child(fullName).child(dateOfbirth).child("name");
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("Uid", mAuth.getCurrentUser().getUid());
+                    user.put("Email", email);
+                    user.put("FullName", fullName);
+                    user.put("DateOfBirth", dateOfbirth);
+
+                    db.collection("users")
+                        .add(user)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(RegisterActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                            }
+                    });
                 }
             }
         });

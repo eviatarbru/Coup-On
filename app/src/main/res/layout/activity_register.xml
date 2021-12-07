@@ -92,6 +92,7 @@
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fireEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/textInputLayout"
@@ -112,6 +113,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fireFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/textInputLayout"
@@ -174,6 +176,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/FDateOfBirth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/textInputLayout"
