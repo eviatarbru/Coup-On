@@ -26,6 +26,10 @@
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable/ic_lock_white_24dp.xml" value="0.2703125" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/layout/activity_main.xml" value="0.6" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password.xml" value="0.20108695652173914" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password_screen.xml" value="0.2391304347826087" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_login_screen.xml" value="0.4742468415937804" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.1897644927536232" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19907407407407407" />
       </map>
     </option>

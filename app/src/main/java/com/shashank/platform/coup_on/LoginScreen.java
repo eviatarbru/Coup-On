@@ -26,6 +26,7 @@ public class LoginScreen extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private Button signInButton;
+    private TextView forgotPassword;
     int count = 0;
 
     //firebase
@@ -43,6 +44,11 @@ public class LoginScreen extends AppCompatActivity {
         this.email = findViewById(R.id.email);
         this.password = findViewById(R.id.password);
         this.signInButton = findViewById(R.id.nextPage);
+        this.forgotPassword = findViewById(R.id.forgotPassword);
+
+        // I think its ok, thats how the youtube guy did it
+        forgotPassword.setOnClickListener(this::ForgotPasswordBtn);
+
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
             }
@@ -139,4 +145,19 @@ public class LoginScreen extends AppCompatActivity {
         Intent intent = new Intent(this, ForgotPasswordScreen.class);
         startActivity(intent);
     }
+
+    // he did it like that, its looking kinda more organized
+   /* public void onClick(View v){
+        switch(v.getId()){
+            case R.id.signUpButton:
+                startActivity(new Intent( packageContext this, RegisterActivity.class));
+                break;
+
+            ...
+
+            case R.id.forgotPassword:
+                startActivity(new Intent ( packageContext this, ForgotPasswordScreen.class));
+
+    }*/
+
 }
