@@ -107,7 +107,7 @@ public class LoginScreen extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful())
                 {
-                    Toast.makeText(LoginScreen.this, "sighn_up_error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginScreen.this, "Login error!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
