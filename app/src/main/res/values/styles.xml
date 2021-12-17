@@ -9,12 +9,23 @@
     </style>
 
 
+    <style name="EditScreenTextInputLayoutStyleLight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/textInputLayoutLight</item>
+        <item name="colorControlActivated">@color/textInputLayoutLight</item>
+        <item name="colorControlHighlight">@color/textInputLayoutLight</item>
+        <item name="colorAccent">@color/textInputLayoutLight</item>
+        <item name="android:textColorHint">#80000000</item>
+        <item name="android:textColor">@color/textInputLayoutLight</item>
+<!--        <item name="android:background">@drawable/bordertextfield</item>-->
+    </style>
+
     <style name="EditScreenTextInputLayoutStyle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@color/textInputLayout</item>
         <item name="colorControlActivated">@color/textInputLayout</item>
         <item name="colorControlHighlight">@color/textInputLayout</item>
         <item name="colorAccent">@color/textInputLayout</item>
         <item name="android:textColorHint">#BEFFFFFF</item>
+        <item name="android:textColor">@color/textInputLayout</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

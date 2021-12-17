@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null)
                 {
-                    Intent intent = new Intent(RegisterActivity.this, LoginScreen.class);
+                    Intent intent = new Intent(RegisterActivity.this, InterestsScreen.class);
                     startActivity(intent);
                     finish();
                     return;
@@ -64,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         this.password = findViewById(R.id.password);
         this.fullName = findViewById(R.id.Fullname);
         this.dateOfBirth = findViewById(R.id.dateOfBirth);
+        this.dateOfBirth .addTextChangedListener(new DateWatcher());
         this.imageView = findViewById(R.id.imageView);
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
@@ -147,4 +148,5 @@ public class RegisterActivity extends AppCompatActivity {
         super.onStop();
         mAuth.removeAuthStateListener(firebaseAuthStateListener);
     }
+
 }
