@@ -5,37 +5,54 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-
+//MainActivity
 public class SwipeCards extends AppCompatActivity {
 
-    private ArrayList<String> al;
-    private ArrayAdapter<String> arrayAdapter;
+    private Cards cards_data[];
+
+    //private ArrayList<String> al;
+    private arrayAdapter arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
     private int i;
+
+    ListView listView;
+    List<Cards> rowItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_cards);
 
-        al = new ArrayList<>();
-        al.add("php");
-        al.add("c");
-        al.add("python");
-        al.add("java");
-        al.add("html");
-        al.add("c++");
-        al.add("css");
-        al.add("javascript");
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
+        rowItems = new ArrayList<Cards>();
+        //al.add("php");
+        //al.add("c");
+        //al.add("python");
+        //al.add("java");
+        //al.add("html");
+        //al.add("c++");
+        //al.add("css");
+        //al.add("javascript");
+
+        arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems);
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
@@ -45,7 +62,7 @@ public class SwipeCards extends AppCompatActivity {
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
-                al.remove(0);
+                rowItems.remove(0); //changed
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -62,10 +79,12 @@ public class SwipeCards extends AppCompatActivity {
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
             }
 
-            @Override
+            @Override //required DataSnapShot
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 // Ask for more data here
-                al.add("XML ".concat(String.valueOf(i)));
+                //Cards item = new Cards( dataSnapshot);
+                Cards item = new Cards("id", "name");// need to be changed based on DB
+                rowItems.add(item);// "XML ".concat(String.valueOf(i))
                 arrayAdapter.notifyDataSetChanged();
                 Log.d("LIST", "notified");
                 i++;
@@ -87,6 +106,42 @@ public class SwipeCards extends AppCompatActivity {
         });
 
     }
+
+    /*public void checkUser(){
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Users");
+        userDb.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                if(snapshot.exists()){
+                    Cards item = new Cards(snapshot.getKey(), snapshot.child("name").getValue().toString());
+                    rowItems.add(item);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }*/
 
     static void makeToast(Context ctx, String s){
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
