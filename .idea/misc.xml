@@ -3,46 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/bordertextfield.xml" value="0.3828125" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/buttonshapewhitebg.xml" value="0.3828125" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/empty_tall_divider.xml" value="0.3828125" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/gridbuttonselected.xml" value="0.3828125" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/gridbuttonunselected.xml" value="0.3828125" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/ic_email_white_24dp.xml" value="0.3828125" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3828125" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/ic_lock_white_24dp.xml" value="0.3828125" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.23560910307898258" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout-w936dp/activity_login.xml" value="0.275" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password.xml" value="0.36666666666666664" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password_screen.xml" value="0.5" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_fullscreen.xml" value="0.26197916666666665" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_interests_screen.xml" value="0.33" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_loginScreen.xml" value="0.33" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_login_screen.xml" value="0.36666666666666664" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.5" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_register2.xml" value="0.2760416666666667" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_swipe_cards.xml" value="0.2760416666666667" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/item.xml" value="0.2760416666666667" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/testregister.xml" value="0.2760416666666667" />
-        <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_login_screen.xml" value="0.264" />
-        <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_main.xml" value="0.36231884057971014" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable/ic_email_white_24dp.xml" value="0.2703125" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable/ic_lock_white_24dp.xml" value="0.2703125" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/layout/activity_main.xml" value="0.6" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/layout/activity_register.xml" value="0.264" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/bordertextfield.xml" value="0.2703125" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password.xml" value="0.20108695652173914" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password_screen.xml" value="0.2391304347826087" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_interests_screen.xml" value="0.22509057971014493" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_login_screen.xml" value="0.4742468415937804" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.1897644927536232" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_swipe_cards.xml" value="0.264" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/item.xml" value="0.1" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password_screen.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_interests_screen.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_login_screen.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_main.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_profile_screen.xml" value="0.1875" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_profile_toolbar.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_swipe_cards.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/item.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/lerma/Documents/GitHub/Coup-On/app/src/main/res/layout/tooolbar.xml" value="0.13541666666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19907407407407407" />
       </map>
     </option>

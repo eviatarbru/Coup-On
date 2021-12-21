@@ -13,6 +13,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".profile_screen"
+            android:exported="false" />
+        <activity
             android:name=".InterestsScreen"
             android:exported="false" />
         <activity

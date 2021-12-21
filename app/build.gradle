@@ -38,5 +38,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.3'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation 'com.mikhaellopez:circularimageview:4.3.0'
     //implementation 'compile "com.android.support:appcompat-v7:26.0.1' // he did with compile and 26.0.0
 }
