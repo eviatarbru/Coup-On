@@ -39,10 +39,9 @@
 
     </LinearLayout>
 
-    \\ might change later for different background
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@color/colorAccent"
         android:layout_below="@id/linear_ll"
         android:paddingRight="8dp"
