@@ -1,4 +1,4 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.shashank.platform.coup_on.R;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 public class Cards { //Cards need to have values like picture and so on
     private String userId;

@@ -1,4 +1,4 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 import android.content.Context;
 import android.view.GestureDetector;

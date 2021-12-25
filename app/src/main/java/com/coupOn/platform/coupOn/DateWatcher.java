@@ -1,7 +1,9 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DateWatcher implements TextWatcher
 {
@@ -11,6 +13,7 @@ public class DateWatcher implements TextWatcher
     private static final String FORMAT = "DD-MM-YYYY";
     private boolean userChange;
     private String text;
+    private static final Pattern regex = Pattern.compile("((3[01]|[12][0-9]|0[1-9])-(0[13578]|1[02])-\\d{4})|((30|[12][0-9]|0[1-9])-(0[469]|11)-\\d{4})|(29-02-((\\d{2}([2468][048]|0[48]|[13579][26]))|(([02468][048]|[13579][26])00)))|((0[1-9]|1[0-9]|2[0-8])-02-\\d{4})");
 
     public DateWatcher()
     {
@@ -26,12 +29,8 @@ public class DateWatcher implements TextWatcher
 
     public static boolean isDate(String date)
     {
-        if (date.length() != FORMAT.length())
-        {
-            return false;
-        }
-        // For now, should expand the check to the years, months and days
-        return true;
+        Matcher matcher = regex.matcher(date);
+        return matcher.find();
     }
 
     @Override

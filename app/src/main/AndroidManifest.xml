@@ -13,22 +13,22 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".profile_screen"
+            android:name="com.coupOn.platform.coupOn.Profile_screen"
             android:exported="false" />
         <activity
-            android:name=".InterestsScreen"
+            android:name="com.coupOn.platform.coupOn.InterestsScreen"
             android:exported="false" />
         <activity
-            android:name=".SwipeCards"
+            android:name="com.coupOn.platform.coupOn.SwipeCards"
             android:exported="false" />
         <activity
-            android:name=".ForgotPasswordScreen"
+            android:name="com.coupOn.platform.coupOn.ForgotPasswordScreen"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name="com.coupOn.platform.coupOn.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreen"
+            android:name="com.coupOn.platform.coupOn.LoginScreen"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan">

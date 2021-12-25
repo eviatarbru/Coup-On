@@ -1,25 +1,16 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+import com.shashank.platform.coup_on.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +21,7 @@ public class SwipeCards extends AppCompatActivity {
     private Cards cards_data[];
 
     //private ArrayList<String> al;
-    private arrayAdapter arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
+    private ArrayAdapter arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
     private int i;
 
     ListView listView;
@@ -52,7 +43,7 @@ public class SwipeCards extends AppCompatActivity {
         //al.add("css");
         //al.add("javascript");
 
-        arrayAdapter = new arrayAdapter(this, R.layout.item, rowItems);
+        arrayAdapter = new ArrayAdapter(this, R.layout.item, rowItems);
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 

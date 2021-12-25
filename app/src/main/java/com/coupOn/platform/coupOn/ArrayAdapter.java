@@ -1,4 +1,4 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,14 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shashank.platform.coup_on.R;
+
 import java.util.List;
 
 
-public class arrayAdapter extends android.widget.ArrayAdapter<Cards> {
+public class ArrayAdapter extends android.widget.ArrayAdapter<Cards> {
 
     Context context;
 
-    public arrayAdapter(Context context, int resourceId, List<Cards> items){
+    public ArrayAdapter(Context context, int resourceId, List<Cards> items){
         super(context, resourceId, items);
     }
 

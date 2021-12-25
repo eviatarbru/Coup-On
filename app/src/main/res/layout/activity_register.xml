@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context="com.coupOn.platform.coupOn.RegisterActivity">
 
     <FrameLayout
         app:layout_constraintTop_toTopOf="parent"
@@ -150,6 +150,7 @@
                 android:drawableEnd="@drawable/ic_lock_white_24dp"
                 android:drawablePadding="16dp"
                 android:fontFamily="@font/calibri"
+                android:maxLength="20"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:maxLines="1"

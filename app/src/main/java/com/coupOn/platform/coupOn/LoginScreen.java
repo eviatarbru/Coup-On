@@ -1,4 +1,4 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.shashank.platform.coup_on.R;
 
 public class LoginScreen extends AppCompatActivity {
 
@@ -142,7 +143,7 @@ public class LoginScreen extends AppCompatActivity {
 
     public void ForgotPasswordBtn(View view)
     {
-        Intent intent = new Intent(this, ForgotPasswordScreen.class);
+        Intent intent = new Intent(this, Profile_screen.class);
         startActivity(intent);
     }
 

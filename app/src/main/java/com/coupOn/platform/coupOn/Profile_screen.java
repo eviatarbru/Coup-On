@@ -1,13 +1,16 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class profile_screen extends AppCompatActivity {
+import com.shashank.platform.coup_on.R;
+
+public class Profile_screen extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_screen);
     }

@@ -1,9 +1,13 @@
-package com.shashank.platform.coup_on;
+package com.coupOn.platform.coupOn;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -17,13 +21,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
+import com.shashank.platform.coup_on.R;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +32,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
+    private EditText varPassword;
     private EditText fullName;
     private EditText dateOfBirth;
     private ImageView imageView;
+    private Drawable lock;
     int count = 0;
 
     //firebase
@@ -61,10 +64,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
         this.email = findViewById(R.id.email);
+        this.lock = DrawableCompat.wrap(AppCompatResources.getDrawable(this, R.drawable.ic_lock_white_24dp));
         this.password = findViewById(R.id.password);
+        this.password.addTextChangedListener(new PasswordWatcher(this.password, this));
+        this.varPassword = findViewById(R.id.verifyPassword);
         this.fullName = findViewById(R.id.Fullname);
         this.dateOfBirth = findViewById(R.id.dateOfBirth);
-        this.dateOfBirth .addTextChangedListener(new DateWatcher());
+        this.dateOfBirth.addTextChangedListener(new DateWatcher());
         this.imageView = findViewById(R.id.imageView);
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
@@ -100,8 +106,13 @@ public class RegisterActivity extends AppCompatActivity {
     {
         final String email = this.email.getText().toString();
         final String password = this.password.getText().toString();
+        final String varPassword = this.varPassword.getText().toString();
         final String fullName = this.fullName.getText().toString();
         final String dateOfbirth = this.dateOfBirth.getText().toString();
+        if(!validate(email, password, varPassword, fullName, dateOfbirth))
+        {
+            return;
+        }
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -135,6 +146,21 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    public boolean validate(String email, String password, String valPassword, String fullName, String dateOfBirth)
+    {
+        if(email.trim().isEmpty() || email.indexOf("@") == -1) //mail check
+            return false;
+        if(password.trim().isEmpty()) //password check
+            return false;
+        if(password != valPassword) //varPassword and password check
+            return false;
+        if(fullName.trim().isEmpty()) //name check
+            return false;
+        if(!DateWatcher.isDate(dateOfBirth)) //date of birth check
+            return false;
+        return true;
+    }
+
     @Override
     protected void onStart()
     {
@@ -148,5 +174,4 @@ public class RegisterActivity extends AppCompatActivity {
         super.onStop();
         mAuth.removeAuthStateListener(firebaseAuthStateListener);
     }
-
 }
