@@ -21,11 +21,11 @@ public class SwipeCards extends AppCompatActivity {
     private Cards cards_data[];
 
     //private ArrayList<String> al;
-    private ArrayAdapter arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
+    private ArrayAdapterCoupon arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
     private int i;
 
     ListView listView;
-    List<Cards> rowItems;
+    private ArrayList<Cards> rowItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +33,8 @@ public class SwipeCards extends AppCompatActivity {
         setContentView(R.layout.activity_swipe_cards);
 
 
-        rowItems = new ArrayList<Cards>();
-        //al.add("php");
+        this.rowItems = new ArrayList<Cards>();
+        this.rowItems.add(new Cards("Ido", "Laser"));
         //al.add("c");
         //al.add("python");
         //al.add("java");
@@ -43,7 +43,7 @@ public class SwipeCards extends AppCompatActivity {
         //al.add("css");
         //al.add("javascript");
 
-        arrayAdapter = new ArrayAdapter(this, R.layout.item, rowItems);
+        arrayAdapter = new ArrayAdapterCoupon(this, R.layout.item, rowItems);
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
@@ -74,7 +74,7 @@ public class SwipeCards extends AppCompatActivity {
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 // Ask for more data here
                 //Cards item = new Cards( dataSnapshot);
-                Cards item = new Cards("id", "name");// need to be changed based on DB
+                Cards item = new Cards("id", "No Coupons");// need to be changed based on DB
                 rowItems.add(item);// "XML ".concat(String.valueOf(i))
                 arrayAdapter.notifyDataSetChanged();
                 Log.d("LIST", "notified");
