@@ -109,10 +109,10 @@ public class RegisterActivity extends AppCompatActivity {
         final String varPassword = this.varPassword.getText().toString();
         final String fullName = this.fullName.getText().toString();
         final String dateOfbirth = this.dateOfBirth.getText().toString();
-        if(!validate(email, password, varPassword, fullName, dateOfbirth))
-        {
-            return;
-        }
+//        if(!validate(email, password, varPassword, fullName, dateOfbirth))
+//        {
+//            return;
+//        }
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

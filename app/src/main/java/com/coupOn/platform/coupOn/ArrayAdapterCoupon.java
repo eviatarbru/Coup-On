@@ -12,11 +12,11 @@ import com.shashank.platform.coup_on.R;
 import java.util.List;
 
 
-public class ArrayAdapter extends android.widget.ArrayAdapter<Cards> {
+public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
 
     Context context;
 
-    public ArrayAdapter(Context context, int resourceId, List<Cards> items){
+    public ArrayAdapterCoupon(Context context, int resourceId, List<Cards> items){
         super(context, resourceId, items);
     }
 
