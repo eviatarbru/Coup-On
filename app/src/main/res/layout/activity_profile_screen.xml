@@ -7,10 +7,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.coupOn.platform.coupOn.Profile_screen"
-    android:background="@drawable/nightcoupon">
+    android:background="@drawable/lightcoupon">
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,23 +22,27 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
                 android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Account Profile"
-                android:textSize="16dp"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"/>
+                android:paddingLeft="20dp"
+                android:text="Account Profile"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Logout"
-                android:textColor="@android:color/holo_orange_light"
+            <Button
+                android:layout_width="64dp"
+                android:layout_height="28dp"
                 android:layout_alignParentRight="true"
-                android:textStyle="normal"
-                android:textSize="18dp"/>
+                android:background="@drawable/bg_btn"
+                android:onClick="loginScreen"
+                android:text="Logout"
+                android:textColor="@android:color/black"
+                android:textSize="12dp"
+                android:textStyle="normal" />
 
         </LinearLayout>
 
@@ -98,14 +101,16 @@
             android:text="Full Name"
             android:textStyle="bold"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:layout_marginLeft="5dp"/>
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
-            android:id="@+id/Fullname"
+            android:id="@+id/fullName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="full name"
+            android:inputType="textPersonName"
+            android:maxLines="1"
             android:layout_marginLeft="25dp"
             android:textSize="18sp"
             android:textColor="@android:color/darker_gray"/>
@@ -150,15 +155,17 @@
             android:text="Email"
             android:textStyle="bold"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:layout_marginLeft="5dp"/>
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="email"
-            android:layout_marginLeft="70dp"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:layout_marginLeft="60dp"
             android:textSize="18sp"
             android:textColor="@android:color/darker_gray"/>
 
@@ -185,8 +192,9 @@
             android:layout_height="50dp"
             android:background="@drawable/bg_btn"
             android:text="Change Password"
+            android:onClick="changePassword"
             android:gravity="center"
-            android:textColor="@android:color/holo_orange_light"
+            android:textColor="@android:color/black"
             android:textSize="18dp"
             android:drawableLeft="@drawable/ic_lock"
             android:paddingLeft="20dp"
@@ -207,8 +215,9 @@
             android:layout_height="30dp"
             android:background="@drawable/bg_btn"
             android:text="Back"
+            android:onClick="backScreen"
             android:gravity="center"
-            android:textColor="@android:color/holo_orange_light"
+            android:textColor="@android:color/black"
             android:textSize="15dp"
             android:paddingLeft="5dp"
             android:layout_marginLeft="-150dp"

@@ -39,6 +39,8 @@ public class Profile_screen extends AppCompatActivity {
         this.email = findViewById(R.id.email);
         this.fullName = findViewById(R.id.Fullname);
 
+        mAuth = FirebaseAuth.getInstance();
+
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
             }
@@ -71,11 +73,21 @@ public class Profile_screen extends AppCompatActivity {
             }
 
         });
-        mAuth = FirebaseAuth.getInstance();
+    }
+
+
+    public void loginScreen(View view) {
+        Intent intent = new Intent(this, LoginScreen.class);
+        startActivity(intent);
+    }
+
+    public void changePassword(View view) {
+        Intent intent = new Intent(this, ChangePasswordScreen.class);
+        startActivity(intent);
     }
 
     public void backScreen(View view) {
-        Intent intent = new Intent(this, LoginScreen.class);
+        Intent intent = new Intent(this, SwipeCards.class);
         startActivity(intent);
     }
 }
