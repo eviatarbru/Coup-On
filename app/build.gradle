@@ -4,7 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "com.shashank.platform.coup_on"
+        applicationId "com.coupOn.platform.coupOn"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

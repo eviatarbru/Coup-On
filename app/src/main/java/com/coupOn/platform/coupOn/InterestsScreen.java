@@ -101,6 +101,12 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         System.out.println(Arrays.toString(this.isPressed));
     }
 
-    public void registerComplition(View view) {
+    public void registerComplition(View view)
+    {
+        for(int i = 0; i < this.isPressed.length; i++)
+        {
+            if(this.isPressed[i])
+                System.out.println(this.isPressed[i]);
+        }
     }
 }

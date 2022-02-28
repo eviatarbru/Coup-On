@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    public static final String TAG = "TAG";
     private EditText email;
     private EditText password;
     private EditText varPassword;
@@ -49,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
-
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -109,10 +110,11 @@ public class RegisterActivity extends AppCompatActivity {
         final String varPassword = this.varPassword.getText().toString();
         final String fullName = this.fullName.getText().toString();
         final String dateOfbirth = this.dateOfBirth.getText().toString();
-//        if(!validate(email, password, varPassword, fullName, dateOfbirth))
-//        {
-//            return;
-//        }
+        boolean validate = validate(email, password, varPassword, fullName, dateOfbirth);
+        if(!validate)
+        {
+            return;
+        }
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -122,6 +124,18 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    FirebaseUser fuser = mAuth.getCurrentUser();
+                    fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(RegisterActivity.this, "Verification Email Has been Sent.", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
+                        }
+                    });
                     Map<String, Object> user = new HashMap<>();
                     user.put("Uid", mAuth.getCurrentUser().getUid());
                     user.put("Email", email);
@@ -129,18 +143,19 @@ public class RegisterActivity extends AppCompatActivity {
                     user.put("DateOfBirth", dateOfbirth);
 
                     db.collection("users")
-                        .add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(RegisterActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                            }
-                    });
+                            .document(mAuth.getCurrentUser().getUid())
+                            .set(user);
+//                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                            @Override
+//                            public void onSuccess(DocumentReference documentReference) {
+//                                Toast.makeText(RegisterActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+//                            }
+//                    });
                 }
             }
         });
@@ -152,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         if(password.trim().isEmpty()) //password check
             return false;
-        if(password != valPassword) //varPassword and password check
+        if(!password.equals(valPassword)) //varPassword and password check
             return false;
         if(fullName.trim().isEmpty()) //name check
             return false;

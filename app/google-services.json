@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "517870398778",
-    "project_id": "coup-on-project",
-    "storage_bucket": "coup-on-project.appspot.com"
+    "project_number": "495365910358",
+    "project_id": "coup-on-project1",
+    "storage_bucket": "coup-on-project1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:517870398778:android:9e7fec4b91747db2f9f403",
+        "mobilesdk_app_id": "1:495365910358:android:6bd600103dc1677b9eb0f7",
         "android_client_info": {
-          "package_name": "com.shashank.platform.coup_on"
+          "package_name": "com.coupOn.platform.coupOn"
         }
       },
       "oauth_client": [
         {
-          "client_id": "517870398778-g6626li6d5addb4r7jl2vhi8abqce1a9.apps.googleusercontent.com",
+          "client_id": "495365910358-vemi9gve9lq24i2k0maiaah4c43e79vp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC7VeDTOPodILI5W-a5_2AhcmSlasmT9eU"
+          "current_key": "AIzaSyA6JkEmEgnUbveiTij15FncPHTasIkEWbY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "517870398778-g6626li6d5addb4r7jl2vhi8abqce1a9.apps.googleusercontent.com",
+              "client_id": "495365910358-vemi9gve9lq24i2k0maiaah4c43e79vp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
