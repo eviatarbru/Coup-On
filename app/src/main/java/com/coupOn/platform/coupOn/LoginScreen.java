@@ -143,7 +143,7 @@ public class LoginScreen extends AppCompatActivity {
 
     public void ForgotPasswordBtn(View view)
     {
-        Intent intent = new Intent(this, Profile_screen.class);
+        Intent intent = new Intent(this, ForgotPasswordScreen.class);
         startActivity(intent);
     }
 

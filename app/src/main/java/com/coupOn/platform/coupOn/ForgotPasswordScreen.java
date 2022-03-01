@@ -44,7 +44,7 @@ public class ForgotPasswordScreen extends AppCompatActivity {
            resetPasswordBtn.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
-                   resetPassword(view); // func to reset the password
+                   resetPassword(); // func to reset the password
                }
            });
 
@@ -78,7 +78,7 @@ public class ForgotPasswordScreen extends AppCompatActivity {
             });
         }
 
-    private void resetPassword(View view){
+    private void resetPassword(){
             String email = emailEditText.getText().toString().trim();
 
             if(email.isEmpty()){
