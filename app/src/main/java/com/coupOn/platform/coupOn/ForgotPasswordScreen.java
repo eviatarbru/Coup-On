@@ -41,13 +41,6 @@ public class ForgotPasswordScreen extends AppCompatActivity {
             resetPasswordBtn = findViewById(R.id.resetPasswordBtn); //resetPassword
             auth = FirebaseAuth.getInstance();
 
-           resetPasswordBtn.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   resetPassword(); // func to reset the password
-               }
-           });
-
             imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
                 public void onSwipeTop() {
                 }
@@ -78,7 +71,7 @@ public class ForgotPasswordScreen extends AppCompatActivity {
             });
         }
 
-    private void resetPassword(){
+    public void resetPassword(View view){
             String email = emailEditText.getText().toString().trim();
 
             if(email.isEmpty()){

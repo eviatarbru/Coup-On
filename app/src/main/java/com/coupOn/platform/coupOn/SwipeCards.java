@@ -1,9 +1,11 @@
 package com.coupOn.platform.coupOn;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -136,6 +138,10 @@ public class SwipeCards extends AppCompatActivity {
 
     static void makeToast(Context ctx, String s){
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
+    }
+    public void gotoprofile(View view){
+        Intent intent = new Intent(this, Profile_screen.class);
+        startActivity(intent);
     }
 
 }
