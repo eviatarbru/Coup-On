@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -141,6 +142,11 @@ public class SwipeCards extends AppCompatActivity {
     }
     public void gotoprofile(View view){
         Intent intent = new Intent(this, Profile_screen.class);
+        startActivity(intent);
+    }
+
+    public void gotoAddCoupon(View view){
+        Intent intent = new Intent(this, addCoupon.class);
         startActivity(intent);
     }
 

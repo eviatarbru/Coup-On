@@ -66,8 +66,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="412dp"
-        android:layout_height="525dp"
+        android:layout_width="405dp"
+        android:layout_height="520dp"
         android:layout_below="@+id/titleText"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -83,93 +83,43 @@
         app:layout_constraintTop_toBottomOf="@id/titleText"
         tools:ignore="MissingConstraints">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fireEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bordertextfield"
-            android:theme="@style/EditScreenTextInputLayoutStyleLight">
+        <LinearLayout
+            android:layout_width="343dp"
+            android:layout_height="84dp"
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/couponName"
+            <ImageView
+                android:id="@+id/upload_icon"
+                android:layout_width="77dp"
+                android:layout_height="54dp"
+                app:srcCompat="@android:drawable/ic_menu_upload" />
+
+            <TextView
+                android:id="@+id/upload_text"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="Upload Coupon"
+                android:textColor="@color/textInputLayoutLight"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="248dp">
+
+            <ImageView
+                android:id="@+id/image_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:drawablePadding="16dp"
-                android:ems="10"
-                android:fontFamily="@font/calibri"
-                android:hint="Name"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:paddingLeft="10dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/FDateOfBirth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bordertextfield"
-            android:theme="@style/EditScreenTextInputLayoutStyleLight">
-
-            <EditText
-                android:id="@+id/expireDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="16dp"
-                android:ems="10"
-                android:fontFamily="@font/calibri"
-                android:hint="DD-MM-YYYY Expire-Date"
-                android:inputType="date"
-                android:maxLength="10"
-                android:paddingLeft="10dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fireFullName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bordertextfield"
-            android:theme="@style/EditScreenTextInputLayoutStyleLight">
-
-            <EditText
-                android:id="@+id/location"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawablePadding="16dp"
-                android:ems="10"
-                android:fontFamily="@font/calibri"
-                android:hint="Location"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="10dp"
-                android:textSize="16sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bordertextfield"
-            android:theme="@style/EditScreenTextInputLayoutStyleLight">
-
-            <EditText
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="118dp"
-                android:drawablePadding="16dp"
-                android:ems="10"
-                android:fontFamily="@font/calibri"
-                android:hint="Description"
-                android:inputType="textPassword"
-                android:lines="4"
-                android:maxLines="4"
-                android:paddingLeft="10dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:srcCompat="@drawable/image_icon" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="94dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
@@ -177,16 +127,17 @@
 
             <Button
                 android:id="@+id/confirm"
-                android:layout_width="157dp"
-                android:layout_height="52dp"
+                android:layout_width="209dp"
+                android:layout_height="71dp"
                 android:background="@drawable/buttonshapewhitebg"
                 android:fontFamily="@font/calibri"
-                android:onClick="gotoAddCouponImage"
-                android:text="Add Coupon"
+                android:onClick="confirmCoupon"
+                android:text="Confirm"
                 android:textAllCaps="false"
                 android:textColor="@color/textInputLayoutLight"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
     </LinearLayout>
 

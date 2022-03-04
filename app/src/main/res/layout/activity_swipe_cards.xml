@@ -35,7 +35,7 @@
         android:id="@+id/top_constraintLayout"
         android:layout_width="413dp"
         android:layout_height="74dp"
-        android:background="#EF7635"
+        android:background="#DF7D48"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -48,11 +48,11 @@
             android:layout_width="59dp"
             android:layout_height="57dp"
             android:contentDescription="profile_picture"
+            android:onClick="gotoprofile"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.045"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="gotoprofile"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.529"
             app:srcCompat="@drawable/profile_pic" />
@@ -129,9 +129,10 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
-            android:id="@+id/plus_icon"
+            android:id="@+id/add_coupon"
             android:layout_width="98dp"
             android:layout_height="84dp"
+            android:onClick="gotoAddCoupon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.111"

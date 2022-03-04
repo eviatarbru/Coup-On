@@ -44,7 +44,7 @@ public class LoginScreen extends AppCompatActivity {
         this.textView = findViewById(R.id.textView);
         this.email = findViewById(R.id.email);
         this.password = findViewById(R.id.password);
-        this.signInButton = findViewById(R.id.nextPage);
+        this.signInButton = findViewById(R.id.register);
         this.forgotPassword = findViewById(R.id.forgotPassword);
 
         // I think its ok, thats how the youtube guy did it

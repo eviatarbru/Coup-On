@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -62,6 +64,8 @@ public class addCoupon extends AppCompatActivity {
         });
     }
 
-    public void couponValidationAndAdd(View view) {
+    public void gotoAddCouponImage(View view) {
+        Intent intent = new Intent(this, AddCouponImage.class);
+        startActivity(intent);
     }
 }
