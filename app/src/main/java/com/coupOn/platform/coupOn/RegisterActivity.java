@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.shashank.platform.coup_on.R;
@@ -31,7 +32,6 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    public static final String TAG = "TAG";
     private EditText email;
     private EditText password;
     private EditText varPassword;
@@ -51,19 +51,24 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
-        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user != null)
-                {
-                    Intent intent = new Intent(RegisterActivity.this, InterestsScreen.class);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
-            }
-        };
+//        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                if(user != null)
+//                {
+//                    Intent intent = new Intent(RegisterActivity.this, InterestsScreen.class);
+//                    intent.putExtra("email", this.email);
+//                    intent.putExtra("password", this.password);
+//                    intent.putExtra("fullName", this.fullName);
+//                    intent.putExtra("dateOfBirth", this.date);
+//
+//                    startActivity(intent);
+//                    finish();
+//                    return;
+//                }
+//            }
+//        };
         this.email = findViewById(R.id.email);
         this.lock = DrawableCompat.wrap(AppCompatResources.getDrawable(this, R.drawable.ic_lock_white_24dp));
         this.password = findViewById(R.id.password);
@@ -115,78 +120,119 @@ public class RegisterActivity extends AppCompatActivity {
         {
             return;
         }
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful())
-                {
-                    Toast.makeText(RegisterActivity.this, "sign_in_error", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    FirebaseUser fuser = mAuth.getCurrentUser();
-                    fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(RegisterActivity.this, "Verification Email Has been Sent.", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
-                        }
-                    });
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("Uid", mAuth.getCurrentUser().getUid());
-                    user.put("Email", email);
-                    user.put("FullName", fullName);
-                    user.put("DateOfBirth", dateOfbirth);
+        //check email already exist or not.
+        mAuth.fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener(task -> {
 
-                    db.collection("users")
-                            .document(mAuth.getCurrentUser().getUid())
-                            .set(user);
-//                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Toast.makeText(RegisterActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-//                            }
+                    boolean isNewUser = task.getResult().getSignInMethods().isEmpty();
+
+                    if (isNewUser)
+                    {
+                        Intent intent = new Intent(RegisterActivity.this, InterestsScreen.class);
+                        intent.putExtra("email", email);
+                        intent.putExtra("password", password);
+                        intent.putExtra("fullName", fullName);
+                        intent.putExtra("dateOfBirth", dateOfbirth);
+
+                        startActivity(intent);
+                        finish();
+                        return;
+                    }
+                    else
+                    {
+                        Toast.makeText(RegisterActivity.this, "Email Already Exists!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                });
+
+//        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if(!task.isSuccessful())
+//                {
+//                    Toast.makeText(RegisterActivity.this, "sign_in_error", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                {
+//                    FirebaseUser fuser = mAuth.getCurrentUser();
+//                    fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            Toast.makeText(RegisterActivity.this, "Verification Email Has been Sent.", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
+//                        }
 //                    });
-                }
-            }
-        });
+//                    Map<String, Object> user = new HashMap<>();
+//                    user.put("Uid", mAuth.getCurrentUser().getUid());
+//                    user.put("Email", email);
+//                    user.put("FullName", fullName);
+//                    user.put("DateOfBirth", dateOfbirth);
+//
+//                    db.collection("users")
+//                            .document(mAuth.getCurrentUser().getUid())
+//                            .set(user);
+////                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+////                            @Override
+////                            public void onSuccess(DocumentReference documentReference) {
+////                                Toast.makeText(RegisterActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+////                            }
+////                        }).addOnFailureListener(new OnFailureListener() {
+////                            @Override
+////                            public void onFailure(@NonNull Exception e) {
+////                                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+////                            }
+////                    });
+//                }
+//            }
+//        });
     }
 
     public boolean validate(String email, String password, String valPassword, String fullName, String dateOfBirth)
     {
         if(email.trim().isEmpty() || email.indexOf("@") == -1) //mail check
+        {
+            Toast.makeText(RegisterActivity.this, "Email is empty or wrong format!", Toast.LENGTH_SHORT).show();
             return false;
-        if(password.trim().isEmpty()) //password check
+        }
+        else if(password.trim().isEmpty()) //password check
+        {
+            Toast.makeText(RegisterActivity.this, "Password error!", Toast.LENGTH_SHORT).show();
             return false;
-        if(!password.equals(valPassword)) //varPassword and password check
+        }
+        else if(!password.equals(valPassword)) //varPassword and password check
+        {
+            Toast.makeText(RegisterActivity.this, "Passwords are not equal to each other!", Toast.LENGTH_SHORT).show();
             return false;
-        if(fullName.trim().isEmpty()) //name check
+        }
+        else if(fullName.trim().isEmpty()) //name check
+        {
+            Toast.makeText(RegisterActivity.this, "Fullname is empty!", Toast.LENGTH_SHORT).show();
             return false;
-        if(!DateWatcher.isDate(dateOfBirth)) //date of birth check
+        }
+        else if(!DateWatcher.isDate(dateOfBirth)) //date of birth check
+        {
+            Toast.makeText(RegisterActivity.this, "Check date!", Toast.LENGTH_SHORT).show();
             return false;
+        }
         return true;
     }
 
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        mAuth.addAuthStateListener(firebaseAuthStateListener);
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        mAuth.removeAuthStateListener(firebaseAuthStateListener);
-    }
+//    @Override
+//    protected void onStart()
+//    {
+//        super.onStart();
+//        mAuth.addAuthStateListener(firebaseAuthStateListener);
+//    }
+//
+//    @Override
+//    protected void onStop()
+//    {
+//        super.onStop();
+//        mAuth.removeAuthStateListener(firebaseAuthStateListener);
+//    }
 }

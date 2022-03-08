@@ -1,26 +1,46 @@
 package com.coupOn.platform.coupOn;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.shashank.platform.coup_on.R;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InterestsScreen extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String TAG = "TAG";
     private boolean [] isPressed;
     private String [] interests = {"Gaming", "Utility", "Entertainment", "Merch", "Spa", "Movies", "Sports", "Animals", "Flights", "Transportation", "Museums and shit", "Gayming"};
+
+    //firebase
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,31 +52,24 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         GridLayout container = findViewById(R.id.container);
         container.setColumnCount(3);
         container.setRowCount(this.interests.length / 3);
-
-//        LinearLayout container = findViewById(R.id.container);
-//        RelativeLayout.LayoutParams relParams = new RelativeLayout.LayoutParams(
-//                RelativeLayout.LayoutParams.MATCH_PARENT,
-//                RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        RelativeLayout.LayoutParams paramsLeft, paramsCenter, paramsRight;
-//        paramsLeft = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-//        paramsCenter = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-//        paramsRight = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-//        paramsLeft.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-//        paramsCenter.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-//        paramsRight.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-//        paramsLeft.addRule(RelativeLayout.LEFT);
+        mAuth = FirebaseAuth.getInstance();
+        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user != null)
+                {
+                    Intent intent = new Intent(InterestsScreen.this, LoginScreen.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
+            }
+        };
         GridLayout.LayoutParams params;
         this.isPressed = new boolean[this.interests.length];
         for(int i = 0; i < this.interests.length / 3 * 3; i++)
         {
-//            tempLayout = new RelativeLayout(this);
-//            tempLayout.setLayoutParams(relParams);
-//            val = 3 * i + 1;
-//            st = interests[val];
-//            tempLayout.addView(createButton(st, val - 1, -1), paramsLeft);
-//            tempLayout.addView(createButton(st, val, 0), paramsCenter);
-//            tempLayout.addView(createButton(st, val + 1, 1), paramsRight);
-//            container.addView(tempLayout);
             params = new GridLayout.LayoutParams();
             params.height = LayoutParams.WRAP_CONTENT;
             params.width = LayoutParams.WRAP_CONTENT;
@@ -103,10 +116,82 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
 
     public void registerComplition(View view)
     {
+        String interestsFb = "";
         for(int i = 0; i < this.isPressed.length; i++)
         {
             if(this.isPressed[i])
-                System.out.println(this.isPressed[i]);
+            {
+                interestsFb = interestsFb + ", " + this.interests[i];
+            }
         }
+
+        Intent regIntent = getIntent();
+        Bundle infoReg = regIntent.getExtras();
+        String email = (String) infoReg.get("email");
+        String password = (String) infoReg.get("password");
+        String fullName = (String) infoReg.get("fullName");
+        String dateOfBirth = (String) infoReg.get("dateOfBirth");
+        String finalInterestsFb = interestsFb;
+
+        System.out.println(email + " " + password + " " + fullName + " " + dateOfBirth + " " + finalInterestsFb);
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(InterestsScreen.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful())
+                {
+                    Toast.makeText(InterestsScreen.this, "sign_in_error", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    FirebaseUser fuser = mAuth.getCurrentUser();
+                    fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(InterestsScreen.this, "Verification Email Has been Sent.", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
+                        }
+                    });
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("Uid", mAuth.getCurrentUser().getUid());
+                    user.put("Email", email);
+                    user.put("FullName", fullName);
+                    user.put("DateOfBirth", dateOfBirth);
+                    user.put("Interests", finalInterestsFb);
+
+                    db.collection("users")
+                            .document(mAuth.getCurrentUser().getUid())
+                            .set(user);
+//                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                            @Override
+//                            public void onSuccess(DocumentReference documentReference) {
+//                                Toast.makeText(RegisterActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+//                            }
+//                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        mAuth.addAuthStateListener(firebaseAuthStateListener);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        mAuth.removeAuthStateListener(firebaseAuthStateListener);
     }
 }
