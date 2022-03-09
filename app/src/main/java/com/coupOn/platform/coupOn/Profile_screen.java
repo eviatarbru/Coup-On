@@ -10,6 +10,7 @@ import android.view.View;
 //import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 //import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +33,7 @@ public class Profile_screen extends AppCompatActivity {
     private TextView textView;
     private TextView fullName;
     private String userID;
+    private Button logOut;
     int count = 0;
 
     //firebase
@@ -46,6 +48,15 @@ public class Profile_screen extends AppCompatActivity {
         setContentView(R.layout.activity_profile_screen);
         this.email = (TextView) findViewById(R.id.email);
         this.fullName = (TextView) findViewById(R.id.fullName);
+        logOut = (Button) findViewById(R.id.signOut);
+
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(Profile_screen.this, LoginScreen.class));
+            }
+        });
 
         /*imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
@@ -119,10 +130,10 @@ public class Profile_screen extends AppCompatActivity {
 
     }
 
-    public void loginScreen(View view) {
+    /*public void loginScreen(View view) {
         Intent intent = new Intent(this, LoginScreen.class);
         startActivity(intent);
-    }
+    }*/
 
     public void changePassword(View view) {
         Intent intent = new Intent(this, ChangePasswordScreen.class);

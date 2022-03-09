@@ -37,11 +37,11 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/signOut"
                 android:layout_width="64dp"
                 android:layout_height="28dp"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/bg_btn"
-                android:onClick="loginScreen"
                 android:text="Logout"
                 android:textColor="@android:color/black"
                 android:textSize="12dp"
