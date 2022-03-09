@@ -16,12 +16,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.shashank.platform.coup_on.R;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class AddCouponImage extends AppCompatActivity {
@@ -35,6 +39,10 @@ public class AddCouponImage extends AppCompatActivity {
     public Uri imageUri;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,10 +154,30 @@ public class AddCouponImage extends AppCompatActivity {
 
         }
 
-    //public void confirmCoupon(View view) {
-    //    Intent intent = new Intent(this, [fill here next screen].class);
-    //    startActivity(intent);
-    //}
+    public void confirmCoupon(View view) {
+        Intent intent = new Intent(AddCouponImage.this, [fill here next screen].class);
+
+        Intent confirmIntent = getIntent();
+        Bundle infoConfirm = confirmIntent.getExtras();
+        String name = (String) infoConfirm.get("name");
+        String expireDate = (String) infoConfirm.get("expireDate");
+        String location = (String) infoConfirm.get("location");
+        String description = (String) infoConfirm.get("description");
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("Uid", mAuth.getCurrentUser().getUid());
+        user.put("CoupName", name);
+        user.put("ExpireDate", expireDate);
+        user.put("Location", location);
+        user.put("Description", description);
+        user.put("CouponImage", imageUri);
+
+        db.collection("users")
+                .document(mAuth.getCurrentUser().getUid())
+                .set(user);
+
+        startActivity(intent);
+    }
 }
 
 
