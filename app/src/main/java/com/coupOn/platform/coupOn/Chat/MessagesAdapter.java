@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +33,19 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MessagesAdapter.MyViewHolder holder, int position) {
+        MessagesList list2 = messagesLists.get(position);
 
+        holder.name.setText(list2.getName());
+        holder.lastMessage.setText(list2.getLastMessage());
+
+        if(list2.getUnseenMessages() == 0)
+        {
+            holder.unSeenMessages.setVisibility(View.GONE);
+        }
+        else
+        {
+            holder.unSeenMessages.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -41,8 +54,16 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
+        private TextView name;
+        private TextView lastMessage;
+        private TextView unSeenMessages;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            this.name = itemView.findViewById(R.id.fullName);
+            this.lastMessage = itemView.findViewById(R.id.lastMessage);
+            this.unSeenMessages = itemView.findViewById(R.id.unseenMessages);
         }
     }
 }
