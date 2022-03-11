@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/lock/baseline_lock_24.xml" />
+                                      <entry key="url" value="jar:file:/D:/Apps/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/search/baseline_search_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ff0000" />
-                            <entry key="outputName" value="ic_lock" />
+                            <entry key="outputName" value="search_icon" />
                             <entry key="sourceFile" value="C:\Users\lerma\Documents\GitHub\Coup-On" />
                           </map>
                         </option>

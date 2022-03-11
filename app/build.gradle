@@ -41,6 +41,9 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    //Libraries of the android.support
+    implementation 'com.google.android.material:material:1.0.0'
+
     implementation 'com.mikhaellopez:circularimageview:4.3.0'
 
 }

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.shashank.platform.coup_on.R;
@@ -22,6 +23,9 @@ import java.util.List;
 public class SwipeCards extends AppCompatActivity {
 
     private Cards cards_data[];
+
+    //For the chatPart
+    private RecyclerView messagesRecycleView;
 
     //private ArrayList<String> al;
     private ArrayAdapterCoupon arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
@@ -49,6 +53,7 @@ public class SwipeCards extends AppCompatActivity {
         arrayAdapter = new ArrayAdapterCoupon(this, R.layout.item, rowItems);
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+
 
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -88,6 +93,8 @@ public class SwipeCards extends AppCompatActivity {
             public void onScroll(float scrollProgressPercent) {
 
             }
+
+
         });
 
 

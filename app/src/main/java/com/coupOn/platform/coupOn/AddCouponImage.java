@@ -155,7 +155,7 @@ public class AddCouponImage extends AppCompatActivity {
         }
 
     public void confirmCoupon(View view) {
-        Intent intent = new Intent(AddCouponImage.this, [fill here next screen].class);
+//        Intent intent = new Intent(AddCouponImage.this, [fill here next screen].class);
 
         Intent confirmIntent = getIntent();
         Bundle infoConfirm = confirmIntent.getExtras();
@@ -176,7 +176,7 @@ public class AddCouponImage extends AppCompatActivity {
                 .document(mAuth.getCurrentUser().getUid())
                 .set(user);
 
-        startActivity(intent);
+//        startActivity(intent);
     }
 }
 
