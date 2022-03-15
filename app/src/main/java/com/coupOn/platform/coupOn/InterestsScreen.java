@@ -156,17 +156,17 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                         }
                     });
                     Map<String, Object> user = new HashMap<>();
-                    //user.put("Uid", mAuth.getCurrentUser().getUid());
-                    //user.put("Email", email);
+                    user.put("Uid", mAuth.getCurrentUser().getUid());
+                    user.put("Email", email);
                     user.put("FullName", fullName);
                     user.put("DateOfBirth", dateOfBirth);
                     user.put("Interests", finalInterestsFb);
 
                         db.collection("users")
-                            .document(mAuth.getCurrentUser().getEmail())
-                            .set(user)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
+                            .document(mAuth.getCurrentUser().getUid())
+                            .set(user);
+ /*                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                         @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(InterestsScreen.this, "Successfully Added", Toast.LENGTH_SHORT).show();
                             }
@@ -175,7 +175,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(InterestsScreen.this, "Failed", Toast.LENGTH_SHORT).show();
                             }
-                    });
+                    });*/
 
                 }
             }

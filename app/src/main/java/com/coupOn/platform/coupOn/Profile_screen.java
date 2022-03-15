@@ -82,13 +82,13 @@ public class Profile_screen extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users");
         userID = user.getUid();
-        emailStr = user.getEmail();
-        email.setText(emailStr);
+        //emailStr = user.getEmail();
+        //email.setText(emailStr);
 
         // Firebase-Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users")
-            .document(emailStr);
+            .document(userID);
 
         docRef.get()
             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -97,9 +97,12 @@ public class Profile_screen extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         String fullNameStr = document.getString("FullName");
+                        String emailStr = document.getString("Email");
                         if (fullNameStr != null) {
                             fullName.setText(fullNameStr);
                         }
+                       if(emailStr != null)
+                            email.setText(emailStr);
                     }
                     else {
                         Toast.makeText(Profile_screen.this, "Failed to get user from FB", Toast.LENGTH_LONG).show();
