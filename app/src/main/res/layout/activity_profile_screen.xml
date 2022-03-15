@@ -64,21 +64,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingTop="15dp"
+        android:paddingTop="150dp"
         android:orientation="vertical"
         tools:ignore="MissingClass">
-
-
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_width="110dp"
-            android:layout_height="110dp"/>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            android:layout_marginTop="10dp"/>
 
 
     </LinearLayout>

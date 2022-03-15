@@ -48,6 +48,4 @@ dependencies {
     //Libraries of the android.support
     implementation 'com.google.android.material:material:1.0.0'
 
-    implementation 'com.mikhaellopez:circularimageview:4.3.0'
-
 }
