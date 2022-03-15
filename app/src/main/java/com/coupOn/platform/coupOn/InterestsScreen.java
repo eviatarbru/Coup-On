@@ -121,7 +121,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         {
             if(this.isPressed[i])
             {
-                interestsFb = interestsFb + ", " + this.interests[i];
+                interestsFb = this.interests[i] +  ", " +  interestsFb ;
             }
         }
 

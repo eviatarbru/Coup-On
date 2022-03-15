@@ -16,15 +16,16 @@ import java.util.HashMap;
 
 public class MessagesList
 {
-    private String name, email, lastMessage;
+    private String name, email, lastMessage, chatKey, mobile;
     private int unseenMessages;
 
-    public MessagesList(String name, String email, String lastMessages, int unseenMessages)
+    public MessagesList(String name, String email, String lastMessages, int unseenMessages, String chatKey, String mobile)
     {
         this.name = name;
         this.email = email;
         this.lastMessage = lastMessages;
         this.unseenMessages = unseenMessages;
+        this.chatKey = chatKey;
     }
 
     public String getName() {
@@ -41,5 +42,21 @@ public class MessagesList
 
     public int getUnseenMessages() {
         return unseenMessages;
+    }
+
+    public String getChatKey() {
+        return chatKey;
+    }
+
+    public void setChatKey(String chatKey) {
+        this.chatKey = chatKey;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

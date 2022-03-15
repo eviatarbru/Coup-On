@@ -43,7 +43,7 @@
                     android:maxLines="1"
                     android:textSize="18sp"
                     android:text="FullName"
-                    android:textColor="black"
+                    android:textColor="@color/textInputLayoutLight"
                     android:textStyle="bold">
                 </TextView>
 
@@ -73,5 +73,11 @@
                 android:id="@+id/unseenMessages"
                 />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:background="#14000000"></View>
     </LinearLayout>
 </RelativeLayout>

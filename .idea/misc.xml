@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/back_btn.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/bg_btn.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/buttonshapewhitebg.xml" value="0.3828125" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/empty_tall_divider.xml" value="0.3828125" />
@@ -12,11 +13,15 @@
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/ic_lock_white_24dp.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/ic_lock_yellow_24dp.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/ic_person.xml" value="0.236" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/my_msg_back.xml" value="0.236" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/opo_msg_back.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/round_back_light_10.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/round_blue_num_message.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/search_icon.xml" value="0.236" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/send_btn.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.23560910307898258" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout-w936dp/activity_login.xml" value="0.275" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_chat_screen.xml" value="0.26979166666666665" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password_screen.xml" value="0.5" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_fullscreen.xml" value="0.26197916666666665" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
@@ -28,8 +33,9 @@
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_register2.xml" value="0.2760416666666667" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_swipe_cards.xml" value="0.2760416666666667" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_user_list_chat.xml" value="0.33" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/chat_adapter_layout.xml" value="0.26979166666666665" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/item.xml" value="0.2760416666666667" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/messages_adapter_layout.xml" value="0.5" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/messages_adapter_layout.xml" value="0.25" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/testregister.xml" value="0.2760416666666667" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/drawable/gridbuttonunselected.xml" value="0.238" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_interests_screen.xml" value="0.25416666666666665" />

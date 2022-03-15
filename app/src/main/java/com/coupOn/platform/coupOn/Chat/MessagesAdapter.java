@@ -1,14 +1,18 @@
 package com.coupOn.platform.coupOn.Chat;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.coupOn.platform.coupOn.ChatMessage.ChatScreen;
 import com.shashank.platform.coup_on.R;
 
 import java.util.List;
@@ -16,7 +20,7 @@ import java.util.List;
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyViewHolder>
 {
 
-    private final List<MessagesList> messagesLists;
+    private List<MessagesList> messagesLists;
     private final Context context;
 
     public MessagesAdapter(List<MessagesList> messagesLists, Context context) {
@@ -41,11 +45,32 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         if(list2.getUnseenMessages() == 0)
         {
             holder.unSeenMessages.setVisibility(View.GONE);
+            holder.lastMessage.setTextColor(Color.parseColor("#959595"));
         }
         else
         {
             holder.unSeenMessages.setVisibility(View.VISIBLE);
+            holder.unSeenMessages.setText(list2.getUnseenMessages() + "");
+            holder.lastMessage.setTextColor(context.getResources().getColor(R.color.theme_color_80));
         }
+        holder.rootLayout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ChatScreen.class);
+                intent.putExtra("mobile", list2.getMobile());
+                intent.putExtra("name", list2.getName());
+                intent.putExtra("chatKey", list2.getChatKey());
+
+                context.startActivity(intent);
+            }
+        });
+    }
+
+    public void updateData(List<MessagesList> messagesLists)
+    {
+        this.messagesLists = messagesLists;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -57,6 +82,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         private TextView name;
         private TextView lastMessage;
         private TextView unSeenMessages;
+        private LinearLayout rootLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +90,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
             this.name = itemView.findViewById(R.id.fullName);
             this.lastMessage = itemView.findViewById(R.id.lastMessage);
             this.unSeenMessages = itemView.findViewById(R.id.unseenMessages);
+            this.rootLayout = itemView.findViewById(R.id.rootLayout);
         }
     }
 }
