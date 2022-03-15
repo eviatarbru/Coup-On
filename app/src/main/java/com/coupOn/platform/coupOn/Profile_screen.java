@@ -127,7 +127,6 @@ public class Profile_screen extends AppCompatActivity {
                 }
             }
         };*/
-
     }
 
     /*public void loginScreen(View view) {
