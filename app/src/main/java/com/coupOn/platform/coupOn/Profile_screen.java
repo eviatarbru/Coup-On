@@ -117,6 +117,11 @@ public class Profile_screen extends AppCompatActivity {
         Intent intent = new Intent(Profile_screen.this, SwipeCards.class);
         startActivity(intent);
     }
+
+    public void interestScreen(View view) {
+        Intent intent = new Intent(Profile_screen.this, InterestsScreen.class);
+        startActivity(intent);
+    }
 }
 
 
