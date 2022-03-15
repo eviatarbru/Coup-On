@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.shashank.platform.coup_on">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,6 +32,9 @@
             android:exported="false" />
         <activity
             android:name="com.coupOn.platform.coupOn.ForgotPasswordScreen"
+            android:exported="false" />
+        <activity
+            android:name="com.coupOn.platform.coupOn.ChangePasswordScreen"
             android:exported="false" />
         <activity
             android:name="com.coupOn.platform.coupOn.RegisterActivity"

@@ -76,7 +76,7 @@
         android:paddingRight="30dp"
         android:background="@drawable/buttonshapewhitebg"
         android:fontFamily="@font/calibri"
-        android:onClick="registerComplition"
+        android:onClick="registerCompletion"
         android:text="Sumbit"
         android:textAllCaps="false"
         android:textColor="@color/textInputLayoutLight"

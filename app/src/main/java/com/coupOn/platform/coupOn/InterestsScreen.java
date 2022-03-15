@@ -114,7 +114,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         System.out.println(Arrays.toString(this.isPressed));
     }
 
-    public void registerComplition(View view)
+    public void registerCompletion(View view)
     {
         String interestsFb = "";
         for(int i = 0; i < this.isPressed.length; i++)
@@ -156,26 +156,27 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                         }
                     });
                     Map<String, Object> user = new HashMap<>();
-                    user.put("Uid", mAuth.getCurrentUser().getUid());
-                    user.put("Email", email);
+                    //user.put("Uid", mAuth.getCurrentUser().getUid());
+                    //user.put("Email", email);
                     user.put("FullName", fullName);
                     user.put("DateOfBirth", dateOfBirth);
                     user.put("Interests", finalInterestsFb);
 
-                    db.collection("users")
-                            .document(mAuth.getCurrentUser().getUid())
-                            .set(user);
-//                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Toast.makeText(RegisterActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-//                            }
-//                    });
+                        db.collection("users")
+                            .document(mAuth.getCurrentUser().getEmail())
+                            .set(user)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(InterestsScreen.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(InterestsScreen.this, "Failed", Toast.LENGTH_SHORT).show();
+                            }
+                    });
+
                 }
             }
         });
