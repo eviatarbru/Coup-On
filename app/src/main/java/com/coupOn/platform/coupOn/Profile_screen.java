@@ -69,39 +69,6 @@ public class Profile_screen extends AppCompatActivity {
         this.fullName = (TextView) findViewById(R.id.fullName);
         logOut = (Button) findViewById(R.id.signOut);
 
-
-        /*StorageReference storageRef =
-          FirebaseStorage.getInstance().getReferenceFromUrl(
-                  "gs://coup-on-project1.appspot.com"
-          );
-        StorageReference muichRef = storageRef.child("bayern-munich.jpg");
-
-
-        try {
-            localFile = File.createTempFile("bayern-munich", "jpg");
-        } catch (IOException e) {
-            Log.d("Profile_screen", "Failed to create local temp file", e);
-        }
-
-        muichRef.getFile(localFile)
-                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        // Successfully downloaded data to above local temp file
-                        if (localFile.exists()) {
-                            Bitmap myBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                            imageView.setImageBitmap(myBitmap);
-                        }
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle failed download
-                // ...
-            }
-        });*/
-
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -151,3 +118,36 @@ public class Profile_screen extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
+
+/*StorageReference storageRef =
+          FirebaseStorage.getInstance().getReferenceFromUrl(
+                  "gs://coup-on-project1.appspot.com"
+          );
+        StorageReference muichRef = storageRef.child("bayern-munich.jpg");
+
+
+        try {
+            localFile = File.createTempFile("bayern-munich", "jpg");
+        } catch (IOException e) {
+            Log.d("Profile_screen", "Failed to create local temp file", e);
+        }
+
+        muichRef.getFile(localFile)
+                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        // Successfully downloaded data to above local temp file
+                        if (localFile.exists()) {
+                            Bitmap myBitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                            imageView.setImageBitmap(myBitmap);
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle failed download
+                // ...
+            }
+        });*/
