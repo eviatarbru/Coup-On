@@ -34,7 +34,7 @@ public class ChangePasswordScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_forgot_password_screen);
+        setContentView(R.layout.activity_change_password_screen);
         this.imageView = findViewById(R.id.imageView);
 
         emailEditText = findViewById(R.id.emailEditText);
