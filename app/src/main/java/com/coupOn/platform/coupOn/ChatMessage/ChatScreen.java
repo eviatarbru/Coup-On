@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.shashank.platform.coup_on.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,13 +94,19 @@ public class ChatScreen extends AppCompatActivity {
                                 final String getMobile = messagesSnapshot.child("mobile").getValue(String.class);
                                 final String getMsg = messagesSnapshot.child("msg").getValue(String.class);
 
-                                Timestamp timestamp = new Timestamp(Long.parseLong(messageTimestamps));
-                                Date date = new Date(timestamp.getTime());
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
-                                SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
+                                try {
+                                    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(messageTimestamps);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
 
-                                MessageChatList chatList = new MessageChatList(getMobile, getName, getMsg, simpleDateFormat(date), simpleTimeFormat(date));
-                                chatLists.add(chatList);
+//                                Timestamp timestamp = new Timestamp(Long.parseLong(messageTimestamps));
+//                                Date date = new Date(timestamp.getTime());
+//                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
+//                                SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm aa", Locale.getDefault());
+//
+//                                MessageChatList chatList = new MessageChatList(getMobile, getName, getMsg, simpleDateFormat(date), simpleTimeFormat(date));
+//                                chatLists.add(chatList);
 
                                 if(loadingFirstTime ||  Long.parseLong(messageTimestamps) > Long.parseLong(MemoryData.getLastMsg(ChatScreen.this, chatKey)))
                                 {

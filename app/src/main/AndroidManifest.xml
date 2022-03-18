@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
+            android:name="com.coupOn.platform.coupOn.Chat.UserChatList"
+            android:exported="false" />
+        <activity
             android:name="com.coupOn.platform.coupOn.ChatMessage.ChatScreen"
             android:exported="false" />
         <activity

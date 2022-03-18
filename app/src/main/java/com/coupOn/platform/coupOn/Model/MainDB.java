@@ -1,7 +1,15 @@
 package com.coupOn.platform.coupOn.Model;
 
+import static com.coupOn.platform.coupOn.InterestsScreen.TAG;
+
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -10,21 +18,22 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 public class MainDB
 {
-    private static MainDB mainDB;
+    private static MainDB instance;
 
-    private MainDB(){ }
-
-    public static synchronized MainDB getInstance( ) {
-        if (mainDB == null)
-            mainDB=new MainDB();
-        return mainDB;
+    public static MainDB getInstance() {
+        if(instance == null)
+            instance = new MainDB();
+        return instance;
     }
 
     //firebase
@@ -36,7 +45,7 @@ public class MainDB
     private HashMap<String, User> chattingUsers;
 
 
-    public MainDB(HashMap<String, User> curUser)
+    public MainDB()
     {
         currentUser();
 //        chattingUsers();
@@ -49,9 +58,10 @@ public class MainDB
         users = FirebaseFirestore.getInstance(); //Connects to fireStore.
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
         String uid = mAuth.getCurrentUser().getUid(); //Gets the UID of the current User.
+        System.out.println(uid);
         final User[] currentUser = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
         DocumentReference dr = users.collection("users").document(uid); //This is how u retrieve data from fireStore.
-        dr.addSnapshotListener((Executor) this, new EventListener<DocumentSnapshot>() {
+        dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 currentUser[0] = new User(value.getString("Email"), value.getString("FullName")); //Get from currentUser the Email and the FullName from the fireStore.
@@ -97,17 +107,29 @@ public class MainDB
 //        }
 //    }
 
-    public User getUserChat(String uid) //Use it for UserChatList to get the users that chat with the current user.
+
+    public void getUserChat(String uid) //Use it for UserChatList to get the users that chat with the current user.
     {
-        final User[] currentUser = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
+        final User[] chatUser = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
         DocumentReference dr = users.collection("users").document(uid); //This is how u retrieve data from fireStore.
-        dr.addSnapshotListener((Executor) this, new EventListener<DocumentSnapshot>() {
+        dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                currentUser[0] = new User(value.getString("Email"), value.getString("FullName")); //Get from currentUser the Email and the FullName from the fireStore.
+                String uids = value.getString("userUids");
+                String [] userUid = uids.split(", ");
+                for(int i = 0; i < userUid.length; i++)
+                {
+                    DocumentReference dr = users.collection("users").document(userUid[i]); //This is how u retrieve data from fireStore.
+                    dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            chatUser[0] = new User(value.getString("Email"), value.getString("FullName")); //Get from currentUser the Email and the FullName from the fireStore.
+                        }
+                    });
+                    chattingUsers.put(userUid[i], chatUser[0]);
+                }
             }
         });
-        return currentUser[0];
     }
 
     public boolean insertChatToFirebase(String uid1, String uid2)

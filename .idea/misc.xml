@@ -21,6 +21,9 @@
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/drawable/send_btn.xml" value="0.236" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.23560910307898258" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout-w936dp/activity_login.xml" value="0.275" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_add_coupon.xml" value="0.17831813576494426" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_add_coupon_image.xml" value="0.36666666666666664" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_change_password_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_chat_screen.xml" value="0.26979166666666665" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password_screen.xml" value="0.5" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_fullscreen.xml" value="0.26197916666666665" />
@@ -31,8 +34,8 @@
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_messages_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_register2.xml" value="0.2760416666666667" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_swipe_cards.xml" value="0.2760416666666667" />
-        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_user_list_chat.xml" value="0.33" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_swipe_cards.xml" value="0.16" />
+        <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/activity_user_list_chat.xml" value="0.25" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/chat_adapter_layout.xml" value="0.26979166666666665" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/item.xml" value="0.2760416666666667" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/messages_adapter_layout.xml" value="0.25" />

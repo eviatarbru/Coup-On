@@ -36,7 +36,8 @@ public class UserChatList extends AppCompatActivity {
     private String fullname;
     private RecyclerView messagesRecycleView;
     private MessagesAdapter messagesAdapter;
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://coup-on-project1-default-rtdb.europe-west1.firebasedatabase.app/");
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = database.getReference();
 
     private int unseenMessages = 0;
     private String lastMessage = "";
@@ -51,18 +52,24 @@ public class UserChatList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list_chat);
+
+        //get data from messages adapter class
+        email = getIntent().getStringExtra("email");
+        chatKey = getIntent().getStringExtra("chatKey");
+        final String getMobile = getIntent().getStringExtra("mobile");
+
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
 
         messagesRecycleView = findViewById(R.id.messagesRecyclerView);
-
+        System.out.println("Hello");
         messagesRecycleView.setHasFixedSize(true);
         messagesRecycleView.setLayoutManager(new LinearLayoutManager(this));
-
+        System.out.println("Hello");
         //set adapter to recyclerview
         messagesAdapter = new MessagesAdapter(messagesLists, UserChatList.this);
 
         messagesRecycleView.setAdapter(messagesAdapter);
-
+        System.out.println("Hello");
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
@@ -75,7 +82,9 @@ public class UserChatList extends AppCompatActivity {
                 unseenMessages = 0;
                 lastMessage = "";
                 chatKey = "";
-
+                System.out.println("Hello");
+                final ArrayList<User> usersChat = new ArrayList<>();
+                usersChat.addAll(MainDB.getInstance().getChattingUsers().values());
                 for( DataSnapshot dataSnapshot: snapshot.child("chatUser").getChildren())
                 {
                     final String getUid = dataSnapshot.getKey();
@@ -87,7 +96,6 @@ public class UserChatList extends AppCompatActivity {
                         for( DataSnapshot dataSnapshot1: snapshot.child("chatUser").child(mAuth.getUid()).getChildren())
                         {
                             final String uidUser = dataSnapshot1.getKey();
-                            final User user = MainDB.getInstance().getUserChat(uidUser);
 
                             databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -128,9 +136,12 @@ public class UserChatList extends AppCompatActivity {
                                     if(!dataset)
                                     {
                                         dataset = true;
-                                        MessagesList messagesList = new MessagesList(user.getFullName(), user.getEmail(), lastMessage, unseenMessages, chatKey, getUid);
-                                        messagesLists.add(messagesList);
-                                        messagesAdapter.updateData(messagesLists);
+                                        for(int i = 0; i < usersChat.size(); i++)
+                                        {
+                                            MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, getUid);
+                                            messagesLists.add(messagesList);
+                                            messagesAdapter.updateData(messagesLists);
+                                        }
                                     }
                                 }
 
