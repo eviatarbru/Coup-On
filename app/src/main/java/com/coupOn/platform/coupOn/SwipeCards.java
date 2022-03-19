@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.coupOn.platform.coupOn.Chat.UserChatList;
+import com.coupOn.platform.coupOn.Model.MainDB;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.shashank.platform.coup_on.R;
 
@@ -26,6 +28,7 @@ public class SwipeCards extends AppCompatActivity {
 
     //For the chatPart
     private RecyclerView messagesRecycleView;
+    private ImageView chat_Icon;
 
     //private ArrayList<String> al;
     private ArrayAdapterCoupon arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
@@ -38,8 +41,10 @@ public class SwipeCards extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_cards);
+        MainDB.getInstance();
+        this.chat_Icon = findViewById(R.id.chat_icon);
 
-
+        System.out.println(MainDB.getInstance().getCurUser() + " hola");
         this.rowItems = new ArrayList<Cards>();
         this.rowItems.add(new Cards("Ido", "Laser"));
         //al.add("c");
@@ -106,6 +111,13 @@ public class SwipeCards extends AppCompatActivity {
             }
         });
 
+        chat_Icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chatScreen(view);
+            }
+        });
+
     }
 
     /*public void checkUser(){
@@ -154,6 +166,11 @@ public class SwipeCards extends AppCompatActivity {
 
     public void gotoAddCoupon(View view){
         Intent intent = new Intent(this, addCoupon.class);
+        startActivity(intent);
+    }
+
+    public void chatScreen(View view){
+        Intent intent = new Intent(this, UserChatList.class);
         startActivity(intent);
     }
 

@@ -114,14 +114,14 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         System.out.println(Arrays.toString(this.isPressed));
     }
 
-    public void registerComplition(View view)
+    public void registerCompletion(View view)
     {
         String interestsFb = "";
         for(int i = 0; i < this.isPressed.length; i++)
         {
             if(this.isPressed[i])
             {
-                interestsFb = interestsFb + ", " + this.interests[i];
+                interestsFb = this.interests[i] +  ", " +  interestsFb ;
             }
         }
 
@@ -162,20 +162,21 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                     user.put("DateOfBirth", dateOfBirth);
                     user.put("Interests", finalInterestsFb);
 
-                    db.collection("users")
+                        db.collection("users")
                             .document(mAuth.getCurrentUser().getUid())
                             .set(user);
-//                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                Toast.makeText(RegisterActivity.this, "Successfully Added", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(RegisterActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-//                            }
-//                    });
+ /*                          .addOnSuccessListener(new OnSuccessListener<Void>() {
+                         @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(InterestsScreen.this, "Successfully Added", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(InterestsScreen.this, "Failed", Toast.LENGTH_SHORT).show();
+                            }
+                    });*/
+
                 }
             }
         });
