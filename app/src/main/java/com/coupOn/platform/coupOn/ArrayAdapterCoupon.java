@@ -30,7 +30,7 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
 
         name.setText(card_item.getName());
-        image.setImageResource(R.drawable.nightcoupon);// mipmap.ic_launcher
+        image.setImageResource(R.drawable.example_coupon);// mipmap.ic_launcher
 
         return convertView;
     }

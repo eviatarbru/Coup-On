@@ -126,12 +126,11 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/confirm"
+                android:id="@+id/confirmBtn"
                 android:layout_width="209dp"
                 android:layout_height="71dp"
                 android:background="@drawable/buttonshapewhitebg"
                 android:fontFamily="@font/calibri"
-                android:onClick="confirmCoupon"
                 android:text="Confirm"
                 android:textAllCaps="false"
                 android:textColor="@color/textInputLayoutLight"

@@ -19,17 +19,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/nightcoupon" />
-
+<!--    #ffeee9e2-->
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffeee9e2"
+        android:background="@drawable/lightcoupon"
         app:rotation_degrees="15.5"
-        tools:context=".MyActivity">
-
-    </com.lorentzos.flingswipe.SwipeFlingAdapterView>
+        tools:context=".MyActivity"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_constraintLayout"

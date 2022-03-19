@@ -13,27 +13,36 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.shashank.platform.coup_on.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class addCoupon extends AppCompatActivity {
 
     private EditText name;
-    private EditText exipreDate;
+    private EditText expireDate;
     private EditText location;
     private EditText description;
     private ImageView imageView;
     int count = 0;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coupon);
         this.name = findViewById(R.id.couponName);
-        this.exipreDate = findViewById(R.id.expireDate);
+        this.expireDate = findViewById(R.id.expireDate);
+        this.expireDate.addTextChangedListener(new DateWatcher());
         this.location = findViewById(R.id.location);
-        this.exipreDate = findViewById(R.id.expireDate);
-        this.exipreDate.addTextChangedListener(new DateWatcher());
+        this.description = findViewById(R.id.description);
         this.imageView = findViewById(R.id.imageView);
 
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
@@ -70,10 +79,9 @@ public class addCoupon extends AppCompatActivity {
         Intent intent = new Intent(addCoupon.this, AddCouponImage.class);
 
         final String name = this.name.getText().toString();
-        final String expireDate = this.exipreDate.getText().toString();
+        final String expireDate = this.expireDate.getText().toString();
         final String location = this.location.getText().toString();
         final String description = this.description.getText().toString();
-
 
         intent.putExtra("name", name);
         intent.putExtra("expireDate", expireDate);
@@ -87,6 +95,8 @@ public class addCoupon extends AppCompatActivity {
         }
 
         startActivity(intent);
+        finish();
+        return;
     }
 
     public boolean validateCoupon(String name, String expireDate, String location, String description)
@@ -108,7 +118,7 @@ public class addCoupon extends AppCompatActivity {
         }
         else if(description.trim().isEmpty()) //name check
         {
-            Toast.makeText(addCoupon.this, "Fullname is empty!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(addCoupon.this, "Full Name is empty!", Toast.LENGTH_SHORT).show();
             return false;
         }
 

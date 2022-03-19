@@ -160,7 +160,7 @@
                 android:ems="10"
                 android:fontFamily="@font/calibri"
                 android:hint="Description"
-                android:inputType="textPassword"
+                android:inputType="textLongMessage"
                 android:lines="4"
                 android:maxLines="4"
                 android:paddingLeft="10dp"

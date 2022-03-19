@@ -1,5 +1,6 @@
 package com.coupOn.platform.coupOn;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -14,10 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -32,10 +40,12 @@ public class AddCouponImage extends AppCompatActivity {
 
     private ImageView imageView;
     int count = 0;      //for the light and dark theme
+    static int numId = 0;
 
     private ImageView couponPic;
     private ImageView upload_Icon;
     private TextView upload_Text;
+    private Button confirmBtn;
     public Uri imageUri;
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -43,16 +53,19 @@ public class AddCouponImage extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coupon_image);
+
         this.imageView = findViewById(R.id.imageView);
 
         this.couponPic = findViewById(R.id.image_icon);
         this.upload_Icon = findViewById(R.id.upload_icon);
         this.upload_Text = findViewById(R.id.upload_text);
+        this.confirmBtn = findViewById(R.id.confirmBtn);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -107,6 +120,55 @@ public class AddCouponImage extends AppCompatActivity {
             }
         });
 
+        confirmBtn.setOnClickListener(new View.OnClickListener() { //adding coupon to db
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddCouponImage.this, SwipeCards.class);
+
+                Intent confirmIntent = getIntent();     //get data from last screen
+                Bundle infoConfirm = confirmIntent.getExtras();
+                String name = (String) infoConfirm.get("name");
+                String expireDate = (String) infoConfirm.get("expireDate");
+                String location = (String) infoConfirm.get("location");
+                String description = (String) infoConfirm.get("description");
+
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("CoupUid", "coupon" + numId);
+                data.put("CoupName", name);
+                data.put("ExpireDate", expireDate);
+                data.put("Location", location);
+                data.put("Description", description);
+                data.put("CouponImage", imageUri);
+                data.put("UserUid", mAuth.getCurrentUser().getUid());
+
+                mFirebaseAnalytics.setUserId("coupon" + numId);
+
+                //db.collection("coupons").add(data);
+
+                db.collection("users").document(mAuth.getCurrentUser().getUid())
+                        .collection("coupons").document("coupon" + numId)
+                        .set(data)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(AddCouponImage.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
+                                numId++;
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddCouponImage.this, "Something went wrong, try again later", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void choosePicture() {
@@ -154,30 +216,30 @@ public class AddCouponImage extends AppCompatActivity {
 
         }
 
-    public void confirmCoupon(View view) {
-//        Intent intent = new Intent(AddCouponImage.this, [fill here next screen].class);
-
-        Intent confirmIntent = getIntent();
-        Bundle infoConfirm = confirmIntent.getExtras();
-        String name = (String) infoConfirm.get("name");
-        String expireDate = (String) infoConfirm.get("expireDate");
-        String location = (String) infoConfirm.get("location");
-        String description = (String) infoConfirm.get("description");
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("Uid", mAuth.getCurrentUser().getUid());
-        user.put("CoupName", name);
-        user.put("ExpireDate", expireDate);
-        user.put("Location", location);
-        user.put("Description", description);
-        user.put("CouponImage", imageUri);
-
-        db.collection("users")
-                .document(mAuth.getCurrentUser().getUid())
-                .set(user);
-
+//    public void confirmCoupon(View view) {
+//        Intent intent = new Intent(AddCouponImage.this, SwipeCards.class);
+//
+//        Intent confirmIntent = getIntent();
+//        Bundle infoConfirm = confirmIntent.getExtras();
+//        String name = (String) infoConfirm.get("name");
+//        String expireDate = (String) infoConfirm.get("expireDate");
+//        String location = (String) infoConfirm.get("location");
+//        String description = (String) infoConfirm.get("description");
+//
+//        Map<String, Object> user = new HashMap<>();
+//        user.put("Uid", mAuth.getCurrentUser().getUid());
+//        user.put("CoupName", name);
+//        user.put("ExpireDate", expireDate);
+//        user.put("Location", location);
+//        user.put("Description", description);
+//        user.put("CouponImage", imageUri);
+//
+//        db.collection("users")
+//                .document(mAuth.getCurrentUser().getUid())
+//                .set(user);
+//
 //        startActivity(intent);
-    }
+//    }
 }
 
 
