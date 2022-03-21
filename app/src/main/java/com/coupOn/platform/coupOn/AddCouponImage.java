@@ -21,7 +21,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.analytics.FirebaseAnalytics;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,7 +40,7 @@ public class AddCouponImage extends AppCompatActivity {
 
     private ImageView imageView;
     int count = 0;      //for the light and dark theme
-    static int numId = 0;
+
 
     private ImageView couponPic;
     private ImageView upload_Icon;
@@ -53,7 +53,7 @@ public class AddCouponImage extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +134,7 @@ public class AddCouponImage extends AppCompatActivity {
 
 
                 Map<String, Object> data = new HashMap<>();
-                data.put("CoupUid", "coupon" + numId);
+                data.put("CoupUid", "coupon");
                 data.put("CoupName", name);
                 data.put("ExpireDate", expireDate);
                 data.put("Location", location);
@@ -142,18 +142,17 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("CouponImage", imageUri);
                 data.put("UserUid", mAuth.getCurrentUser().getUid());
 
-                mFirebaseAnalytics.setUserId("coupon" + numId);
 
                 //db.collection("coupons").add(data);
 
                 db.collection("users").document(mAuth.getCurrentUser().getUid())
-                        .collection("coupons").document("coupon" + numId)
+                        .collection("coupons").document("coupon")
                         .set(data)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(AddCouponImage.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
-                                numId++;
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
