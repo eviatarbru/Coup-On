@@ -57,6 +57,12 @@ public class SwipeCards extends AppCompatActivity {
         this.chat_Icon = findViewById(R.id.chat_icon);
 
         System.out.println(MainDB.getInstance().getCurUser() + " hola");
+
+        System.out.println(MainDB.getInstance().getCurUser().keySet().toString() + "hola1");
+        String uidU = MainDB.getInstance().getCurUser().keySet().toString();
+        uidU = uidU.substring(1, uidU.length()-1);
+        System.out.println(MainDB.getInstance().getUserFirebase(uidU) + " hola");
+        
         this.rowItems = new ArrayList<Cards>();
         this.rowItems.add(new Cards("Ido", "Laser"));
         //al.add("c");
@@ -70,7 +76,6 @@ public class SwipeCards extends AppCompatActivity {
         arrayAdapter = new ArrayAdapterCoupon(this, R.layout.item, rowItems);
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
-
 
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {

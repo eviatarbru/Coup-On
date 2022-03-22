@@ -71,6 +71,20 @@ public class MainDB
         this.curUser.put(uid, currentUser[0]);
     }
 
+
+    public User getUserFirebase(String uid1)
+    {
+        final User[] getUser = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
+        DocumentReference dr = users.collection("users").document(uid1); //This is how u retrieve data from fireStore.
+        dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                getUser[0] = new User(value.getString("Email"), value.getString("FullName")); //Get from currentUser the Email and the FullName from the fireStore.
+            }
+        });
+        return getUser[0];
+    }
+
 //    public void chattingUsers()
 //    {
 //        this.chattingUsers = new HashMap<>();
