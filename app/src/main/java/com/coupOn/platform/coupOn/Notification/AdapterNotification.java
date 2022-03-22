@@ -11,12 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.shashank.platform.coup_on.R;
 import com.squareup.picasso.Picasso;
 
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.HolderNotification> {
@@ -90,4 +95,34 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             timeTv = itemView.findViewById(R.id.timeTv);
         }
     }
+
 }
+
+
+   /* private void addToHisNotifications(String hisUid,String pId,String message){
+        //timestamp for time and notification id
+        String timestamp = ""+System.currentTimeMillis();
+
+        HashMap<Object, String> hasMap = new HashMap<>();
+        hasMap.put("pId", pId);
+        hasMap.put("timestamp", timestamp);
+        hasMap.put("pUid", hisUid);
+        hasMap.put("notification", message);
+        //hasMap.put("sUid", myUid);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(hisUid).child("Notifications").child(timestamp).setValue(hasMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //added successfully
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //failed
+                    }
+                });
+    }*/

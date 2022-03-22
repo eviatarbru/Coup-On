@@ -82,8 +82,6 @@ public class Profile_screen extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users");
         userID = user.getUid();
-        //emailStr = user.getEmail();
-        //email.setText(emailStr);
 
         // Firebase-Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();

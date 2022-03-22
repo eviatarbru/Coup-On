@@ -10,11 +10,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Chat.UserChatList;
 import com.coupOn.platform.coupOn.Model.MainDB;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.shashank.platform.coup_on.R;
 
@@ -33,6 +41,10 @@ public class SwipeCards extends AppCompatActivity {
     //private ArrayList<String> al;
     private ArrayAdapterCoupon arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
     private int i;
+
+    //firebase
+    private FirebaseUser user;
+    private String userID;
 
     ListView listView;
     private ArrayList<Cards> rowItems;
@@ -81,6 +93,34 @@ public class SwipeCards extends AppCompatActivity {
             @Override
             public void onRightCardExit(Object dataObject) {
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
+
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                userID = user.getUid();
+                // Firebase-Firestore
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference docRef = db.collection("users")
+                        .document(userID);
+
+                docRef.get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    String fullNameStr = document.getString("FullName");
+                                    String emailStr = document.getString("Email");
+                                    if (fullNameStr != null) {
+
+                                    }
+                                    if (emailStr != null) {
+
+                                    } else {
+                                        Toast.makeText(SwipeCards.this, "Failed to get user from FB", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                            }
+                        });
             }
 
             @Override //required DataSnapShot
