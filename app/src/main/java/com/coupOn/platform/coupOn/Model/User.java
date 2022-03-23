@@ -44,7 +44,7 @@ public class User
     @Override
     public String toString() {
         return "User{" +
-                ", email='" + email + '\'' +
-                ", fullName='" + fullName + '\'';
+                "email='" + this.email + '\'' +
+                ", fullName='" + this.fullName + '\'' + "}";
     }
 }

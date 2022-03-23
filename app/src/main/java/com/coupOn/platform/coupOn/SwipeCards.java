@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Chat.UserChatList;
 import com.coupOn.platform.coupOn.Model.MainDB;
+import com.coupOn.platform.coupOn.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,38 +48,25 @@ public class SwipeCards extends AppCompatActivity {
     private String userID;
 
     ListView listView;
-    private ArrayList<Cards> rowItems;
+    private ArrayList<Cards> rowItems = new ArrayList<Cards>();
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_cards);
-        MainDB.getInstance();
-        this.chat_Icon = findViewById(R.id.chat_icon);
-
-        System.out.println(MainDB.getInstance().getCurUser() + " hola");
-
-        System.out.println(MainDB.getInstance().getCurUser().keySet().toString() + "hola1");
-        String uidU = MainDB.getInstance().getCurUser().keySet().toString();
-        uidU = uidU.substring(1, uidU.length()-1);
-        System.out.println(MainDB.getInstance().getUserFirebase(uidU) + " hola");
-        
-        this.rowItems = new ArrayList<Cards>();
-        this.rowItems.add(new Cards("Ido", "Laser"));
-        //al.add("c");
-        //al.add("python");
-        //al.add("java");
-        //al.add("html");
-        //al.add("c++");
-        //al.add("css");
-        //al.add("javascript");
-
-        arrayAdapter = new ArrayAdapterCoupon(this, R.layout.item, rowItems);
-
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+        this.chat_Icon = findViewById(R.id.chat_icon);
+//        MainDB.getInstance();
+        new Thread(new InitDB()).start();
+//        String uidU = MainDB.getInstance().getCurUser().keySet().toString();
+//        uidU = uidU.substring(1, uidU.length()-1);
+        new Thread(new GetUserFirebaseS("9K7MPR33qzN4gpO4Sp0onzRUmJG2", flingContainer)).start();
+//        System.out.println("this is the best user: " + user1);
 
-        flingContainer.setAdapter(arrayAdapter);
-        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
+        {
             @Override
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
@@ -164,6 +152,63 @@ public class SwipeCards extends AppCompatActivity {
         });
 
     }
+
+    class InitDB implements Runnable
+    {
+
+        @Override
+        public void run() {
+            MainDB.getInstance();
+            System.out.println(MainDB.getInstance().getCurUser());
+        }
+    }
+
+    /*  Steps for Success
+        1. new Thread(new GetUserFirebase(uid)).start();
+        2. Get user.
+     */
+    public class GetUserFirebaseS implements Runnable
+    {
+        User userFB;
+        String uidFB;
+//        ArrayList<Cards> rowItems;
+        SwipeFlingAdapterView flingContainer;
+
+
+        //This is the part good part, we take a user and print it
+        public GetUserFirebaseS(String uidFB, SwipeFlingAdapterView flingContainer) {
+            this.uidFB = uidFB;
+//            this.rowItems = rowItems;
+            this.flingContainer = flingContainer;
+        }
+
+        @Override
+        public void run() {
+            userFB = MainDB.getInstance().getUserFirebase(uidFB);
+            System.out.println(userFB + " bYLE");
+            User user1 = userFB;
+
+            SwipeCards.this.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // your stuff to update the UI
+                    rowItems.add(new Cards(user1.getFullName(), user1.getFullName()));
+                    arrayAdapter = new ArrayAdapterCoupon(SwipeCards.this, R.layout.item, rowItems);
+
+                    flingContainer.setAdapter(arrayAdapter);
+                    arrayAdapter.notifyDataSetChanged();
+                    System.out.println("BYLE2.0");
+                }
+            });
+
+        }
+
+        public User getUserFB() {
+            return userFB;
+        }
+    }
+
 
     /*public void checkUser(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
