@@ -14,10 +14,21 @@ public class User
     private String gender;
     private ArrayList<Coupon> coupons;
     private ArrayList<Coupon> likedCoupons;
+    private ArrayList<String> chattingUserUIDs;
 
     public User(String email, String fullName, ArrayList<Coupon> coupons, ArrayList<Coupon> likedCoupons)
     {
         //get Info from the firebase;, when login in.
+    }
+
+    public User(String email, String fullName, String chattingString) {
+        this.email = email;
+        this.fullName = fullName;
+        String [] chattingUser = chattingString.split(", ");
+        for(int i = 0; i < chattingUser.length; i++)
+        {
+            this.chattingUserUIDs.add(chattingUser[i]);
+        }
     }
 
     public User(String email, String fullName) {
@@ -39,6 +50,10 @@ public class User
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public ArrayList<String> getChattingUserUIDs() {
+        return chattingUserUIDs;
     }
 
     @Override

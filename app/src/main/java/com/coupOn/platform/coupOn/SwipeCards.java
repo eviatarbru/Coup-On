@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Chat.UserChatList;
@@ -38,6 +39,8 @@ public class SwipeCards extends AppCompatActivity {
     //For the chatPart
     private RecyclerView messagesRecycleView;
     private ImageView chat_Icon;
+    ConstraintLayout loading; //Loading screen
+    ConstraintLayout swipes; //Main screen
 
     //private ArrayList<String> al;
     private ArrayAdapterCoupon arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
@@ -58,12 +61,16 @@ public class SwipeCards extends AppCompatActivity {
         setContentView(R.layout.activity_swipe_cards);
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         this.chat_Icon = findViewById(R.id.chat_icon);
-//        MainDB.getInstance();
-        new Thread(new InitDB()).start();
-//        String uidU = MainDB.getInstance().getCurUser().keySet().toString();
-//        uidU = uidU.substring(1, uidU.length()-1);
-        new Thread(new GetUserFirebaseS("9K7MPR33qzN4gpO4Sp0onzRUmJG2", flingContainer)).start();
-//        System.out.println("this is the best user: " + user1);
+
+        loading = findViewById(R.id.loading);
+        swipes = findViewById(R.id.swipeScreen);
+        loading.setVisibility(View.VISIBLE);
+        swipes.setVisibility(View.INVISIBLE);
+
+        new Thread(new InitDB()).start(); //Making a Thread for the User's Info
+//        String uidU = MainDB.getInstance().getCurUser().keySet().toString(); //For the testing
+//        uidU = uidU.substring(1, uidU.length()-1); //For the testing
+        new Thread(new GetUserFirebaseS("9K7MPR33qzN4gpO4Sp0onzRUmJG2", flingContainer)).start(); //Just an example to test the random user info.
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
         {
@@ -153,6 +160,8 @@ public class SwipeCards extends AppCompatActivity {
 
     }
 
+
+    // Using a thread to get the user's info and put it as a Hashmap<String, User> in MainDB
     class InitDB implements Runnable
     {
 
@@ -175,17 +184,17 @@ public class SwipeCards extends AppCompatActivity {
         SwipeFlingAdapterView flingContainer;
 
 
-        //This is the part good part, we take a user and print it
+        //This part receives a uid and the flingContainer and gives u the user's Fullname in a card.
+        //After we did this, we'll want to use the coupon info, you can do it here.
         public GetUserFirebaseS(String uidFB, SwipeFlingAdapterView flingContainer) {
             this.uidFB = uidFB;
-//            this.rowItems = rowItems;
             this.flingContainer = flingContainer;
         }
 
         @Override
         public void run() {
             userFB = MainDB.getInstance().getUserFirebase(uidFB);
-            System.out.println(userFB + " bYLE");
+            System.out.println(userFB + " - user");
             User user1 = userFB;
 
             SwipeCards.this.runOnUiThread(new Runnable() {
@@ -198,57 +207,18 @@ public class SwipeCards extends AppCompatActivity {
 
                     flingContainer.setAdapter(arrayAdapter);
                     arrayAdapter.notifyDataSetChanged();
-                    System.out.println("BYLE2.0");
+                    loading.setVisibility(View.INVISIBLE);
+                    swipes.setVisibility(View.VISIBLE);
                 }
             });
-
-        }
-
-        public User getUserFB() {
-            return userFB;
         }
     }
 
-
-    /*public void checkUser(){
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Users");
-        userDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                if(snapshot.exists()){
-                    Cards item = new Cards(snapshot.getKey(), snapshot.child("name").getValue().toString());
-                    rowItems.add(item);
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }*/
 
     static void makeToast(Context ctx, String s){
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
     }
+
     public void gotoprofile(View view){
         Intent intent = new Intent(this, Profile_screen.class);
         startActivity(intent);
