@@ -32,4 +32,6 @@ public class Coupon
         this.ownerUserId = mAuth.getCurrentUser().getUid();
         this.owner = owner;
     }
+
+
 }

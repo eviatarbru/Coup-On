@@ -60,6 +60,8 @@ public class AddCouponImage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coupon_image);
 
+        this.mAuth = FirebaseAuth.getInstance();
+
         this.imageView = findViewById(R.id.imageView);
 
         this.couponPic = findViewById(R.id.image_icon);
@@ -132,29 +134,26 @@ public class AddCouponImage extends AppCompatActivity {
                 String location = (String) infoConfirm.get("location");
                 String description = (String) infoConfirm.get("description");
 
+                String userUid =  mAuth.getCurrentUser().getUid();
+
+                System.out.println(mAuth.getCurrentUser().getUid() + "byle");
 
                 Map<String, Object> data = new HashMap<>();
-                data.put("CoupUid", "coupon");
+                //data.put("CoupUid", "coupon");
                 data.put("CoupName", name);
                 data.put("ExpireDate", expireDate);
                 data.put("Location", location);
                 data.put("Description", description);
                 data.put("CouponImage", imageUri);
-                data.put("UserUid", mAuth.getCurrentUser().getUid());
+                data.put("UserUid",userUid);
 
 
-                //db.collection("coupons").add(data);
-
-                db.collection("users").document(mAuth.getCurrentUser().getUid())
-                        .collection("coupons").document("coupon")
-                        .set(data)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(AddCouponImage.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
-
-                            }
-                        })
+                db.collection("coupons").document().set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(AddCouponImage.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {

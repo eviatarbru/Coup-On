@@ -67,6 +67,17 @@ public class SwipeCards extends AppCompatActivity {
         loading.setVisibility(View.VISIBLE);
         swipes.setVisibility(View.INVISIBLE);
 
+        Cards item = new Cards("id", "No p");
+        Cards item2 = new Cards("id", "No e");
+        Cards item3 = new Cards("id", "No t");
+        Cards item4 = new Cards("id", "No e");
+        Cards item5 = new Cards("id", "No r");
+        rowItems.add(item);
+        rowItems.add(item2);
+        rowItems.add(item3);
+        rowItems.add(item4);
+        rowItems.add(item5);
+
         new Thread(new InitDB()).start(); //Making a Thread for the User's Info
 //        String uidU = MainDB.getInstance().getCurUser().keySet().toString(); //For the testing
 //        uidU = uidU.substring(1, uidU.length()-1); //For the testing
@@ -92,6 +103,7 @@ public class SwipeCards extends AppCompatActivity {
 
             @Override
             public void onRightCardExit(Object dataObject) {
+                System.out.println(rowItems.get(0).getName() + " Hug Hubba Hubba Peter");
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
 
                 user = FirebaseAuth.getInstance().getCurrentUser();
@@ -127,6 +139,7 @@ public class SwipeCards extends AppCompatActivity {
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 // Ask for more data here
                 //Cards item = new Cards( dataSnapshot);
+                System.out.println(rowItems.get(0).getName() + " Hug Hubba Hubba Peter2");
                 Cards item = new Cards("id", "No Coupons");// need to be changed based on DB
                 rowItems.add(item);// "XML ".concat(String.valueOf(i))
                 arrayAdapter.notifyDataSetChanged();
