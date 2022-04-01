@@ -36,12 +36,12 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="35dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="5dp"
+            android:onClick="mainMenu"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/coupon_logo">
-        </ImageView>
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/coupon_logo"></ImageView>
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

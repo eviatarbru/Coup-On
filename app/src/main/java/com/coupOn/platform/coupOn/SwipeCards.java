@@ -103,7 +103,6 @@ public class SwipeCards extends AppCompatActivity {
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                System.out.println(rowItems.get(0).getName() + " Hug Hubba Hubba Peter");
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
 
                 user = FirebaseAuth.getInstance().getCurrentUser();
@@ -139,7 +138,6 @@ public class SwipeCards extends AppCompatActivity {
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 // Ask for more data here
                 //Cards item = new Cards( dataSnapshot);
-                System.out.println(rowItems.get(0).getName() + " Hug Hubba Hubba Peter2");
                 Cards item = new Cards("id", "No Coupons");// need to be changed based on DB
                 rowItems.add(item);// "XML ".concat(String.valueOf(i))
                 arrayAdapter.notifyDataSetChanged();
