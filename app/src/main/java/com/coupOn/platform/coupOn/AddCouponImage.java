@@ -133,6 +133,7 @@ public class AddCouponImage extends AppCompatActivity {
                 String expireDate = (String) infoConfirm.get("expireDate");
                 String location = (String) infoConfirm.get("location");
                 String description = (String) infoConfirm.get("description");
+                String interests = (String) infoConfirm.get("interests");
 
                 String userUid =  mAuth.getCurrentUser().getUid();
 
@@ -146,6 +147,7 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("Description", description);
                 data.put("CouponImage", imageUri);
                 data.put("UserUid",userUid);
+                data.put("Interests", interests);
 
 
                 db.collection("coupons").document().set(data).addOnSuccessListener(new OnSuccessListener<Void>() {

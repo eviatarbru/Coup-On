@@ -117,7 +117,7 @@ public class addCoupon extends AppCompatActivity {
 //    }
 
     public void gotoAddCouponImage(View view) {
-        Intent intent = new Intent(addCoupon.this, AddCouponImage.class);
+        Intent intent = new Intent(addCoupon.this, InterestsScreen.class);
 
         final String name = this.name.getText().toString();
         final String expireDate = this.expireDate.getText().toString();
@@ -128,6 +128,7 @@ public class addCoupon extends AppCompatActivity {
         intent.putExtra("expireDate", expireDate);
         intent.putExtra("location", location);
         intent.putExtra("description", description);
+        intent.putExtra("fromScreen", 2);
 
         boolean validateCoupon = validateCoupon(name, expireDate, location, description);
         if(!validateCoupon)

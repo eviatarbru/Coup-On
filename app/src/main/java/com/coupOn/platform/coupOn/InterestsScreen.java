@@ -40,6 +40,8 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
     public static final String TAG = "TAG";
     private boolean [] isPressed;
     private String [] interests = {"Gaming", "Utility", "Entertainment", "Merch", "Spa", "Movies", "Sports", "Animals", "Flights", "Transportation", "Culture", "Food"};
+    private int pressedBeforeInterests = -1;
+    private View beforePressedBtn = null;
 
     private int fromScreen;
 
@@ -128,18 +130,34 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
+        if(this.fromScreen == 2 && this.pressedBeforeInterests != -1)
+        {
+            this.isPressed[this.pressedBeforeInterests] = false;
+        }
         int index = view.getId();
         this.isPressed[index] = !this.isPressed[index];
         if(this.isPressed[index])
         {
             ((Button)view).setTextColor(getResources().getColor(R.color.textInputLayoutLight));
             view.setBackground(getDrawable(R.drawable.gridbuttonselected));
+            if(this.beforePressedBtn != null && this.fromScreen == 2)
+            {
+                ((Button)this.beforePressedBtn).setTextColor(getResources().getColor(R.color.textInputLayout));
+                this.beforePressedBtn.setBackground(getDrawable(R.drawable.gridbuttonunselected));
+            }
         }
         else
         {
             ((Button)view).setTextColor(getResources().getColor(R.color.textInputLayout));
             view.setBackground(getDrawable(R.drawable.gridbuttonunselected));
+            if(this.beforePressedBtn != null && this.fromScreen == 2)
+            {
+                ((Button)this.beforePressedBtn).setTextColor(getResources().getColor(R.color.textInputLayout));
+                this.beforePressedBtn.setBackground(getDrawable(R.drawable.gridbuttonunselected));
+            }
         }
+        this.pressedBeforeInterests = index;
+        this.beforePressedBtn = view;
         System.out.println(Arrays.toString(this.isPressed));
     }
 
@@ -205,40 +223,44 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 });
                 break;
             case 2:
-                String coupName = (String) infoReg.get("CoupName");
-                String expireDate = (String) infoReg.get("ExpireDate");
-                String location = (String) infoReg.get("Location");
-                String description = (String) infoReg.get("Description");
-                String userUid = (String) infoReg.get("UserUid");
+                String coupName = (String) infoReg.get("name");
+                String expireDate = (String) infoReg.get("expireDate");
+                String location = (String) infoReg.get("location");
+                String description = (String) infoReg.get("description");
                 String couponInterests = interestsFb;
 
                 System.out.println(coupName + " " + expireDate + " " + location + " " + description + " " + couponInterests);
-                Map<String, Object> data = new HashMap<>();
-                //data.put("CoupUid", "coupon");
-                data.put("CoupName", coupName);
-                data.put("ExpireDate", expireDate);
-                data.put("Location", location);
-                data.put("Description", description);
-                data.put("CouponImage", null);
-                data.put("UserUid",userUid);
-                data.put("Interests", couponInterests);
+//                Map<String, Object> data = new HashMap<>();
+//                //data.put("CoupUid", "coupon");
+//                data.put("CoupName", coupName);
+//                data.put("ExpireDate", expireDate);
+//                data.put("Location", location);
+//                data.put("Description", description);
+//                data.put("CouponImage", null);
+//                data.put("UserUid",userUid);
+//                data.put("Interests", couponInterests);
+//
+//
+//                db.collection("coupons").document().set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Toast.makeText(InterestsScreen.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(InterestsScreen.this, "Something went wrong, try again later", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
 
 
-                db.collection("coupons").document().set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(InterestsScreen.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(InterestsScreen.this, "Something went wrong, try again later", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
-                Intent intent2 = new Intent(InterestsScreen.this, SwipeCards.class);
+                Intent intent2 = new Intent(InterestsScreen.this, AddCouponImage.class);
+                intent2.putExtra("name", coupName);
+                intent2.putExtra("expireDate", expireDate);
+                intent2.putExtra("location", location);
+                intent2.putExtra("description", description);
+                intent2.putExtra("interests", couponInterests);
                 startActivity(intent2);
                 break;
             case 3:
