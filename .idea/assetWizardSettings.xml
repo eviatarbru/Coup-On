@@ -323,7 +323,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/send/baseline_send_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/keyboard_return/baseline_keyboard_return_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -333,8 +333,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="192e66" />
-                            <entry key="outputName" value="send_btn" />
+                            <entry key="color" value="2d2929" />
+                            <entry key="outputName" value="back_page" />
                             <entry key="sourceFile" value="C:\Users\lerma\Documents\GitHub\Coup-On" />
                           </map>
                         </option>

@@ -32,7 +32,10 @@
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/messages_adapter_layout.xml" value="0.5" />
         <entry key="..\:/Apps/GitHub/Coup-On/app/src/main/res/layout/testregister.xml" value="0.2760416666666667" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/drawable/gridbuttonunselected.xml" value="0.238" />
+        <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_chat_screen.xml" value="0.1" />
+        <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_info_coupon.xml" value="0.17300724637681159" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_interests_screen.xml" value="0.25416666666666665" />
+        <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_loading_screen.xml" value="0.12864583333333332" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_login_screen.xml" value="0.264" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_profile_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.264" />
@@ -44,9 +47,17 @@
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable/ic_lock_white_24dp.xml" value="0.2703125" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/layout/activity_main.xml" value="0.6" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/back_btn.xml" value="0.259" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/bg_btn.xml" value="0.259" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/empty_tall_divider.xml" value="0.259" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/gridbuttonselected.xml" value="0.259" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/gridbuttonunselected.xml" value="0.259" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/ic_edit.xml" value="0.259" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/opo_msg_back.xml" value="0.259" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_add_coupon.xml" value="0.264" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_add_coupon_image.xml" value="0.264" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_change_password_screen.xml" value="0.264" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_chat_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_forgot_password_screen.xml" value="0.20923913043478262" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_interests_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_login_screen.xml" value="0.25416666666666665" />

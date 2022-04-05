@@ -1,30 +1,15 @@
 package com.coupOn.platform.coupOn.Model;
 
-import static com.coupOn.platform.coupOn.InterestsScreen.TAG;
-
-import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.Executor;
 
 public class MainDB
 {
@@ -45,30 +30,74 @@ public class MainDB
     private HashMap<String, User> chattingUsers;
 
 
-    public MainDB()
+    private MainDB()
     {
+        this.curUser = new HashMap<>();
         currentUser();
-//        chattingUsers();
-
     }
 
-    public void currentUser()
+    private void currentUser()
     {
         //Retrieve Current User
         users = FirebaseFirestore.getInstance(); //Connects to fireStore.
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
         String uid = mAuth.getCurrentUser().getUid(); //Gets the UID of the current User.
-        System.out.println(uid);
         final User[] currentUser = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
         DocumentReference dr = users.collection("users").document(uid); //This is how u retrieve data from fireStore.
         dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                currentUser[0] = new User(value.getString("Email"), value.getString("FullName")); //Get from currentUser the Email and the FullName from the fireStore.
+                String email = value.getString("Email");
+                String fullName = value.getString("FullName");
+                currentUser[0] = new User(email, fullName); //Get from currentUser the Email and the FullName from the fireStore.
+                System.out.println(currentUser[0] + "bruh1");
             }
         });
-        this.curUser = new HashMap<>();
-        this.curUser.put(uid, currentUser[0]);
+        while(currentUser[0] == null) {
+        }
+        System.out.println(currentUser[0] + "bruh2");
+        curUser.put(uid, currentUser[0]);
+    }
+
+
+    /*  Steps for Success
+        1. new Thread(new GetUserFirebase(uid)).start();
+        2. Get user.
+     */
+    public static class GetUserFirebase implements Runnable
+    {
+        User user;
+        String uidFB;
+
+        public GetUserFirebase(String uidFB) {
+            this.uidFB = uidFB;
+        }
+
+        @Override
+        public void run() {
+            user = MainDB.getInstance().getUserFirebase(uidFB);
+            System.out.println(MainDB.getInstance().getCurUser());
+        }
+    }
+
+    public User getUserFirebase(String uid1)
+    {
+        final User[] userInfo = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
+        User user;
+        System.out.println(uid1);
+
+        DocumentReference dr = users.collection("users").document(uid1); //This is how u retrieve data from fireStore.
+        dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String email = value.getString("Email");
+                String fullName = value.getString("FullName");
+                userInfo[0] = new User(email, fullName); //Get from currentUser the Email and the FullName from the fireStore.
+            }
+        });
+        while(userInfo[0] == null) {
+        }
+        return userInfo[0];
     }
 
 //    public void chattingUsers()

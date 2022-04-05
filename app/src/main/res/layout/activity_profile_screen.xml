@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.coupOn.platform.coupOn.Profile_screen"
-    android:background="@drawable/profilecoupon">
+    android:background="@drawable/profilecoupon1">
 
 
 

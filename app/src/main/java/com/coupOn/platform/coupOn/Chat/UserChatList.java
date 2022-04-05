@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.coupOn.platform.coupOn.Model.MainDB;
 import com.coupOn.platform.coupOn.Model.User;
+import com.coupOn.platform.coupOn.SwipeCards;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,19 +64,16 @@ public class UserChatList extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
 
         messagesRecycleView = findViewById(R.id.messagesRecyclerView);
-        System.out.println("Hello");
         messagesRecycleView.setHasFixedSize(true);
         messagesRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        System.out.println("Hello");
         //set adapter to recyclerview
         messagesAdapter = new MessagesAdapter(messagesLists, UserChatList.this);
 
         messagesRecycleView.setAdapter(messagesAdapter);
-        System.out.println("Hello");
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+//        ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.setCancelable(false);
+//        progressDialog.setMessage("Loading...");
+//        progressDialog.show();
 
         this.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -163,4 +163,9 @@ public class UserChatList extends AppCompatActivity {
     }
 
 
+    public void mainMenu(View view)
+    {
+        Intent intent = new Intent(this, SwipeCards.class);
+        startActivity(intent);
+    }
 }

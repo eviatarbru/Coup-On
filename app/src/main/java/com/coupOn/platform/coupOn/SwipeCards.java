@@ -12,10 +12,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Chat.UserChatList;
 import com.coupOn.platform.coupOn.Model.MainDB;
+import com.coupOn.platform.coupOn.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +39,8 @@ public class SwipeCards extends AppCompatActivity {
     //For the chatPart
     private RecyclerView messagesRecycleView;
     private ImageView chat_Icon;
+    ConstraintLayout loading; //Loading screen
+    ConstraintLayout swipes; //Main screen
 
     //private ArrayList<String> al;
     private ArrayAdapterCoupon arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
@@ -47,33 +51,40 @@ public class SwipeCards extends AppCompatActivity {
     private String userID;
 
     ListView listView;
-    private ArrayList<Cards> rowItems;
+    private ArrayList<Cards> rowItems = new ArrayList<Cards>();
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_cards);
-        MainDB.getInstance();
+        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         this.chat_Icon = findViewById(R.id.chat_icon);
 
-        System.out.println(MainDB.getInstance().getCurUser() + " hola");
-        this.rowItems = new ArrayList<Cards>();
-        this.rowItems.add(new Cards("Ido", "Laser"));
-        //al.add("c");
-        //al.add("python");
-        //al.add("java");
-        //al.add("html");
-        //al.add("c++");
-        //al.add("css");
-        //al.add("javascript");
+        loading = findViewById(R.id.loading);
+        swipes = findViewById(R.id.swipeScreen);
+        loading.setVisibility(View.VISIBLE);
+        swipes.setVisibility(View.INVISIBLE);
 
-        arrayAdapter = new ArrayAdapterCoupon(this, R.layout.item, rowItems);
+        Cards item = new Cards("id", "No p");
+        Cards item2 = new Cards("id", "No e");
+        Cards item3 = new Cards("id", "No t");
+        Cards item4 = new Cards("id", "No e");
+        Cards item5 = new Cards("id", "No r");
+        rowItems.add(item);
+        rowItems.add(item2);
+        rowItems.add(item3);
+        rowItems.add(item4);
+        rowItems.add(item5);
 
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+        new Thread(new InitDB()).start(); //Making a Thread for the User's Info
+//        String uidU = MainDB.getInstance().getCurUser().keySet().toString(); //For the testing
+//        uidU = uidU.substring(1, uidU.length()-1); //For the testing
+        new Thread(new GetUserFirebaseS("9K7MPR33qzN4gpO4Sp0onzRUmJG2", flingContainer)).start(); //Just an example to test the random user info.
 
-
-        flingContainer.setAdapter(arrayAdapter);
-        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
+        {
             @Override
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
@@ -160,45 +171,65 @@ public class SwipeCards extends AppCompatActivity {
 
     }
 
-    /*public void checkUser(){
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        DatabaseReference userDb = FirebaseDatabase.getInstance().getReference().child("Users");
-        userDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+    // Using a thread to get the user's info and put it as a Hashmap<String, User> in MainDB
+    class InitDB implements Runnable
+    {
 
-                if(snapshot.exists()){
-                    Cards item = new Cards(snapshot.getKey(), snapshot.child("name").getValue().toString());
-                    rowItems.add(item);
+        @Override
+        public void run() {
+            MainDB.getInstance();
+            System.out.println(MainDB.getInstance().getCurUser());
+        }
+    }
+
+    /*  Steps for Success
+        1. new Thread(new GetUserFirebase(uid)).start();
+        2. Get user.
+     */
+    public class GetUserFirebaseS implements Runnable
+    {
+        User userFB;
+        String uidFB;
+//        ArrayList<Cards> rowItems;
+        SwipeFlingAdapterView flingContainer;
+
+
+        //This part receives a uid and the flingContainer and gives u the user's Fullname in a card.
+        //After we did this, we'll want to use the coupon info, you can do it here.
+        public GetUserFirebaseS(String uidFB, SwipeFlingAdapterView flingContainer) {
+            this.uidFB = uidFB;
+            this.flingContainer = flingContainer;
+        }
+
+        @Override
+        public void run() {
+            userFB = MainDB.getInstance().getUserFirebase(uidFB);
+            System.out.println(userFB + " - user");
+            User user1 = userFB;
+
+            SwipeCards.this.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // your stuff to update the UI
+                    rowItems.add(new Cards(user1.getFullName(), user1.getFullName()));
+                    arrayAdapter = new ArrayAdapterCoupon(SwipeCards.this, R.layout.item, rowItems);
+
+                    flingContainer.setAdapter(arrayAdapter);
+                    arrayAdapter.notifyDataSetChanged();
+                    loading.setVisibility(View.INVISIBLE);
+                    swipes.setVisibility(View.VISIBLE);
                 }
-            }
+            });
+        }
+    }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }*/
 
     static void makeToast(Context ctx, String s){
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
     }
+
     public void gotoprofile(View view){
         Intent intent = new Intent(this, Profile_screen.class);
         startActivity(intent);
