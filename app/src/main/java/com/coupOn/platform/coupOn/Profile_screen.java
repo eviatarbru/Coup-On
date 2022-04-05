@@ -121,6 +121,7 @@ public class Profile_screen extends AppCompatActivity {
 
     public void interestScreen(View view) {
         Intent intent = new Intent(Profile_screen.this, InterestsScreen.class);
+        intent.putExtra("fromScreen", 3);
         startActivity(intent);
     }
 }

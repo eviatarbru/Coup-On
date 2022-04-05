@@ -19,10 +19,11 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="40dp"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/profile_pic"
-                android:background="@drawable/bg_btn">
+                android:layout_marginTop="40dp"
+                android:background="@drawable/bg_btn"
+                android:src="@drawable/profile_pic">
+
             </ImageView>
 
             <LinearLayout
