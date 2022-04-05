@@ -1,5 +1,6 @@
 package com.coupOn.platform.coupOn;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -13,12 +14,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.shashank.platform.coup_on.R;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class addCoupon extends AppCompatActivity {
@@ -73,7 +82,39 @@ public class addCoupon extends AppCompatActivity {
             }
 
         });
+
+        //code for google auto complete location
+
+//        Places.initialize(getApplicationContext(),"AIzaSyA6JkEmEgnUbveiTij15FncPHTasIkEWbY");
+//
+//        location.setFocusable(false);
+//        location.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS
+//                ,Place.Field.LAT_LNG, Place.Field.NAME);
+//
+//                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+//                        fieldList).build(addCoupon.this);
+//                startActivityForResult(intent, 100);
+//            }
+//        });
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == 100 && resultCode == RESULT_OK){
+//            Place place = Autocomplete.getPlaceFromIntent(data);
+//            location.setText(place.getAddress());
+//        }
+//        else if(resultCode == AutocompleteActivity.RESULT_ERROR){
+//            Status status = Autocomplete.getStatusFromIntent(data);
+//
+//            Toast.makeText(getApplicationContext(),status.getStatusMessage()
+//            ,Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     public void gotoAddCouponImage(View view) {
         Intent intent = new Intent(addCoupon.this, AddCouponImage.class);
