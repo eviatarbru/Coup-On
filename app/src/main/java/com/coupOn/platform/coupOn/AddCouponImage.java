@@ -136,7 +136,7 @@ public class AddCouponImage extends AppCompatActivity {
 
                 String userUid =  mAuth.getCurrentUser().getUid();
 
-                System.out.println(mAuth.getCurrentUser().getUid() + "byle");
+                //System.out.println(mAuth.getCurrentUser().getUid() + "byle");
 
                 Map<String, Object> data = new HashMap<>();
                 //data.put("CoupUid", "coupon");
@@ -194,9 +194,11 @@ public class AddCouponImage extends AppCompatActivity {
         // pd.show();
 
         final String randomKey = UUID.randomUUID().toString();
+        //System.out.println("@@@the random key:" + randomKey);
         String imageUri_String;
 
         imageUri_String = imageUri.toString();
+
 
         // Create a reference to "mountains.jpg"
         StorageReference mountainsRef = storageReference.child(imageUri_String);

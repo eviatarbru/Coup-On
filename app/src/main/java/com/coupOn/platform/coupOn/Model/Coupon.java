@@ -15,7 +15,7 @@ public class Coupon
     private int price;
     private String ownerUserId;
     private User owner;
-    // private boolean [] interests; // !!!!need to think of a data structure!!!!
+    // private boolean [] interests; // need to think of a adaptive  data structure
 
     private FirebaseAuth mAuth;
 

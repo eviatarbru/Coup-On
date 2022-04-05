@@ -50,12 +50,12 @@ public class MainDB
                 String email = value.getString("Email");
                 String fullName = value.getString("FullName");
                 currentUser[0] = new User(email, fullName); //Get from currentUser the Email and the FullName from the fireStore.
-                System.out.println(currentUser[0] + "bruh1");
+                //System.out.println(currentUser[0] + "bush1");
             }
         });
         while(currentUser[0] == null) {
         }
-        System.out.println(currentUser[0] + "bruh2");
+        //System.out.println(currentUser[0] + "bush2");
         curUser.put(uid, currentUser[0]);
     }
 

@@ -61,19 +61,19 @@ public class UserChatList extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
 
         messagesRecycleView = findViewById(R.id.messagesRecyclerView);
-        System.out.println("Hello");
+        //System.out.println("Hello");
         messagesRecycleView.setHasFixedSize(true);
         messagesRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        System.out.println("Hello");
+        //System.out.println("Hello");
         //set adapter to recyclerview
         messagesAdapter = new MessagesAdapter(messagesLists, UserChatList.this);
 
         messagesRecycleView.setAdapter(messagesAdapter);
-        System.out.println("Hello");
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+        //System.out.println("Hello");
+//        ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.setCancelable(false);
+//        progressDialog.setMessage("Loading...");
+//        progressDialog.show();
 
         this.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -82,7 +82,7 @@ public class UserChatList extends AppCompatActivity {
                 unseenMessages = 0;
                 lastMessage = "";
                 chatKey = "";
-                System.out.println("Hello");
+                //System.out.println("Hello");
                 final ArrayList<User> usersChat = new ArrayList<>();
                 usersChat.addAll(MainDB.getInstance().getChattingUsers().values());
                 for( DataSnapshot dataSnapshot: snapshot.child("chatUser").getChildren())

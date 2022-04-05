@@ -35,7 +35,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
 
     public static final String TAG = "TAG";
     private boolean [] isPressed;
-    private String [] interests = {"Gaming", "Utility", "Entertainment", "Merch", "Spa", "Movies", "Sports", "Animals", "Flights", "Transportation", "Museums and shit", "Gayming"};
+    private String [] interests = {"Gaming", "Utility", "Entertainment", "Merch", "Spa", "Movies", "Sports", "Animals", "Flights", "Transportation", "Culture", "Food"};
 
     //firebase
     private FirebaseAuth mAuth;
