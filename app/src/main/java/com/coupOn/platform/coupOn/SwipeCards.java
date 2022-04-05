@@ -46,6 +46,7 @@ public class SwipeCards extends AppCompatActivity {
     private ArrayAdapterCoupon arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
     private int i;
 
+
     //firebase
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -60,6 +61,7 @@ public class SwipeCards extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_cards);
+        System.out.println("onCreate");
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         this.chat_Icon = findViewById(R.id.chat_icon);
 
@@ -157,7 +159,6 @@ public class SwipeCards extends AppCompatActivity {
 
         });
 
-
         // Optionally add an OnItemClickListener
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
@@ -175,6 +176,17 @@ public class SwipeCards extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("onResume");
+    }
 
     // Using a thread to get the user's info and put it as a Hashmap<String, User> in MainDB
     class InitDB implements Runnable

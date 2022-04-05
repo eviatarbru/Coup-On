@@ -133,6 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
                         intent.putExtra("password", password);
                         intent.putExtra("fullName", fullName);
                         intent.putExtra("dateOfBirth", dateOfbirth);
+                        intent.putExtra("fromScreen", 1);
 
                         startActivity(intent);
                         finish();
