@@ -47,6 +47,7 @@ public class SwipeCards extends AppCompatActivity {
     private int i;
 
     //firebase
+    private FirebaseAuth mAuth;
     private FirebaseUser user;
     private String userID;
 
@@ -62,16 +63,19 @@ public class SwipeCards extends AppCompatActivity {
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         this.chat_Icon = findViewById(R.id.chat_icon);
 
+        mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
+        String uid = mAuth.getCurrentUser().getUid(); //Gets the UID of the current User.
+
         loading = findViewById(R.id.loading);
         swipes = findViewById(R.id.swipeScreen);
         loading.setVisibility(View.VISIBLE);
         swipes.setVisibility(View.INVISIBLE);
 
-        Cards item = new Cards("id", "No p");
-        Cards item2 = new Cards("id", "No e");
-        Cards item3 = new Cards("id", "No t");
-        Cards item4 = new Cards("id", "No e");
-        Cards item5 = new Cards("id", "No r");
+        Cards item = new Cards("id", "Coupon 1");
+        Cards item2 = new Cards("id", "Coupon 2");
+        Cards item3 = new Cards("id", "Coupon 3");
+        Cards item4 = new Cards("id", "Coupon 4");
+        Cards item5 = new Cards("id", "Coupon 5");
         rowItems.add(item);
         rowItems.add(item2);
         rowItems.add(item3);
@@ -81,7 +85,7 @@ public class SwipeCards extends AppCompatActivity {
         new Thread(new InitDB()).start(); //Making a Thread for the User's Info
 //        String uidU = MainDB.getInstance().getCurUser().keySet().toString(); //For the testing
 //        uidU = uidU.substring(1, uidU.length()-1); //For the testing
-        new Thread(new GetUserFirebaseS("9K7MPR33qzN4gpO4Sp0onzRUmJG2", flingContainer)).start(); //Just an example to test the random user info.
+        new Thread(new GetUserFirebaseS(uid, flingContainer)).start(); //Just an example to test the random user info.
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
         {
@@ -191,7 +195,7 @@ public class SwipeCards extends AppCompatActivity {
     {
         User userFB;
         String uidFB;
-//        ArrayList<Cards> rowItems;
+        //        ArrayList<Cards> rowItems;
         SwipeFlingAdapterView flingContainer;
 
 
@@ -228,6 +232,11 @@ public class SwipeCards extends AppCompatActivity {
 
     static void makeToast(Context ctx, String s){
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
+    }
+
+    public void gotoCouponInfo(View view){
+        Intent intent = new Intent(this, InfoCouponActivity.class);
+        startActivity(intent);
     }
 
     public void gotoprofile(View view){

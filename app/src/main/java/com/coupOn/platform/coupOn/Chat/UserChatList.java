@@ -82,7 +82,6 @@ public class UserChatList extends AppCompatActivity {
                 unseenMessages = 0;
                 lastMessage = "";
                 chatKey = "";
-                System.out.println("Hello");
                 final ArrayList<User> usersChat = new ArrayList<>();
                 usersChat.addAll(MainDB.getInstance().getChattingUsers().values());
                 for( DataSnapshot dataSnapshot: snapshot.child("chatUser").getChildren())
