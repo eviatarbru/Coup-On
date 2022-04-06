@@ -1,5 +1,8 @@
 package com.coupOn.platform.coupOn;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,8 +34,12 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.shashank.platform.coup_on.R;
+import com.shashank.platform.coup_on.databinding.ActivityAddCouponImageBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,35 +49,52 @@ public class AddCouponImage extends AppCompatActivity {
     int count = 0;      //for the light and dark theme
 
 
-    private ImageView couponPic;
+    private ImageView image_icon;
     private ImageView upload_Icon;
     private TextView upload_Text;
     private Button confirmBtn;
-    public Uri imageUri;
+
     private FirebaseStorage storage;
-    private StorageReference storageReference;
+    public StorageReference storageReference;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    public ActivityAddCouponImageBinding binding; //for the image
+    //public ActivityResultLauncher<String> mTakePhoto;
+    public Uri imageUri;
+    //public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_coupon_image);
+        binding = ActivityAddCouponImageBinding.inflate(getLayoutInflater()); //for the image
+        setContentView(binding.getRoot());
+
+//        mTakePhoto = registerForActivityResult(
+//                new ActivityResultContracts.GetContent(),
+//                new ActivityResultCallback<Uri>() {
+//                    @Override
+//                    public void onActivityResult(Uri result) {
+//
+//                        binding.imageIcon.setImageURI(result);
+//                    }
+//                }
+//        );
 
         this.mAuth = FirebaseAuth.getInstance();
 
         this.imageView = findViewById(R.id.imageView);
 
-        this.couponPic = findViewById(R.id.image_icon);
+        this.image_icon = findViewById(R.id.image_icon);
         this.upload_Icon = findViewById(R.id.upload_icon);
         this.upload_Text = findViewById(R.id.upload_text);
         this.confirmBtn = findViewById(R.id.confirmBtn);
 
         storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
+        storageReference = storageReference;
+        //storageReference = storage.getReference();
 
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
@@ -101,21 +125,21 @@ public class AddCouponImage extends AppCompatActivity {
 
         });
 
-        couponPic.setOnClickListener(new View.OnClickListener() {
+        binding.imageIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 choosePicture();
             }
         });
 
-        upload_Text.setOnClickListener(new View.OnClickListener() {
+        binding.uploadText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 choosePicture();
             }
         });
 
-        upload_Icon.setOnClickListener(new View.OnClickListener() {
+        binding.uploadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 choosePicture();
@@ -125,6 +149,7 @@ public class AddCouponImage extends AppCompatActivity {
         confirmBtn.setOnClickListener(new View.OnClickListener() { //adding coupon to db
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(AddCouponImage.this, SwipeCards.class);
 
                 Intent confirmIntent = getIntent();     //get data from last screen
@@ -137,7 +162,7 @@ public class AddCouponImage extends AppCompatActivity {
 
                 String userUid =  mAuth.getCurrentUser().getUid();
 
-                //System.out.println(mAuth.getCurrentUser().getUid() + "byle");
+                String fileName = uploadPicture();
 
                 Map<String, Object> data = new HashMap<>();
                 //data.put("CoupUid", "coupon");
@@ -145,25 +170,26 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("ExpireDate", expireDate);
                 data.put("Location", location);
                 data.put("Description", description);
-                data.put("CouponImage", imageUri);
+                data.put("CouponImage", fileName);
                 data.put("UserUid",userUid);
                 data.put("Interests", interests);
 
+                db.collection("coupons").
+                        add(data)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
 
-                db.collection("coupons").document().set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(AddCouponImage.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
+                                Toast.makeText(AddCouponImage.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(AddCouponImage.this, "Something went wrong, try again later", Toast.LENGTH_SHORT).show();
                             }
                         });
-
-
 
                 startActivity(intent);
             }
@@ -172,76 +198,65 @@ public class AddCouponImage extends AppCompatActivity {
     }
 
     public void choosePicture() {
+
+        //mTakePhoto.launch("image/*");
+
         Intent intent = new Intent();
         intent.setType("image/");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, 100);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == RESULT_OK && data != null){
+        if(requestCode == 100 && data != null && data.getData() != null){
             imageUri = data.getData();
-            couponPic.setImageURI(imageUri);
-            uploadPicture();
+            binding.imageIcon.setImageURI(imageUri);
+            //uploadPicture();
         }
     }
 
-    private void uploadPicture() {
+    private String uploadPicture() {
 
-        // final ProgressDialog pd = new ProgressDialog(this);
-        // pd.setTitle("Uploading Image...");
-        // pd.show();
+        //progressDialog = new ProgressDialog(this);
+        //progressDialog.setTitle("Uploading Image...");
+        //progressDialog.show();
 
-        final String randomKey = UUID.randomUUID().toString();
-        //System.out.println("@@@the random key:" + randomKey);
-        String imageUri_String;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());
+        Date now = new Date();
+        String fileName = formatter.format(now);
 
-        imageUri_String = imageUri.toString();
+        storageReference = FirebaseStorage.getInstance().getReference("images/" + fileName);
 
+        storageReference.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-        // Create a reference to "mountains.jpg"
-        StorageReference mountainsRef = storageReference.child(imageUri_String);
+                        binding.imageIcon.setImageURI(null);
+                        Toast.makeText(AddCouponImage.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                        //if(progressDialog.isShowing())
+                            //progressDialog.dismiss();
 
-// Create a reference to 'images/mountains.jpg'
-        StorageReference mountainImagesRef = storageReference.child("images/" + randomKey);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
-// While the file names are the same, the references point to different files
-        mountainsRef.getName().equals(mountainImagesRef.getName());    // true
-        mountainsRef.getPath().equals(mountainImagesRef.getPath());    // false
+                //if(progressDialog.isShowing())
+                    //progressDialog.dismiss();
+                Toast.makeText(AddCouponImage.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return fileName;
 
-        Snackbar.make(findViewById(android.R.id.content), "Image Uploaded.", Snackbar.LENGTH_LONG).show();
-
-        //addOnProgressListener(new OnProgressListener<>()) ### not working
+//        final String randomKey = UUID.randomUUID().toString();
+//        //System.out.println("@@@the random key:" + randomKey);
+//        String imageUri_String;
 
         }
-
-//    public void confirmCoupon(View view) {
-//        Intent intent = new Intent(AddCouponImage.this, SwipeCards.class);
-//
-//        Intent confirmIntent = getIntent();
-//        Bundle infoConfirm = confirmIntent.getExtras();
-//        String name = (String) infoConfirm.get("name");
-//        String expireDate = (String) infoConfirm.get("expireDate");
-//        String location = (String) infoConfirm.get("location");
-//        String description = (String) infoConfirm.get("description");
-//
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("Uid", mAuth.getCurrentUser().getUid());
-//        user.put("CoupName", name);
-//        user.put("ExpireDate", expireDate);
-//        user.put("Location", location);
-//        user.put("Description", description);
-//        user.put("CouponImage", imageUri);
-//
-//        db.collection("users")
-//                .document(mAuth.getCurrentUser().getUid())
-//                .set(user);
-//
-//        startActivity(intent);
-//    }
 }
 
 
