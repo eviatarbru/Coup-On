@@ -37,10 +37,13 @@
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_interests_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_loading_screen.xml" value="0.12864583333333332" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_login_screen.xml" value="0.264" />
+        <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_messages_list.xml" value="0.1403985507246377" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_profile_screen.xml" value="0.25416666666666665" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_swipe_cards.xml" value="0.12239583333333333" />
+        <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/activity_user_list_chat.xml" value="0.1403985507246377" />
         <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/item.xml" value="0.1" />
+        <entry key="..\:/GitHub/Coup-On/app/src/main/res/layout/messages_adapter_layout.xml" value="0.15208333333333332" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable/ic_email_white_24dp.xml" value="0.2703125" />
         <entry key="..\:/GitHub/LoginUI-Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />

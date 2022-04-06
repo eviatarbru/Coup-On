@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class ChatScreen extends AppCompatActivity {
 
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://coup-on-project1-default-rtdb.europe-west1.firebasedatabase.app/");
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://coup-on-project1-default-rtdb.europe-west1.firebasedatabase.app");
 
     private final List<MessageChatList> chatLists = new ArrayList<>();
     private String chatKey;

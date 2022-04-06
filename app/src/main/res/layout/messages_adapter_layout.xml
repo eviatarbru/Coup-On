@@ -27,26 +27,25 @@
             </ImageView>
 
             <LinearLayout
-                android:layout_toStartOf="@+id/unseenMessages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="20dp"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/profilePic">
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/unseenMessages"
+                android:layout_toEndOf="@id/profilePic"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/fullName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:textSize="18sp"
                     android:text="FullName"
                     android:textColor="@color/textInputLayoutLight"
-                    android:textStyle="bold">
-                </TextView>
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/lastMessage"
@@ -55,9 +54,8 @@
                     android:layout_marginTop="5dp"
                     android:maxLines="1"
                     android:textColor="@color/theme_color_80"
-                    android:textStyle="bold"
-                    android:textSize="14sp">
-                </TextView>
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
@@ -79,6 +77,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="10dp"
-            android:background="#14000000"></View>
+            android:background="#14000000" />
     </LinearLayout>
 </RelativeLayout>

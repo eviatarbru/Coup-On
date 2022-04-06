@@ -37,10 +37,13 @@ public class UserChatList extends AppCompatActivity {
 
     private String email;
     private String fullname;
+
     private RecyclerView messagesRecycleView;
     private MessagesAdapter messagesAdapter;
+
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = database.getReference();
+//    DatabaseReference databaseReference = database.getReference();
+    private DatabaseReference databaseReference = database.getReference();
 
     private int unseenMessages = 0;
     private String lastMessage = "";
@@ -67,40 +70,41 @@ public class UserChatList extends AppCompatActivity {
         messagesRecycleView.setHasFixedSize(true);
         messagesRecycleView.setLayoutManager(new LinearLayoutManager(this));
         //set adapter to recyclerview
-        messagesAdapter = new MessagesAdapter(messagesLists, UserChatList.this);
+        messagesAdapter = new MessagesAdapter(messagesLists, this);
 
         messagesRecycleView.setAdapter(messagesAdapter);
 //        ProgressDialog progressDialog = new ProgressDialog(this);
 //        progressDialog.setCancelable(false);
 //        progressDialog.setMessage("Loading...");
 //        progressDialog.show();
-
-        this.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                messagesLists.clear();
-                unseenMessages = 0;
-                lastMessage = "";
-                chatKey = "";
-                final ArrayList<User> usersChat = new ArrayList<>();
-                usersChat.addAll(MainDB.getInstance().getChattingUsers().values());
-                for( DataSnapshot dataSnapshot: snapshot.child("chatUser").getChildren())
-                {
-                    final String getUid = dataSnapshot.getKey();
-
-                    dataset = false;
-
-                    if(getUid.equals(mAuth.getUid()))
+        try {
+            this.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    messagesLists.clear();
+                    unseenMessages = 0;
+                    lastMessage = "";
+                    chatKey = "";
+                    final ArrayList<User> usersChat = new ArrayList<>();
+                    usersChat.addAll(MainDB.getInstance().getChattingUsers().values());
+                    for( String uid: MainDB.getInstance().getChattingUsers().keySet() )
                     {
-                        for( DataSnapshot dataSnapshot1: snapshot.child("chatUser").child(mAuth.getUid()).getChildren())
-                        {
-                            final String uidUser = dataSnapshot1.getKey();
+                        final String getUid = mAuth.getUid();
+                        System.out.println("3");
+                        dataset = false;
 
+                        if(getUid.equals(mAuth.getUid()))
+                        {
+//                        for( DataSnapshot dataSnapshot1: snapshot.child("chatUser").child(mAuth.getUid()).getChildren())
+//                        {
+//                            final String uidUser = dataSnapshot1.getKey();
+                            final String uidUser = uid;
+                            System.out.println("4");
                             databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     int getChatCounts = (int)snapshot.getChildrenCount();
-
+                                    System.out.println("5");
                                     if(getChatCounts > 0)
                                     {
                                         for(DataSnapshot dataSnapshot2 : snapshot.getChildren())
@@ -140,6 +144,7 @@ public class UserChatList extends AppCompatActivity {
                                             MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, getUid);
                                             messagesLists.add(messagesList);
                                             messagesAdapter.updateData(messagesLists);
+                                            System.out.println("messagesList");
                                         }
                                     }
                                 }
@@ -149,16 +154,21 @@ public class UserChatList extends AppCompatActivity {
 
                                 }
                             });
+                            //}
                         }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);;
+        }
     }
 
 

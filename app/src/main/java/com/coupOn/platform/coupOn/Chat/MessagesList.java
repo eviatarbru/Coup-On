@@ -26,6 +26,7 @@ public class MessagesList
         this.lastMessage = lastMessages;
         this.unseenMessages = unseenMessages;
         this.chatKey = chatKey;
+        this.mobile = mobile;
     }
 
     public String getName() {
@@ -58,5 +59,17 @@ public class MessagesList
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    @Override
+    public String toString() {
+        return "MessagesList{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", lastMessage='" + lastMessage + '\'' +
+                ", chatKey='" + chatKey + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", unseenMessages=" + unseenMessages +
+                '}';
     }
 }
