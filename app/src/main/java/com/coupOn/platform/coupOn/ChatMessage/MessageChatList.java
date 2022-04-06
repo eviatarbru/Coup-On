@@ -51,4 +51,15 @@ public class MessageChatList
     public void setTime(String time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "MessageChatList{" +
+                "mobile='" + mobile + '\'' +
+                ", name='" + name + '\'' +
+                ", message='" + message + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }

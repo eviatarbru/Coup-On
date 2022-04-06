@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Model.MainDB;
+import com.google.firebase.auth.FirebaseAuth;
 import com.shashank.platform.coup_on.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>
@@ -22,10 +24,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>
     private final Context context;
     private String userMobile;
 
+    //firebase
+    private FirebaseAuth mAuth;
+
     public ChatAdapter(List<MessageChatList> chatLists, Context context) {
+        mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
+        String uid = mAuth.getCurrentUser().getUid(); //Gets the UID of the current User.
         this.chatLists = chatLists;
         this.context = context;
-        this.userMobile = MainDB.getInstance().getCurUser().keySet().toString();
+        this.userMobile = uid;
     }
 
     @NonNull
@@ -64,7 +71,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>
 
     public void updateChatLists(List <MessageChatList> chatLists)
     {
+        this.chatLists = new ArrayList<>();
            this.chatLists = chatLists;
+           notifyDataSetChanged();
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder
@@ -80,7 +89,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>
             oppoMessage = itemView.findViewById(R.id.oppoMessage);
             oppoTime = itemView.findViewById(R.id.oppoMsgTime);
 
-            oppoLayout = itemView.findViewById(R.id.oppoLayout);
+            myLayout = itemView.findViewById(R.id.myLayout);
             myMessage = itemView.findViewById(R.id.myMessage);
             myTime = itemView.findViewById(R.id.myMsgTime);
         }

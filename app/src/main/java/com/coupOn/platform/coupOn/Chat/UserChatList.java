@@ -87,10 +87,9 @@ public class UserChatList extends AppCompatActivity {
                     chatKey = "";
                     final ArrayList<User> usersChat = new ArrayList<>();
                     usersChat.addAll(MainDB.getInstance().getChattingUsers().values());
-                    for( String uid: MainDB.getInstance().getChattingUsers().keySet() )
+                    for( String uidOtherUser: MainDB.getInstance().getChattingUIDS())
                     {
                         final String getUid = mAuth.getUid();
-                        System.out.println("3");
                         dataset = false;
 
                         if(getUid.equals(mAuth.getUid()))
@@ -98,7 +97,7 @@ public class UserChatList extends AppCompatActivity {
 //                        for( DataSnapshot dataSnapshot1: snapshot.child("chatUser").child(mAuth.getUid()).getChildren())
 //                        {
 //                            final String uidUser = dataSnapshot1.getKey();
-                            final String uidUser = uid;
+                            final String uidUser = uidOtherUser;
                             System.out.println("4");
                             databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -141,7 +140,7 @@ public class UserChatList extends AppCompatActivity {
                                         dataset = true;
                                         for(int i = 0; i < usersChat.size(); i++)
                                         {
-                                            MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, getUid);
+                                            MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, uidUser);
                                             messagesLists.add(messagesList);
                                             messagesAdapter.updateData(messagesLists);
                                             System.out.println("messagesList");

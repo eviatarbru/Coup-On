@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class MainDB
 {
@@ -136,6 +137,11 @@ public class MainDB
 
     public HashMap<String, User> getChattingUsers() {
         return chattingUsers;
+    }
+
+    public Set<String> getChattingUIDS()
+    {
+        return chattingUsers.keySet();
     }
 
     public void setChattingUsers(HashMap<String, User> chattingUsers) {
