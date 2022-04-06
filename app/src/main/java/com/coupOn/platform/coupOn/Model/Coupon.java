@@ -19,6 +19,78 @@ public class Coupon
 
     private FirebaseAuth mAuth;
 
+    public Image getCouponImg() {
+        return couponImg;
+    }
+
+    public void setCouponImg(Image couponImg) {
+        this.couponImg = couponImg;
+    }
+
+    public String getCouponName() {
+        return couponName;
+    }
+
+    public void setCouponName(String couponName) {
+        this.couponName = couponName;
+    }
+
+    public String getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(String expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean isDigitalOrIrl() {
+        return digitalOrIrl;
+    }
+
+    public void setDigitalOrIrl(boolean digitalOrIrl) {
+        this.digitalOrIrl = digitalOrIrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getOwnerUserId() {
+        return ownerUserId;
+    }
+
+    public void setOwnerUserId(String ownerUserId) {
+        this.ownerUserId = ownerUserId;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     public Coupon(Image couponImg, String couponName, String expireDate, String location, boolean digitalOrIrl,
                   String description, int price, String ownerUserId, User owner) {
 
@@ -31,6 +103,8 @@ public class Coupon
         this.price = price;
         this.ownerUserId = mAuth.getCurrentUser().getUid();
         this.owner = owner;
+
+
     }
 
 
