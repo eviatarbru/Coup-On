@@ -24,16 +24,27 @@ public class User
     public User(String email, String fullName, String chattingString) {
         this.email = email;
         this.fullName = fullName;
-        String [] chattingUser = chattingString.split(", ");
-        for(int i = 0; i < chattingUser.length; i++)
+        this.chattingUserUIDs = new ArrayList<String>();
+        if(chattingString.contains(","))
         {
-            this.chattingUserUIDs.add(chattingUser[i]);
+            String[] chattingUser = chattingString.split(", ");
+            System.out.println(chattingUser + " I want to die");
+            for(int i = 0; i < chattingUser.length; i++)
+            {
+                this.chattingUserUIDs.add(chattingUser[i]);
+            }
         }
+        else
+        {
+            this.chattingUserUIDs.add(chattingString);
+        }
+
     }
 
     public User(String email, String fullName) {
         this.email = email;
         this.fullName = fullName;
+        this.chattingUserUIDs = null;
     }
 
     public String getEmail() {

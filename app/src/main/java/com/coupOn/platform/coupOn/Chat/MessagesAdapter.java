@@ -67,15 +67,20 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         });
     }
 
-    public void updateData(List<MessagesList> messagesLists)
+    public void updateData(List<MessagesList> messagesLists1)
     {
-        this.messagesLists = messagesLists;
+//        this.messagesLists.clear();
+        for(MessagesList ml : messagesLists1)
+        {
+            System.out.println("bruh2  " + ml);
+            this.messagesLists.add(ml);
+        }
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return messagesLists.size();
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {

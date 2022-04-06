@@ -85,9 +85,12 @@ public class SwipeCards extends AppCompatActivity {
         rowItems.add(item5);
 
         new Thread(new InitDB()).start(); //Making a Thread for the User's Info
+
+        new Thread((new GetChatUsers())).start(); //Chat Thread
 //        String uidU = MainDB.getInstance().getCurUser().keySet().toString(); //For the testing
 //        uidU = uidU.substring(1, uidU.length()-1); //For the testing
         new Thread(new GetUserFirebaseS(uid, flingContainer)).start(); //Just an example to test the random user info.
+
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
         {
@@ -241,6 +244,20 @@ public class SwipeCards extends AppCompatActivity {
         }
     }
 
+    public class GetChatUsers implements Runnable
+    {
+        @Override
+        public void run() {
+            System.out.println(MainDB.getInstance().getCurUser().get(mAuth.getUid().toString()) + "Ido Bush");
+            User user = MainDB.getInstance().getCurUser().get(mAuth.getUid().toString());
+            if(user.getChattingUserUIDs() != null) {
+                for (int i = 0; i < user.getChattingUserUIDs().size(); i++) {
+                    MainDB.getInstance().getChatUsersInfo(user.getChattingUserUIDs().get(i));
+                }
+            }
+        }
+    }
+
 
     static void makeToast(Context ctx, String s){
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
@@ -262,6 +279,7 @@ public class SwipeCards extends AppCompatActivity {
     }
 
     public void chatScreen(View view){
+        System.out.println("SwipeCard move to UserChatList");
         Intent intent = new Intent(this, UserChatList.class);
         startActivity(intent);
     }
