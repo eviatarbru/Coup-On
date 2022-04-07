@@ -67,6 +67,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
         });
     }
 
+    //PETER NEEDS TO LOOK (WAIT FOR EVI)
     public void updateData(List<MessagesList> messagesLists1)
     {
         for(MessagesList ml : messagesLists1)

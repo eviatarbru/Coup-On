@@ -66,6 +66,7 @@ public class UserChatList extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
 
+        //PETER NEEDS TO LOOK 70-76
         messagesRecycleView = findViewById(R.id.messagesRecyclerView);
         messagesRecycleView.setHasFixedSize(true);
         messagesRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -140,7 +141,12 @@ public class UserChatList extends AppCompatActivity {
                                         dataset = true;
                                         for(int i = 0; i < usersChat.size(); i++)
                                         {
+<<<<<<< Updated upstream
                                             MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, uidUser);
+=======
+                                            //PETER NEEDS TO LOOK
+                                            MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, getUid);
+>>>>>>> Stashed changes
                                             messagesLists.add(messagesList);
                                             messagesAdapter.updateData(messagesLists);
                                             System.out.println("messagesList");
