@@ -46,6 +46,8 @@ public class SwipeCards extends AppCompatActivity {
     private ArrayAdapterCoupon arrayAdapter;// <String> || ArrayAdapter --> arrayAdapter
     private int i;
 
+    private static volatile boolean isFinished = false;
+
 
     //firebase
     private FirebaseAuth mAuth;
@@ -138,7 +140,6 @@ public class SwipeCards extends AppCompatActivity {
                                         Toast.makeText(SwipeCards.this, "Failed to get user from FB", Toast.LENGTH_LONG).show();
                                     }
                                 }
-
                             }
                         });
             }
@@ -198,7 +199,6 @@ public class SwipeCards extends AppCompatActivity {
         @Override
         public void run() {
             MainDB.getInstance();
-            System.out.println(MainDB.getInstance().getCurUser());
         }
     }
 
@@ -237,8 +237,11 @@ public class SwipeCards extends AppCompatActivity {
 
                     flingContainer.setAdapter(arrayAdapter);
                     arrayAdapter.notifyDataSetChanged();
+                    while(!isFinished){ }
+                    System.out.println("really finished, VERY NICE");
                     loading.setVisibility(View.INVISIBLE);
                     swipes.setVisibility(View.VISIBLE);
+                    isFinished = false;
                 }
             });
         }
@@ -248,13 +251,21 @@ public class SwipeCards extends AppCompatActivity {
     {
         @Override
         public void run() {
-            System.out.println(MainDB.getInstance().getCurUser().get(mAuth.getUid().toString()) + "Ido Bush");
-            User user = MainDB.getInstance().getCurUser().get(mAuth.getUid().toString());
-            if(user.getChattingUserUIDs() != null) {
-                for (int i = 0; i < user.getChattingUserUIDs().size(); i++) {
+            User user = null;
+            while(user == null) {
+                user = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid());
+                System.out.println(user + "trueeeeeeee");
+            }
+            if(user.getChattingUserUIDs() != null)
+            {
+                for (int i = 0; i < user.getChattingUserUIDs().size(); i++)
+                {
+                    System.out.println("oh no 2 times");
                     MainDB.getInstance().getChatUsersInfo(user.getChattingUserUIDs().get(i));
                 }
             }
+            isFinished = true;
+            System.out.println("finished byle said i want it that way");
         }
     }
 

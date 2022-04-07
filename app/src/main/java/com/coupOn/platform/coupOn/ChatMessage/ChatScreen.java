@@ -32,14 +32,16 @@ import java.util.Locale;
 
 public class ChatScreen extends AppCompatActivity {
 
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://coup-on-project1-default-rtdb.europe-west1.firebasedatabase.app");
-
+//    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://coup-on-project1-default-rtdb.europe-west1.firebasedatabase.app");
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private final List<MessageChatList> chatLists = new ArrayList<>();
     private String chatKey;
     String getUserMobile = "";
     private RecyclerView chattingRecyclerView;
     private ChatAdapter chatAdapter;
     private boolean loadingFirstTime = true;
+
+    private String getName;
 
     //firebase
     private FirebaseAuth mAuth;
@@ -63,6 +65,7 @@ public class ChatScreen extends AppCompatActivity {
         final String getName = getIntent().getStringExtra("name");
         chatKey = getIntent().getStringExtra("chatKey");
         final String getMobile = getIntent().getStringExtra("mobile");
+        this.getName = getName;
 
         getUserMobile = MainDB.getInstance().getCurUser().keySet().toString();
 
@@ -75,6 +78,7 @@ public class ChatScreen extends AppCompatActivity {
         chatAdapter = new ChatAdapter(chatLists, ChatScreen.this);
         chattingRecyclerView.setAdapter(chatAdapter);
 
+        final int[] counter = {0};
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -86,7 +90,6 @@ public class ChatScreen extends AppCompatActivity {
                         chatKey = String.valueOf(snapshot.child("chat").getChildrenCount() + 1);
                     }
                 }
-
                 if(snapshot.hasChild("chat"))
                 {
                     chatLists.clear();
@@ -101,11 +104,11 @@ public class ChatScreen extends AppCompatActivity {
                                 final String getMobile = messagesSnapshot.child("mobile").getValue(String.class);
                                 final String getMsg = messagesSnapshot.child("msg").getValue(String.class);
 
-                                try {
-                                    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(messageTimestamps);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
+//                                try {
+//                                    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(messageTimestamps);
+//                                } catch (ParseException e) {
+//                                    e.printStackTrace();
+//                                }
 
                                 System.out.println(messageTimestamps + "ido witman");
 
@@ -143,17 +146,19 @@ public class ChatScreen extends AppCompatActivity {
             public void onClick(View view) {
                 final String getTxtMessage = messageEditText.getText().toString();
 
-                //get current timestamp
-                final String currentTimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
+                if(getTxtMessage != "") {
+                    //get current timestamp
+                    final String currentTimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
 
-                MemoryData.saveLastMsgTS(currentTimestamp, chatKey, ChatScreen.this);
-                databaseReference.child("chat").child(chatKey).child("user_1").setValue(uid);
-                databaseReference.child("chat").child(chatKey).child("user_2").setValue(getMobile);
-                databaseReference.child("chat").child(chatKey).child("messages").child(currentTimestamp).child("msg").setValue(getTxtMessage);
-                databaseReference.child("chat").child(chatKey).child("messages").child(currentTimestamp).child("mobile").setValue(uid);
+                    MemoryData.saveLastMsgTS(currentTimestamp, chatKey, ChatScreen.this);
+                    databaseReference.child("chat").child(chatKey).child("user_1").setValue(uid);
+                    databaseReference.child("chat").child(chatKey).child("user_2").setValue(getMobile);
+                    databaseReference.child("chat").child(chatKey).child("messages").child(currentTimestamp).child("msg").setValue(getTxtMessage);
+                    databaseReference.child("chat").child(chatKey).child("messages").child(currentTimestamp).child("mobile").setValue(uid);
 
-                // clear edit text
-                messageEditText.setText("");
+                    // clear edit text
+                    messageEditText.setText("");
+                }
             }
         });
 

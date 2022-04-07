@@ -78,6 +78,7 @@ public class UserChatList extends AppCompatActivity {
 //        progressDialog.setCancelable(false);
 //        progressDialog.setMessage("Loading...");
 //        progressDialog.show();
+
         try {
             this.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -141,12 +142,8 @@ public class UserChatList extends AppCompatActivity {
                                         dataset = true;
                                         for(int i = 0; i < usersChat.size(); i++)
                                         {
-<<<<<<< Updated upstream
-                                            MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, uidUser);
-=======
                                             //PETER NEEDS TO LOOK
                                             MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, getUid);
->>>>>>> Stashed changes
                                             messagesLists.add(messagesList);
                                             messagesAdapter.updateData(messagesLists);
                                             System.out.println("messagesList");

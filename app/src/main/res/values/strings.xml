@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Login UI</string>
+    <string name="app_name">Coup-On</string>
     <string name="registration">Registration</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>

@@ -27,13 +27,12 @@ public class MainDB
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseFirestore users = FirebaseFirestore.getInstance();
 
-    private HashMap<String, User> curUser;
-    private HashMap<String, User> chattingUsers;
+    private final HashMap<String, User> curUser = new HashMap<>();
+    private final HashMap<String, User> chattingUsers = new HashMap<>();
 
 
     private MainDB()
     {
-        this.curUser = new HashMap<>();
         currentUser();
     }
 
@@ -52,16 +51,14 @@ public class MainDB
                 String fullName = value.getString("FullName");
                 String chatUsers = value.getString("ChatUsers");
                 if(chatUsers != null)
-                    currentUser[0] = new User(email, fullName, chatUsers); //Get from currentUser the Email and the FullName from the fireStore.
+                    curUser.put(uid, new User(email, fullName, chatUsers)); //Get from currentUser the Email and the FullName from the fireStore.
                 else
-                    currentUser[0] = new User(email, fullName); //Get from currentUser the Email and the FullName from the fireStore.
+                    curUser.put(uid, new User(email, fullName)); //Get from currentUser the Email and the FullName from the fireStore.
                 //System.out.println(currentUser[0] + "bush1");
             }
         });
-        while(currentUser[0] == null) {
-        }
         //System.out.println(currentUser[0] + "bush2");
-        curUser.put(uid, currentUser[0]);
+//        curUser.put(uid, currentUser[0]);
     }
 
 
@@ -110,7 +107,7 @@ public class MainDB
         final User[] userInfo = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
         User user;
         System.out.println(uid1);
-        this.chattingUsers = new HashMap<>();
+//        this.chattingUsers = new HashMap<>();
 
         DocumentReference dr = users.collection("users").document(uid1); //This is how u retrieve data from fireStore.
         dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -118,12 +115,9 @@ public class MainDB
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 String email = value.getString("Email");
                 String fullName = value.getString("FullName");
-                userInfo[0] = new User(email, fullName); //Get from currentUser the Email and the FullName from the fireStore.
+                chattingUsers.put(uid1, new User(email, fullName));//Get from currentUser the Email and the FullName from the fireStore.
             }
         });
-        while(userInfo[0] == null) {
-        }
-        this.chattingUsers.put(uid1, userInfo[0]);
     }
 
 
@@ -131,9 +125,9 @@ public class MainDB
         return curUser;
     }
 
-    public void setCurUser(HashMap<String, User> curUser) {
-        this.curUser = curUser;
-    }
+//    public void setCurUser(HashMap<String, User> curUser) {
+//        curUser = curUser;
+//    }
 
     public HashMap<String, User> getChattingUsers() {
         return chattingUsers;
@@ -144,8 +138,8 @@ public class MainDB
         return chattingUsers.keySet();
     }
 
-    public void setChattingUsers(HashMap<String, User> chattingUsers) {
-        this.chattingUsers = chattingUsers;
-    }
+//    public void setChattingUsers(HashMap<String, User> chattingUsers) {
+//        chattingUsers = chattingUsers;
+//    }
 }
 
