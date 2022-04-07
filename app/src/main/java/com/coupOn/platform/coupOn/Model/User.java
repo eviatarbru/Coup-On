@@ -25,6 +25,8 @@ public class User
         this.email = email;
         this.fullName = fullName;
         this.chattingUserUIDs = new ArrayList<String>();
+        this.coupons = new ArrayList<Coupon>();
+
         if(chattingString.contains(","))
         {
             String[] chattingUser = chattingString.split(", ");
@@ -44,7 +46,13 @@ public class User
     public User(String email, String fullName) {
         this.email = email;
         this.fullName = fullName;
-        this.chattingUserUIDs = null;
+        this.chattingUserUIDs = new ArrayList<>();
+        this.coupons = new ArrayList<Coupon>();
+    }
+
+    public void addCouponToUser(Coupon coupon){
+
+        this.coupons.add(coupon);
     }
 
     public String getEmail() {
@@ -73,4 +81,5 @@ public class User
                 "email='" + this.email + '\'' +
                 ", fullName='" + this.fullName + '\'' + "}";
     }
+
 }

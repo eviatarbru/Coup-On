@@ -39,8 +39,8 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
 
     @Override
     public void onBindViewHolder(@NonNull UserCouponAdapter.CouponsListViewHolder holder, int position) {
-        String couponName = usersCoupList.get(position).getCouponName();
-        holder.coupListName.setText(couponName);
+        //String couponName = usersCoupList.get(position).getCouponName();
+        //holder.coupListName.setText(couponName);
     }
 
     @Override

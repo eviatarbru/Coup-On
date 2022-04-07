@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coupOn.platform.coupOn.Model.Coupon;
+import com.coupOn.platform.coupOn.Model.MainDB;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -86,7 +88,6 @@ public class AddCouponImage extends AppCompatActivity {
         this.mAuth = FirebaseAuth.getInstance();
 
         this.imageView = findViewById(R.id.imageView);
-
         this.image_icon = findViewById(R.id.image_icon);
         this.upload_Icon = findViewById(R.id.upload_icon);
         this.upload_Text = findViewById(R.id.upload_text);
@@ -158,21 +159,24 @@ public class AddCouponImage extends AppCompatActivity {
                 String expireDate = (String) infoConfirm.get("expireDate");
                 String location = (String) infoConfirm.get("location");
                 String description = (String) infoConfirm.get("description");
-                String interests = (String) infoConfirm.get("interests");
+                String interest = (String) infoConfirm.get("interests");
 
                 String userUid =  mAuth.getCurrentUser().getUid();
+                String couponId = db.collection("coupons")
+                        .document()
+                        .getId();
 
                 String fileName = uploadPicture();
 
                 Map<String, Object> data = new HashMap<>();
-                //data.put("CoupUid", "coupon");
                 data.put("CoupName", name);
                 data.put("ExpireDate", expireDate);
                 data.put("Location", location);
                 data.put("Description", description);
                 data.put("CouponImage", fileName);
                 data.put("UserUid",userUid);
-                data.put("Interests", interests);
+                data.put("Interest", interest);
+                data.put("CouponId", couponId);
 
                 db.collection("coupons").
                         add(data)
@@ -190,6 +194,9 @@ public class AddCouponImage extends AppCompatActivity {
                                 Toast.makeText(AddCouponImage.this, "Something went wrong, try again later", Toast.LENGTH_SHORT).show();
                             }
                         });
+
+                Coupon coupon = new Coupon(name, expireDate, location, description, fileName, userUid, interest, couponId);
+                MainDB.getInstance().getCurUser().get(userUid).addCouponToUser(coupon);
 
                 startActivity(intent);
             }
@@ -224,9 +231,13 @@ public class AddCouponImage extends AppCompatActivity {
         //progressDialog.setTitle("Uploading Image...");
         //progressDialog.show();
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale.getDefault()); //yyyy_MM_dd_HH_mm_ss
         Date now = new Date();
         String fileName = formatter.format(now);
+        String userUid =  mAuth.getCurrentUser().getUid();
+        fileName = userUid + "_" + fileName;
+
+        System.out.println("@@@fileName: "+fileName);
 
         storageReference = FirebaseStorage.getInstance().getReference("images/" + fileName);
 

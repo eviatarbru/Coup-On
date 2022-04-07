@@ -36,7 +36,6 @@ public class UserCoupons extends AppCompatActivity {
 //        lim.setOrientation(LinearLayoutManager.VERTICAL);
 //        ContentAdapter ca = new ContentAdapter(createList(10));
 
-
     }
 
     private void setCouponInfo() {

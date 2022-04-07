@@ -6,25 +6,34 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Coupon
 {
-    private Image couponImg;
+    private String couponImage;
     private String couponName;
     private String expireDate;
     private String location;
-    private boolean digitalOrIrl;
     private String description;
-    private int price;
-    private String ownerUserId;
-    private User owner;
-    // private boolean [] interests; // need to think of a adaptive  data structure
+    private String ownerId;
+    private String couponId;
+    private String interest;
 
     private FirebaseAuth mAuth;
 
-    public Image getCouponImg() {
-        return couponImg;
+    public Coupon(String couponImage, String couponName, String expireDate, String location, String description, String ownerId, String couponId, String interest) {
+        this.couponImage = couponImage;
+        this.couponName = couponName;
+        this.expireDate = expireDate;
+        this.location = location;
+        this.description = description;
+        this.ownerId = ownerId;
+        this.couponId = couponId;
+        this.interest = interest;
     }
 
-    public void setCouponImg(Image couponImg) {
-        this.couponImg = couponImg;
+    public String getCouponImage() {
+        return couponImage;
+    }
+
+    public void setCouponImage(String couponImage) {
+        this.couponImage = couponImage;
     }
 
     public String getCouponName() {
@@ -51,14 +60,6 @@ public class Coupon
         this.location = location;
     }
 
-    public boolean isDigitalOrIrl() {
-        return digitalOrIrl;
-    }
-
-    public void setDigitalOrIrl(boolean digitalOrIrl) {
-        this.digitalOrIrl = digitalOrIrl;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -67,45 +68,27 @@ public class Coupon
         this.description = description;
     }
 
-    public int getPrice() {
-        return price;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setOwnerId(String ownerUserId) {
+        this.ownerId = ownerUserId;
     }
 
-    public String getOwnerUserId() {
-        return ownerUserId;
+    public String getCouponId() {
+        return couponId;
     }
 
-    public void setOwnerUserId(String ownerUserId) {
-        this.ownerUserId = ownerUserId;
+    public void setCouponId(String couponId) {
+        this.couponId = couponId;
     }
 
-    public User getOwner() {
-        return owner;
+    public String getInterest() {
+        return interest;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setInterest(String interest) {
+        this.interest = interest;
     }
-
-    public Coupon(Image couponImg, String couponName, String expireDate, String location, boolean digitalOrIrl,
-                  String description, int price, String ownerUserId, User owner) {
-
-        this.couponImg = couponImg;
-        this.couponName = couponName;
-        this.expireDate = expireDate;
-        this.location = location;
-        this.digitalOrIrl = digitalOrIrl;
-        this.description = description;
-        this.price = price;
-        this.ownerUserId = mAuth.getCurrentUser().getUid();
-        this.owner = owner;
-
-
-    }
-
-
 }
