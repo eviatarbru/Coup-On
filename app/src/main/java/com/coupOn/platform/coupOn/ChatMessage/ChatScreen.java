@@ -78,10 +78,9 @@ public class ChatScreen extends AppCompatActivity {
         chatAdapter = new ChatAdapter(chatLists, ChatScreen.this);
         chattingRecyclerView.setAdapter(chatAdapter);
 
-        final int[] counter = {0};
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 if(chatKey.isEmpty()) {
                     //generate chat key. by defult chatKey is 1.
                     chatKey = "1";
@@ -110,8 +109,6 @@ public class ChatScreen extends AppCompatActivity {
 //                                    e.printStackTrace();
 //                                }
 
-                                System.out.println(messageTimestamps + "ido witman");
-
                                 Timestamp timestamp = new Timestamp(Long.parseLong(messageTimestamps));
                                 Date date = new Date(timestamp.getTime());
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.CANADA);
@@ -129,6 +126,8 @@ public class ChatScreen extends AppCompatActivity {
 
                                     chattingRecyclerView.scrollToPosition(chatLists.size() - 1);
                                 }
+
+                                chattingRecyclerView.scrollToPosition(chatLists.size() - 1);
                             }
                         }
                     }

@@ -71,9 +71,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>
 
     public void updateChatLists(List <MessageChatList> chatLists)
     {
-        this.chatLists = new ArrayList<>();
-           this.chatLists = chatLists;
-           notifyDataSetChanged();
+       this.chatLists = chatLists;
+       notifyDataSetChanged();
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder

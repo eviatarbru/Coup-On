@@ -43,7 +43,7 @@ public class UserChatList extends AppCompatActivity {
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
 //    DatabaseReference databaseReference = database.getReference();
-    private DatabaseReference databaseReference = database.getReference();
+    private final DatabaseReference databaseReference = database.getReference();
 
     private int unseenMessages = 0;
     private String lastMessage = "";
@@ -74,10 +74,6 @@ public class UserChatList extends AppCompatActivity {
         messagesAdapter = new MessagesAdapter(messagesLists, this);
 
         messagesRecycleView.setAdapter(messagesAdapter);
-//        ProgressDialog progressDialog = new ProgressDialog(this);
-//        progressDialog.setCancelable(false);
-//        progressDialog.setMessage("Loading...");
-//        progressDialog.show();
 
         try {
             this.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -100,12 +96,10 @@ public class UserChatList extends AppCompatActivity {
 //                        {
 //                            final String uidUser = dataSnapshot1.getKey();
                             final String uidUser = uidOtherUser;
-                            System.out.println("4");
                             databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     int getChatCounts = (int)snapshot.getChildrenCount();
-                                    System.out.println("5");
                                     if(getChatCounts > 0)
                                     {
                                         for(DataSnapshot dataSnapshot2 : snapshot.getChildren())
@@ -143,7 +137,7 @@ public class UserChatList extends AppCompatActivity {
                                         for(int i = 0; i < usersChat.size(); i++)
                                         {
                                             //PETER NEEDS TO LOOK
-                                            MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, getUid);
+                                            MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, uidUser);
                                             messagesLists.add(messagesList);
                                             messagesAdapter.updateData(messagesLists);
                                             System.out.println("messagesList");
@@ -169,7 +163,7 @@ public class UserChatList extends AppCompatActivity {
         }
         catch (Exception e)
         {
-            System.out.println(e);;
+            System.out.println(e);
         }
     }
 
@@ -178,5 +172,96 @@ public class UserChatList extends AppCompatActivity {
     {
         Intent intent = new Intent(this, SwipeCards.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            this.databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    messagesLists.clear();
+                    unseenMessages = 0;
+                    lastMessage = "";
+                    chatKey = "";
+                    final ArrayList<User> usersChat = new ArrayList<>();
+                    usersChat.addAll(MainDB.getInstance().getChattingUsers().values());
+                    for( String uidOtherUser: MainDB.getInstance().getChattingUIDS())
+                    {
+                        final String getUid = mAuth.getUid();
+                        dataset = false;
+
+                        if(getUid.equals(mAuth.getUid()))
+                        {
+                            final String uidUser = uidOtherUser;
+                            databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    int getChatCounts = (int)snapshot.getChildrenCount();
+                                    if(getChatCounts > 0)
+                                    {
+                                        for(DataSnapshot dataSnapshot2 : snapshot.getChildren())
+                                        {
+                                            final String getKey = dataSnapshot2.getKey();
+                                            chatKey = getKey;
+
+                                            if(dataSnapshot2.hasChild("user_1") && dataSnapshot2.hasChild("user_2") && dataSnapshot2.hasChild("messages"))
+                                            {
+                                                final String getUserOne = dataSnapshot2.child("user_1").getValue(String.class);
+                                                final String getUserTwo = dataSnapshot2.child("user_2").getValue(String.class);
+
+                                                if((getUserOne.equals(getUid) && getUserTwo.equals(uidUser)) || (getUserOne.equals(uidUser) && getUserTwo.equals(getUid)))
+                                                {
+                                                    for(DataSnapshot chatDataSnapshot : dataSnapshot2.child("messages").getChildren())
+                                                    {
+                                                        final long getMessageKey = Long.parseLong(chatDataSnapshot.getKey());
+
+                                                        final long getLatSeenMessage = Long.parseLong(MemoryData.getLastMsg(UserChatList.this, getKey));
+
+                                                        lastMessage = chatDataSnapshot.child("msg").getValue((String.class));
+                                                        if(getMessageKey > getLatSeenMessage)
+                                                        {
+                                                            unseenMessages++;
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if(!dataset)
+                                    {
+                                        dataset = true;
+                                        for(int i = 0; i < usersChat.size(); i++)
+                                        {
+                                            //PETER NEEDS TO LOOK
+                                            MessagesList messagesList = new MessagesList(usersChat.get(i).getFullName(), usersChat.get(i).getEmail(), lastMessage, unseenMessages, chatKey, uidUser);
+                                            messagesLists.add(messagesList);
+                                            messagesAdapter.updateData(messagesLists);
+                                            System.out.println("messagesList");
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 }

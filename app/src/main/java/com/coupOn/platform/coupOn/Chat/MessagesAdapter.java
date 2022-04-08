@@ -59,6 +59,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
             public void onClick(View view) {
                 Intent intent = new Intent(context, ChatScreen.class);
                 intent.putExtra("mobile", list2.getMobile());
+                System.out.println("this is the mobile deal with it " + list2.getMobile());
                 intent.putExtra("name", list2.getName());
                 intent.putExtra("chatKey", list2.getChatKey());
 
@@ -70,11 +71,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
     //PETER NEEDS TO LOOK (WAIT FOR EVI)
     public void updateData(List<MessagesList> messagesLists1)
     {
-        for(MessagesList ml : messagesLists1)
-        {
-            System.out.println("bruh2  " + ml);
-            this.messagesLists.add(ml);
-        }
+        messagesLists = messagesLists1;
         notifyDataSetChanged();
     }
 
