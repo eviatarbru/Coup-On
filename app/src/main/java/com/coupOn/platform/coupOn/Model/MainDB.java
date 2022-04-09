@@ -9,9 +9,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 public class MainDB
@@ -44,21 +42,23 @@ public class MainDB
         users = FirebaseFirestore.getInstance(); //Connects to fireStore.
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
         String uid = mAuth.getCurrentUser().getUid(); //Gets the UID of the current User.
+        final User[] currentUser = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
         DocumentReference dr = users.collection("users").document(uid); //This is how u retrieve data from fireStore.
         dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 String email = value.getString("Email");
                 String fullName = value.getString("FullName");
-                List<String> chatUsers = (List<String>) value.get("ChatUsers");
-                ArrayList<String> chatUsers1 = new ArrayList<>();
-                chatUsers1.addAll(chatUsers);
-                if(!chatUsers.isEmpty() || chatUsers != null)
-                    curUser.put(uid, new User(email, fullName, chatUsers1)); //Get from currentUser the Email and the FullName from the fireStore.
+                String chatUsers = value.getString("ChatUsers");
+                if(chatUsers != null)
+                    curUser.put(uid, new User(email, fullName, chatUsers)); //Get from currentUser the Email and the FullName from the fireStore.
                 else
                     curUser.put(uid, new User(email, fullName)); //Get from currentUser the Email and the FullName from the fireStore.
+                //System.out.println(currentUser[0] + "bush1");
             }
         });
+        //System.out.println(currentUser[0] + "bush2");
+//        curUser.put(uid, currentUser[0]);
     }
 
 

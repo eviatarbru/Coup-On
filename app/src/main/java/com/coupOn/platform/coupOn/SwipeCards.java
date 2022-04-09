@@ -48,6 +48,7 @@ public class SwipeCards extends AppCompatActivity {
 
     private static volatile boolean isFinished = false;
 
+
     //firebase
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -73,6 +74,7 @@ public class SwipeCards extends AppCompatActivity {
         swipes = findViewById(R.id.swipeScreen);
         loading.setVisibility(View.VISIBLE);
         swipes.setVisibility(View.INVISIBLE);
+
         Cards item = new Cards("id", "Coupon 1");
         Cards item2 = new Cards("id", "Coupon 2");
         Cards item3 = new Cards("id", "Coupon 3");
@@ -178,6 +180,18 @@ public class SwipeCards extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("onResume");
+    }
+
     // Using a thread to get the user's info and put it as a Hashmap<String, User> in MainDB
     class InitDB implements Runnable
     {
@@ -210,6 +224,7 @@ public class SwipeCards extends AppCompatActivity {
         @Override
         public void run() {
             userFB = MainDB.getInstance().getUserFirebase(uidFB);
+            System.out.println(userFB + " - user");
             User user1 = userFB;
 
             SwipeCards.this.runOnUiThread(new Runnable() {
@@ -223,6 +238,7 @@ public class SwipeCards extends AppCompatActivity {
                     flingContainer.setAdapter(arrayAdapter);
                     arrayAdapter.notifyDataSetChanged();
                     while(!isFinished){ }
+                    System.out.println("really finished, VERY NICE");
                     loading.setVisibility(View.INVISIBLE);
                     swipes.setVisibility(View.VISIBLE);
                     isFinished = false;
@@ -238,15 +254,18 @@ public class SwipeCards extends AppCompatActivity {
             User user = null;
             while(user == null) {
                 user = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid());
+                System.out.println(user + "trueeeeeeee");
             }
             if(user.getChattingUserUIDs() != null)
             {
                 for (int i = 0; i < user.getChattingUserUIDs().size(); i++)
                 {
+                    System.out.println("oh no 2 times");
                     MainDB.getInstance().getChatUsersInfo(user.getChattingUserUIDs().get(i));
                 }
             }
             isFinished = true;
+            System.out.println("finished byle said i want it that way");
         }
     }
 
@@ -271,6 +290,7 @@ public class SwipeCards extends AppCompatActivity {
     }
 
     public void chatScreen(View view){
+        System.out.println("SwipeCard move to UserChatList");
         Intent intent = new Intent(this, UserChatList.class);
         startActivity(intent);
     }

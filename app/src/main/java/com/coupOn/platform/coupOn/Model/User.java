@@ -21,25 +21,25 @@ public class User
         //get Info from the firebase;, when login in.
     }
 
-    public User(String email, String fullName, ArrayList<String> chattingString) {
+    public User(String email, String fullName, String chattingString) {
         this.email = email;
         this.fullName = fullName;
         this.chattingUserUIDs = new ArrayList<String>();
         this.coupons = new ArrayList<Coupon>();
-        this.chattingUserUIDs = chattingString;
-//        if(chattingString.contains(","))
-//        {
-//            String[] chattingUser = chattingString.split(", ");
-//            System.out.println(chattingUser + " I want to die");
-//            for(int i = 0; i < chattingUser.length; i++)
-//            {
-//                this.chattingUserUIDs.add(chattingUser[i]);
-//            }
-//        }
-//        else
-//        {
-//            this.chattingUserUIDs.add(chattingString);
-//        }
+
+        if(chattingString.contains(","))
+        {
+            String[] chattingUser = chattingString.split(", ");
+            System.out.println(chattingUser + " I want to die");
+            for(int i = 0; i < chattingUser.length; i++)
+            {
+                this.chattingUserUIDs.add(chattingUser[i]);
+            }
+        }
+        else
+        {
+            this.chattingUserUIDs.add(chattingString);
+        }
 
     }
 
@@ -78,9 +78,8 @@ public class User
     @Override
     public String toString() {
         return "User{" +
-                "email='" + email + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", chattingUserUIDs=" + chattingUserUIDs +
-                '}';
+                "email='" + this.email + '\'' +
+                ", fullName='" + this.fullName + '\'' + "}";
     }
+
 }
