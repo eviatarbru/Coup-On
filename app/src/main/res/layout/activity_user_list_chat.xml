@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF"
+    android:background="#DDD6D6"
     tools:context="com.coupOn.platform.coupOn.Chat.UserChatList">
 
     <RelativeLayout
@@ -15,12 +15,12 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="40dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/search_icon"
-            android:background="@drawable/round_back_light_10">
-        </ImageView>
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:onClick="mainMenu"
+            android:background="@drawable/round_back_light_10"
+            android:src="@drawable/back_btn"></ImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,17 +34,18 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="35dp"
-            android:onClick="mainMenu"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="5dp"
-            android:src="@drawable/coupon_logo"></ImageView>
+            android:onClick="mainMenu"
+            android:src="@drawable/coupon_logo_invs_br"></ImageView>
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:id="@+id/messagesRecyclerView"/>
 
 </LinearLayout>
