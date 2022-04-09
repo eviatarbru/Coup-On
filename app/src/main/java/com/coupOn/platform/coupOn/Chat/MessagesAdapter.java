@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.coupOn.platform.coupOn.ChatMessage.ChatScreen;
 import com.shashank.platform.coup_on.R;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyViewHolder>
@@ -71,6 +73,18 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyView
     //PETER NEEDS TO LOOK (WAIT FOR EVI)
     public void updateData(List<MessagesList> messagesLists1)
     {
+//        HashMap<String, MessagesList> mls = new HashMap<>();
+//        for(MessagesList ms: messagesLists1)
+//        {
+//            mls.put(ms.getEmail(), ms);
+//        }
+//        for(MessagesList ms: messagesLists)
+//            mls.put(ms.getEmail(), ms);
+//        mls.addAll(messagesLists1);
+//        mls.addAll(messagesLists);
+//        messagesLists.clear();
+//        messagesLists1.clear();
+//        messagesLists1.addAll(mls.values());
         messagesLists = messagesLists1;
         notifyDataSetChanged();
     }
