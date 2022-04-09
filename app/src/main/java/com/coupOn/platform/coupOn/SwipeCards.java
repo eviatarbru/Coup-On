@@ -61,6 +61,7 @@ public class SwipeCards extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        System.out.println("This is the Create of it (Swipe Card)");
         setContentView(R.layout.activity_swipe_cards);
         System.out.println("onCreate");
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
@@ -176,6 +177,11 @@ public class SwipeCards extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        System.out.println("This is the start of it (Swipe Card)");
     }
 
     // Using a thread to get the user's info and put it as a Hashmap<String, User> in MainDB

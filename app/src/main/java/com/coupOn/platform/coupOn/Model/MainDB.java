@@ -51,8 +51,7 @@ public class MainDB
                 String email = value.getString("Email");
                 String fullName = value.getString("FullName");
                 List<String> chatUsers = (List<String>) value.get("ChatUsers");
-                ArrayList<String> chatUsers1 = new ArrayList<>();
-                chatUsers1.addAll(chatUsers);
+                ArrayList<String> chatUsers1 = new ArrayList<>(chatUsers);
                 if(!chatUsers.isEmpty() || chatUsers != null)
                     curUser.put(uid, new User(email, fullName, chatUsers1)); //Get from currentUser the Email and the FullName from the fireStore.
                 else
