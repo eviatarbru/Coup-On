@@ -28,6 +28,20 @@ public class Coupon
         this.interest = interest;
     }
 
+    @Override
+    public String toString() {
+        return "Coupon{" +
+                "couponImage='" + couponImage + '\'' +
+                ", couponName='" + couponName + '\'' +
+                ", expireDate='" + expireDate + '\'' +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", ownerId='" + ownerId + '\'' +
+                ", couponId='" + couponId + '\'' +
+                ", interest='" + interest + '\'' +
+                '}';
+    }
+
     public String getCouponImage() {
         return couponImage;
     }

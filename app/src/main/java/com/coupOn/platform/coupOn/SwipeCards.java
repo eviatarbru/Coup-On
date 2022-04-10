@@ -280,5 +280,9 @@ public class SwipeCards extends AppCompatActivity {
         Intent intent = new Intent(this, UserChatList.class);
         startActivity(intent);
     }
+    public void gotoUserCoupons(View view){
+        Intent intent = new Intent(this, UserCoupons.class);
+        startActivity(intent);
+    }
 
 }
