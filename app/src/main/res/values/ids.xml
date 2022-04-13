@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="couponNameItem" type="id" />
+    <item name="expireDateItem" type="id" />
+    <item name="locationItem" type="id" />
+    <item name="descriptionItem" type="id" />
+</resources>

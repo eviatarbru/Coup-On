@@ -21,12 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/couponImageItem"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                tools:srcCompat="@tools:sample/avatars" />
-
             <TextView
                 android:id="@+id/couponNameItem"
                 android:layout_width="wrap_content"
@@ -34,7 +28,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
-                android:layout_toEndOf="@+id/couponImageItem"
                 android:text="Coupon Name"
                 android:textColor="#000000"
                 android:textSize="16sp"
@@ -49,7 +42,6 @@
                 android:layout_marginStart="113dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="98dp"
-                android:layout_toEndOf="@+id/couponImageItem"
                 android:text="01-01-2002"
                 android:textColor="#5A5A5A" />
 
@@ -59,10 +51,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="7dp"
                 android:layout_marginTop="29dp"
-                android:layout_marginEnd="223dp"
-                android:layout_toEndOf="@+id/couponImageItem"
+                android:layout_marginEnd="222dp"
                 android:text="Location"
                 android:textColor="#303030" />
 
@@ -75,7 +66,6 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="54dp"
                 android:layout_marginEnd="206dp"
-                android:layout_toEndOf="@+id/couponImageItem"
                 android:text="Description"
                 android:textColor="#303030" />
         </RelativeLayout>

@@ -166,7 +166,9 @@ public class SwipeCards extends AppCompatActivity {
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(SwipeCards.this, "Clicked!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SwipeCards.this, "Clicked!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), InfoCouponActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -266,7 +268,7 @@ public class SwipeCards extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void gotoprofile(View view){
+    public void gotoProfile(View view){
         Intent intent = new Intent(this, Profile_screen.class);
         startActivity(intent);
     }
@@ -279,6 +281,7 @@ public class SwipeCards extends AppCompatActivity {
     public void chatScreen(View view){
         Intent intent = new Intent(this, UserChatList.class);
         startActivity(intent);
+//        finish();
     }
     public void gotoUserCoupons(View view){
         Intent intent = new Intent(this, UserCoupons.class);

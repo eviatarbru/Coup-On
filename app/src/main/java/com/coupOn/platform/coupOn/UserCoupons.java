@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,10 +57,10 @@ public class UserCoupons extends AppCompatActivity {
         this.mAuth = FirebaseAuth.getInstance();
 
         recyclerView = findViewById(R.id.couponsList);
+        setAdapter();
 
         new Thread(new setCouponInfo()).start(); //Making a Thread for the User's Info
 
-        setAdapter();
 
 //        readData();
     }
@@ -87,10 +88,7 @@ public class UserCoupons extends AppCompatActivity {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                            System.out.println("@@@@ on success");
-
                             Coupon coupon;
-
                             List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot snapshot : snapshotList) {
 
@@ -105,9 +103,7 @@ public class UserCoupons extends AppCompatActivity {
                                         , snapshot.getString("CouponId")
                                         , snapshot.getString("Interest"));
                                 userCouponsList.add(coupon);
-                                System.out.println("@@@@" + coupon.toString());
                             }
-                            System.out.println("@@@@ after for");
                             userCouponAdapter.updateData(userCouponsList);
 
                         }
@@ -115,9 +111,9 @@ public class UserCoupons extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            System.out.println("@@@@ fail!");
                         }
                     });
         }
     }
+
 }

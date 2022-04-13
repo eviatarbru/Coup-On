@@ -160,6 +160,8 @@ public class AddCouponImage extends AppCompatActivity {
                 String location = (String) infoConfirm.get("location");
                 String description = (String) infoConfirm.get("description");
                 String interest = (String) infoConfirm.get("interests");
+                String couponCode = (String) infoConfirm.get("couponCode");
+                String discountType = (String) infoConfirm.get("discountType");
 
                 String userUid =  mAuth.getCurrentUser().getUid();
                 String couponId = db.collection("coupons")
@@ -177,6 +179,8 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("UserUid",userUid);
                 data.put("Interest", interest);
                 data.put("CouponId", couponId);
+                data.put("couponCode", couponCode);
+                data.put("discountType", discountType);
 
                 db.collection("coupons").
                         add(data)
@@ -194,6 +198,8 @@ public class AddCouponImage extends AppCompatActivity {
                                 Toast.makeText(AddCouponImage.this, "Something went wrong, try again later", Toast.LENGTH_SHORT).show();
                             }
                         });
+
+
 
                 Coupon coupon = new Coupon(name, expireDate, location, description, fileName, userUid, interest, couponId);
                 MainDB.getInstance().getCurUser().get(userUid).addCouponToUser(coupon);
@@ -220,6 +226,7 @@ public class AddCouponImage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100 && data != null && data.getData() != null){
             imageUri = data.getData();
+            System.out.println("@@@@ dataaa" + imageUri);
             binding.imageIcon.setImageURI(imageUri);
             //uploadPicture();
         }

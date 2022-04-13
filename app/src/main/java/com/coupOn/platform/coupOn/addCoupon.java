@@ -36,7 +36,11 @@ public class addCoupon extends AppCompatActivity {
     private EditText expireDate;
     private EditText location;
     private EditText description;
-    private ImageView imageView;
+    private EditText couponCode;
+    private EditText discountType;
+
+
+    private ImageView imageView; // light/ night
     int count = 0;
 
     private FirebaseAuth mAuth;
@@ -52,8 +56,10 @@ public class addCoupon extends AppCompatActivity {
         this.expireDate.addTextChangedListener(new DateWatcher());
         this.location = findViewById(R.id.location);
         this.description = findViewById(R.id.description);
-        this.imageView = findViewById(R.id.imageView);
+        this.couponCode = findViewById(R.id.couponCode);
+        this.discountType = findViewById(R.id.discountType);
 
+        this.imageView = findViewById(R.id.imageView);
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
             }
@@ -99,6 +105,7 @@ public class addCoupon extends AppCompatActivity {
 //                startActivityForResult(intent, 100);
 //            }
 //        });
+
     }
 
 //    @Override
@@ -116,6 +123,8 @@ public class addCoupon extends AppCompatActivity {
 //        }
 //    }
 
+    // end code for google autocomplete location
+
     public void gotoAddCouponImage(View view) {
         Intent intent = new Intent(addCoupon.this, InterestsScreen.class);
 
@@ -123,13 +132,19 @@ public class addCoupon extends AppCompatActivity {
         final String expireDate = this.expireDate.getText().toString();
         final String location = this.location.getText().toString();
         final String description = this.description.getText().toString();
+        final String couponCode = this.couponCode.getText().toString();
+        final String discountType = this.discountType.getText().toString();
 
         intent.putExtra("name", name);
         intent.putExtra("expireDate", expireDate);
         intent.putExtra("location", location);
         intent.putExtra("description", description);
+        intent.putExtra("couponCode", couponCode);
+        intent.putExtra("discountType", discountType);
         intent.putExtra("fromScreen", 2);
 
+        // we can add here the part that we give a ranking based on the discountType
+        // evi need to look
         boolean validateCoupon = validateCoupon(name, expireDate, location, description);
         if(!validateCoupon)
         {

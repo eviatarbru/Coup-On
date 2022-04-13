@@ -33,7 +33,7 @@
                 android:visibility="visible"
                 app:srcCompat="@drawable/example_coupon" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -41,30 +41,124 @@
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="3dp"
                     android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="40sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.064"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.064"
-                    tools:text="name" />
+                    android:text="Coupon Name"
+                    android:textColor="@color/textInputLayoutLight"
+                    android:textSize="34sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:text="Expire on:"
+                    android:textColor="@color/black_overlay"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/couponLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/expireDate"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="Location"
+                    android:textColor="#494949"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/discountType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/couponLocation"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/dummyDiscountTxt"
+                    android:gravity="center"
+                    android:text="discountType"
+                    android:textColor="#494949"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dummyDiscountTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/couponLocation"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/couponIntrest"
+                    android:gravity="center"
+                    android:text="Discount:"
+                    android:textColor="#494949"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/couponIntrest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/couponLocation"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="Intrest"
+                    android:textColor="#494949"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/couponDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/couponIntrest"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="29dp"
+                    android:gravity="center"
+                    android:text="Description"
+                    android:textColor="#494949"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/expireDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="82dp"
+                    android:layout_marginTop="55dp"
+                    android:gravity="center"
+                    android:text="00-00-0000"
+                    android:textColor="@color/black_overlay"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/couponInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="100dp"
+                    android:layout_toEndOf="@+id/name"
                     android:onClick="gotoCouponInfo"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.049"
-                    app:layout_constraintStart_toEndOf="@+id/name"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.059"
                     app:srcCompat="@android:drawable/ic_menu_info_details" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

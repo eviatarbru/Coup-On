@@ -2,6 +2,7 @@ package com.coupOn.platform.coupOn;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,19 @@ import com.coupOn.platform.coupOn.Model.Coupon;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.shashank.platform.coup_on.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +47,10 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private StorageReference mStorageReference;
 
+
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
     public UserCouponAdapter(ArrayList<Coupon> usersCoupList){
         this.usersCoupList = usersCoupList;
     }
@@ -48,15 +60,14 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
         private TextView expireDateItem;
         private TextView locationItem;
         private TextView descriptionItem;
-        private ImageView couponImageItem;
 
         public CouponsListViewHolder(final View view){
             super(view);
+
             couponNameItem = view.findViewById(R.id.couponNameItem);
             expireDateItem = view.findViewById(R.id.expireDateItem);
             locationItem = view.findViewById(R.id.locationItem);
             descriptionItem = view.findViewById(R.id.descriptionItem);
-            couponImageItem = view.findViewById(R.id.couponImageItem);
         }
     }
 
@@ -68,61 +79,25 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserCouponAdapter.CouponsListViewHolder holder, int position) { //give position
+    public void onBindViewHolder( @NonNull UserCouponAdapter.CouponsListViewHolder holder, int position) { //give position
         this.mAuth = FirebaseAuth.getInstance();
-        System.out.println("@@@@ here ny brada1");
+        FirebaseStorage storage = FirebaseStorage.getInstance();
 
         String couponName = usersCoupList.get(position).getCouponName();
         String expireDate = usersCoupList.get(position).getExpireDate();
         String location = usersCoupList.get(position).getLocation();
         String description = usersCoupList.get(position).getDescription();
 
+        String image = usersCoupList.get(position).getCouponImage();
+
+        StorageReference mStorageReference = storage.getReference();
+
         holder.couponNameItem.setText(couponName);
         holder.expireDateItem.setText(expireDate);
         holder.locationItem.setText(location);
         holder.descriptionItem.setText(description);
-
-        //String userUid =  mAuth.getCurrentUser().getUid();
-        System.out.println("@@@@ here ny brada1");
-
-        mStorageReference = FirebaseStorage.getInstance().getReference().child("images/" + usersCoupList.get(position).getCouponImage() + ".jpeg");
-
-        try {
-            final File localFile = File.createTempFile(usersCoupList.get(position).getCouponImage(), "jpeg");
-            mStorageReference.getFile(localFile)
-                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                            ImageView myImg=(ImageView)holder.couponImageItem; /*findViewById(R.id.couponImageItem);*/
-                            myImg.setImageBitmap(bitmap);
-                        }
-                    })
-//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-//                            ImageView myImg=(ImageView)holder.couponImageItem; /*findViewById(R.id.couponImageItem);*/
-//                            myImg.setImageBitmap(bitmap);
-////                            holder.couponImageItem.setImageURI(Uri.fromFile(localFile));
-////                            ((ImageView) findViewById(R.id.couponImageItem)).setImageBitmap(bitmap);
-//                        }
-//                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            System.out.println("Failed @@@@@" + usersCoupList.get(position).getCouponImage());
-                            System.out.println(localFile + "@@@@");
-                        }
-                    });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
     }
+
 
     @Override
     public int getItemCount() {

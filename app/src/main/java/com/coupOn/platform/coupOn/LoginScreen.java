@@ -114,6 +114,14 @@ public class LoginScreen extends AppCompatActivity {
     {
         final String email = this.email.getText().toString();
         final String password = this.password.getText().toString();
+        System.out.println("@@@@ email " + email);
+        System.out.println("@@@@ pass " + password);
+        if(email.equals("") || password.equals(""))
+        {
+            Toast.makeText(LoginScreen.this, "Enter Email and Password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginScreen.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -156,6 +164,11 @@ public class LoginScreen extends AppCompatActivity {
     {
         Intent intent = new Intent(this, ForgotPasswordScreen.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        return;
     }
 
     // he did it like that, its looking kinda more organized

@@ -183,6 +183,9 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 String password = (String) infoReg.get("password");
                 String fullName = (String) infoReg.get("fullName");
                 String dateOfBirth = (String) infoReg.get("dateOfBirth");
+                String couponCode = (String) infoReg.get("couponCode");
+                String discountType = (String) infoReg.get("discountType");
+
                 String finalInterestsFb = interestsFb;
 
                 System.out.println(email + " " + password + " " + fullName + " " + dateOfBirth + " " + finalInterestsFb);
@@ -213,6 +216,8 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                             user.put("FullName", fullName);
                             user.put("DateOfBirth", dateOfBirth);
                             user.put("Interests", finalInterestsFb);
+                            user.put("couponCode", couponCode);
+                            user.put("discountType", discountType);
 
                             db.collection("users")
                                     .document(mAuth.getCurrentUser().getUid())
@@ -227,6 +232,8 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 String expireDate = (String) infoReg.get("expireDate");
                 String location = (String) infoReg.get("location");
                 String description = (String) infoReg.get("description");
+                String couponCode2 = (String) infoReg.get("couponCode");
+                String discountType2 = (String) infoReg.get("discountType");
                 String couponInterests = interestsFb;
 
                 System.out.println(coupName + " " + expireDate + " " + location + " " + description + " " + couponInterests);
@@ -261,6 +268,9 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 intent2.putExtra("location", location);
                 intent2.putExtra("description", description);
                 intent2.putExtra("interests", couponInterests);
+                intent2.putExtra("couponCode", couponCode2);
+                intent2.putExtra("discountType", discountType2);
+
                 startActivity(intent2);
                 break;
             case 3:

@@ -73,7 +73,10 @@ public class Profile_screen extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Profile_screen.this, LoginScreen.class));
+                Intent intent = new Intent(Profile_screen.this, LoginScreen.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish(); // if the activity running has it's own context
             }
         });
 
@@ -117,6 +120,7 @@ public class Profile_screen extends AppCompatActivity {
     public void backScreen(View view) {
         Intent intent = new Intent(Profile_screen.this, SwipeCards.class);
         startActivity(intent);
+        finish();
     }
 
     public void interestScreen(View view) {
