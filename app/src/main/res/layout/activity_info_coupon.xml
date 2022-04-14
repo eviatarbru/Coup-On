@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.coupOn.platform.coupOn.InfoCouponActivity"
-    android:id="@+id/chooseBar"
-    android:background="@drawable/lightcoupon">
+    android:background="@drawable/lightcoupon"
+    tools:context="com.coupOn.platform.coupOn.InfoCouponActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +37,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.529"
-                app:srcCompat="@drawable/back_page"/>
+                app:srcCompat="@drawable/back_page" />
 
             <ImageView
                 android:id="@+id/logo"
@@ -55,77 +54,111 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ECE1D4">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/couponImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:adjustViewBounds="true"
+                android:visibility="visible"
+                app:srcCompat="@drawable/example_coupon" />
+
+            <TextView
+                android:id="@+id/couponName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
+                android:layout_below="@+id/couponImage"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="coupon name"
+                android:textColor="@color/textInputLayoutLight"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.064"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.064" />
 
-                <ImageView
-                    android:id="@+id/couponImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:visibility="visible"
-                    app:srcCompat="@drawable/example_coupon" />
+            <TextView
+                android:id="@+id/ownerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ownerDetailsDummy"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="26dp"
+                android:gravity="center"
+                android:textColor="@color/textInputLayoutLight"
+                android:textSize="24sp"
+                android:textStyle="normal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.064"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.064"
+                tools:text="ownerName" />
 
-                <TextView
-                    android:id="@+id/couponName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="40sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.064"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.064"
-                    tools:text="name" />
-                <TextView
-                    android:id="@+id/userCouponOwner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="40sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.064"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.064"
-                    tools:text="name" />
-                <TextView
-                    android:id="@+id/infoCoupon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="40sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.064"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.064"
-                    tools:text="name" />
+            <TextView
+                android:id="@+id/ownerEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ownerName"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="39dp"
+                android:gravity="center"
+                android:textColor="@color/textInputLayoutLight"
+                android:textSize="24sp"
+                android:textStyle="normal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.064"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.064"
+                tools:text="ownerEmail" />
 
+            <TextView
+                android:id="@+id/ownerDetailsDummy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/couponName"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="19dp"
+                android:gravity="center"
+                android:text="Owner Details:"
+                android:textColor="@color/textInputLayoutLight"
+                android:textSize="34sp"
+                android:textStyle="normal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.064"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.064" />
 
-            </LinearLayout>
-        </ScrollView>
+        </RelativeLayout>
 
 
     </LinearLayout>
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
