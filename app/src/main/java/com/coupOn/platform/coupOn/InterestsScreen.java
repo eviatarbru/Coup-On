@@ -31,8 +31,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firestore.v1.WriteResult;
 import com.shashank.platform.coup_on.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InterestsScreen extends AppCompatActivity implements View.OnClickListener {
@@ -163,30 +165,28 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
 
     public void registerCompletion(View view)
     {
-        String interestsFb = "";
+        List<String> interestsFb = new ArrayList<>();
         for(int i = 0; i < this.isPressed.length; i++)
         {
             if(this.isPressed[i])
             {
-                interestsFb = this.interests[i] +  ", " +  interestsFb ;
+                interestsFb.add(this.interests[i]);
             }
         }
-        interestsFb = interestsFb.substring(0, interestsFb.length()-2);
+//        interestsFb = interestsFb.substring(0, interestsFb.length()-2);
 
         System.out.println(interestsFb);
         Intent regIntent = getIntent();
         Bundle infoReg = regIntent.getExtras();
         switch (this.fromScreen)
         {
-            case 1:
+            case 1: //The user registration
                 String email = (String) infoReg.get("email");
                 String password = (String) infoReg.get("password");
                 String fullName = (String) infoReg.get("fullName");
                 String dateOfBirth = (String) infoReg.get("dateOfBirth");
-                String couponCode = (String) infoReg.get("couponCode");
-                String discountType = (String) infoReg.get("discountType");
 
-                String finalInterestsFb = interestsFb;
+                List<String> finalInterestsFb = interestsFb;
 
                 System.out.println(email + " " + password + " " + fullName + " " + dateOfBirth + " " + finalInterestsFb);
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(InterestsScreen.this, new OnCompleteListener<AuthResult>() {
@@ -216,8 +216,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                             user.put("FullName", fullName);
                             user.put("DateOfBirth", dateOfBirth);
                             user.put("Interests", finalInterestsFb);
-                            user.put("couponCode", couponCode);
-                            user.put("discountType", discountType);
 
                             db.collection("users")
                                     .document(mAuth.getCurrentUser().getUid())
@@ -227,14 +225,14 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                     }
                 });
                 break;
-            case 2:
+            case 2: //The coupon registration
                 String coupName = (String) infoReg.get("name");
                 String expireDate = (String) infoReg.get("expireDate");
                 String location = (String) infoReg.get("location");
                 String description = (String) infoReg.get("description");
                 String couponCode2 = (String) infoReg.get("couponCode");
                 String discountType2 = (String) infoReg.get("discountType");
-                String couponInterests = interestsFb;
+                String couponInterests = interestsFb.get(0);
 
                 System.out.println(coupName + " " + expireDate + " " + location + " " + description + " " + couponInterests);
 //                Map<String, Object> data = new HashMap<>();
@@ -273,7 +271,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
 
                 startActivity(intent2);
                 break;
-            case 3:
+            case 3: //The user edit Interests
                 Map<String, Object> dataEdit = new HashMap<>();
                 //data.put("CoupUid", "coupon");
                 dataEdit.put("Interests", interestsFb);

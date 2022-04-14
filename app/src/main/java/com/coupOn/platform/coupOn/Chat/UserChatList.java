@@ -31,10 +31,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class UserChatList extends AppCompatActivity {
-
+public class UserChatList extends AppCompatActivity
+{
     private final List<MessagesList> messagesLists = new ArrayList<>();
-
     private boolean dataset = false;
 
     private String email;

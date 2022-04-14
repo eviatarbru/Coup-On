@@ -12,6 +12,7 @@ public class User
     private String fullName;
     private Date date;
     private String gender;
+    private ArrayList<String> interests;
     private ArrayList<Coupon> coupons;
     private ArrayList<Coupon> likedCoupons;
     private ArrayList<String> chattingUserUIDs;
@@ -25,22 +26,9 @@ public class User
         this.email = email;
         this.fullName = fullName;
         this.chattingUserUIDs = new ArrayList<String>();
+        this.interests = new ArrayList<>();
         this.coupons = new ArrayList<Coupon>();
         this.chattingUserUIDs = chattingString;
-//        if(chattingString.contains(","))
-//        {
-//            String[] chattingUser = chattingString.split(", ");
-//            System.out.println(chattingUser + " I want to die");
-//            for(int i = 0; i < chattingUser.length; i++)
-//            {
-//                this.chattingUserUIDs.add(chattingUser[i]);
-//            }
-//        }
-//        else
-//        {
-//            this.chattingUserUIDs.add(chattingString);
-//        }
-
     }
 
     public User(String email, String fullName) {
@@ -48,6 +36,7 @@ public class User
         this.fullName = fullName;
         this.chattingUserUIDs = new ArrayList<>();
         this.coupons = new ArrayList<Coupon>();
+        this.interests = new ArrayList<>();
     }
 
     public void addCouponToUser(Coupon coupon){
@@ -73,6 +62,14 @@ public class User
 
     public ArrayList<String> getChattingUserUIDs() {
         return chattingUserUIDs;
+    }
+
+    public ArrayList<String> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(ArrayList<String> interests) {
+        this.interests = interests;
     }
 
     @Override

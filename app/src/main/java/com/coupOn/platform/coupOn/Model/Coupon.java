@@ -1,6 +1,7 @@
 package com.coupOn.platform.coupOn.Model;
 
 import android.media.Image;
+import android.net.Uri;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -15,6 +16,8 @@ public class Coupon
     private String couponId;
     private String interest;
 
+    private Uri uri;
+
     private FirebaseAuth mAuth;
 
     public Coupon(String couponImage, String couponName, String expireDate, String location, String description, String ownerId, String couponId, String interest) {
@@ -26,6 +29,7 @@ public class Coupon
         this.ownerId = ownerId;
         this.couponId = couponId;
         this.interest = interest;
+        this.uri = null;
     }
 
     @Override
@@ -80,6 +84,14 @@ public class Coupon
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 
     public String getOwnerId() {

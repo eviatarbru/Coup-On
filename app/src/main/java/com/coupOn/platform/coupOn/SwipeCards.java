@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Chat.UserChatList;
+import com.coupOn.platform.coupOn.Model.Coupon;
 import com.coupOn.platform.coupOn.Model.MainDB;
 import com.coupOn.platform.coupOn.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -61,14 +62,12 @@ public class SwipeCards extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        System.out.println("This is the Create of it (Swipe Card)");
         setContentView(R.layout.activity_swipe_cards);
         System.out.println("onCreate");
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
         this.chat_Icon = findViewById(R.id.chat_icon);
 
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
-        String uid = mAuth.getCurrentUser().getUid(); //Gets the UID of the current User.
 
         loading = findViewById(R.id.loading);
         swipes = findViewById(R.id.swipeScreen);
@@ -90,7 +89,11 @@ public class SwipeCards extends AppCompatActivity {
         new Thread((new GetChatUsers())).start(); //Chat Thread
 //        String uidU = MainDB.getInstance().getCurUser().keySet().toString(); //For the testing
 //        uidU = uidU.substring(1, uidU.length()-1); //For the testing
-        new Thread(new GetUserFirebaseS(uid, flingContainer)).start(); //Just an example to test the random user info.
+        new Thread(new GetCouponsCards()).start();
+//
+        new Thread(new setUrisToCoupons()).start();
+//
+        new Thread(new GetUserFirebaseS(flingContainer)).start(); //Just an example to test the random user info.
 
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
@@ -183,16 +186,60 @@ public class SwipeCards extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("This is the start of it (Swipe Card)");
     }
 
     // Using a thread to get the user's info and put it as a Hashmap<String, User> in MainDB
     class InitDB implements Runnable
     {
-
         @Override
         public void run() {
             MainDB.getInstance();
+        }
+    }
+
+    //Gets the chat users
+    public class GetChatUsers implements Runnable
+    {
+        @Override
+        public void run() {
+            User user = null;
+            while(user == null) {
+                user = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid());
+            }
+            if(user.getChattingUserUIDs() != null || !user.getChattingUserUIDs().isEmpty())
+            {
+                for (int i = 0; i < user.getChattingUserUIDs().size(); i++)
+                {
+                    MainDB.getInstance().getChatUsersInfo(user.getChattingUserUIDs().get(i));
+                }
+            }
+            isFinished = true;
+
+        }
+    }
+
+    //Gets the offered coupons
+    public class GetCouponsCards implements Runnable
+    {
+        @Override
+        public void run() {
+            User user = null;
+            while(user == null) {
+                user = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid());
+            }
+            System.out.println("this is the GetCouponsCards the coupon cards2 (SwipeCard)");
+            MainDB.getInstance().getOfferedCoupons();
+        }
+    }
+
+    //Sets the uri for each coupon
+    public class setUrisToCoupons implements Runnable
+    {
+        @Override
+        public void run() {
+            while(!MainDB.getInstance().getFinishedOfferedCoupons()) {  }
+            System.out.println("this is the setUrisToCoupons the coupon cards2 (SwipeCard)");
+            MainDB.getInstance().getUriToOfferedCoupons();
         }
     }
 
@@ -202,60 +249,42 @@ public class SwipeCards extends AppCompatActivity {
      */
     public class GetUserFirebaseS implements Runnable
     {
-        User userFB;
-        String uidFB;
-        //        ArrayList<Cards> rowItems;
         SwipeFlingAdapterView flingContainer;
 
 
         //This part receives a uid and the flingContainer and gives u the user's Fullname in a card.
         //After we did this, we'll want to use the coupon info, you can do it here.
-        public GetUserFirebaseS(String uidFB, SwipeFlingAdapterView flingContainer) {
-            this.uidFB = uidFB;
+        public GetUserFirebaseS(SwipeFlingAdapterView flingContainer) {
             this.flingContainer = flingContainer;
         }
-
-        @Override
-        public void run() {
-            userFB = MainDB.getInstance().getUserFirebase(uidFB);
-            User user1 = userFB;
-
-            SwipeCards.this.runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    // your stuff to update the UI
-                    rowItems.add(new Cards(user1.getFullName(), user1.getFullName()));
-                    arrayAdapter = new ArrayAdapterCoupon(SwipeCards.this, R.layout.item, rowItems);
-
-                    flingContainer.setAdapter(arrayAdapter);
-                    arrayAdapter.notifyDataSetChanged();
-                    while(!isFinished){ }
-                    loading.setVisibility(View.INVISIBLE);
-                    swipes.setVisibility(View.VISIBLE);
-                    isFinished = false;
+            @Override
+            public void run() {
+                while(!MainDB.getInstance().getFinishedOfferedCouponsImage()) {
+                    System.out.println(MainDB.getInstance().getFinishedOfferedCouponsImage() + " this is the");
                 }
-            });
-        }
-    }
-
-    public class GetChatUsers implements Runnable
-    {
-        @Override
-        public void run() {
-            User user = null;
-            while(user == null) {
-                user = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid());
-            }
-            if(user.getChattingUserUIDs() != null)
-            {
-                for (int i = 0; i < user.getChattingUserUIDs().size(); i++)
+                System.out.println("this is the get user firebase the coupon cards1.5 (SwipeCard)");
+                for (Coupon c : MainDB.getInstance().getCouponsOffered())
                 {
-                    MainDB.getInstance().getChatUsersInfo(user.getChattingUserUIDs().get(i));
+                    // your stuff to update the UI
+                    rowItems.add(new Cards(c.getCouponName(), c.getExpireDate(), c.getUri()));
                 }
+                SwipeCards.this.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        arrayAdapter = new ArrayAdapterCoupon(SwipeCards.this, R.layout.item, rowItems);
+
+                        flingContainer.setAdapter(arrayAdapter);
+
+                        arrayAdapter.notifyDataSetChanged();
+                        while(!isFinished){ }
+                        loading.setVisibility(View.INVISIBLE);
+                        swipes.setVisibility(View.VISIBLE);
+                        isFinished = false;
+                        System.out.println("this is the get user firebase the coupon cards2 (SwipeCard)");
+                    }
+                });
             }
-            isFinished = true;
-        }
     }
 
 
@@ -265,6 +294,8 @@ public class SwipeCards extends AppCompatActivity {
 
     public void gotoCouponInfo(View view){
         Intent intent = new Intent(this, InfoCouponActivity.class);
+        final String couponName = rowItems.get(0).getCouponName(); //couponName is a value that needs to be fetched from firebase
+        intent.putExtra("couponName", couponName);
         startActivity(intent);
     }
 
