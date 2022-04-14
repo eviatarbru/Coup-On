@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.shashank.platform.coup_on.R;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
 
     public View getView(int position, View convertView, ViewGroup parent){
         Cards card_item = getItem(position);
-
+        System.out.println(convertView + " this is the view");
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
 
@@ -30,7 +31,11 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
         ImageView image = (ImageView) convertView.findViewById(R.id.imageCoupon);
 
         name.setText(card_item.getName());
-        image.setImageURI(card_item.getUri());
+//        image.setImageURI(null);
+        System.out.println("this is the cardUri" + card_item.getUri());
+        Glide.with(getContext())
+                .load(card_item.getUri()) // the uri you got from Firebase
+                .into(image); //Your imageView variable
 //        image.setImageResource(R.drawable.example_coupon);// mipmap.ic_launcher
 
         return convertView;
