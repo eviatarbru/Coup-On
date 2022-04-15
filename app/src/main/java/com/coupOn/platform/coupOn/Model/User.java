@@ -17,9 +17,14 @@ public class User
     private ArrayList<Coupon> likedCoupons;
     private ArrayList<String> chattingUserUIDs;
 
-    public User(String email, String fullName, ArrayList<Coupon> coupons, ArrayList<Coupon> likedCoupons)
-    {
-        //get Info from the firebase;, when login in.
+    public User(String email, String fullName, ArrayList<String> chattingString, ArrayList<String> interests) {
+        this.email = email;
+        this.fullName = fullName;
+        this.chattingUserUIDs = new ArrayList<String>();
+        this.interests = new ArrayList<>();
+        this.interests = interests;
+        this.coupons = new ArrayList<Coupon>();
+        this.chattingUserUIDs = chattingString;
     }
 
     public User(String email, String fullName, ArrayList<String> chattingString) {

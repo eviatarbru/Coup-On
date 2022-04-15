@@ -77,18 +77,25 @@ public class MainDB
                 String email = value.getString("Email");
                 String fullName = value.getString("FullName");
                 List<String> chatUsers = (List<String>) value.get("ChatUsers");
-                System.out.println("this is the mail:" + email + fullName + chatUsers);
                 ArrayList<String> chatUsers1 = new ArrayList<>();
                 if(chatUsers != null)
                     chatUsers1.addAll(chatUsers);
-                if(!chatUsers1.isEmpty() || chatUsers1 != null)
-                    curUser.put(uid, new User(email, fullName, chatUsers1)); //Get from currentUser the Email and the FullName from the fireStore.
-                else
-                    curUser.put(uid, new User(email, fullName)); //Get from currentUser the Email and the FullName from the fireStore.
                 List<String> interests = (List<String>) value.get("Interests");
                 ArrayList<String> interests1 = new ArrayList<>(interests);
                 if(!interests.isEmpty() || interests != null)
-                    curUser.get(mAuth.getCurrentUser().getUid()).setInterests(interests1);
+//                    curUser.get(mAuth.getCurrentUser().getUid()).setInterests(interests1);
+                if(!chatUsers1.isEmpty() || chatUsers1 != null) {
+                    if (!interests.isEmpty() || interests != null)
+                        curUser.put(uid, new User(email, fullName, chatUsers1, interests1)); //Get from currentUser the Email and the FullName from the fireStore.
+                    else
+                        curUser.put(uid, new User(email, fullName, chatUsers1)); //Get from currentUser the Email and the FullName from the fireStore.
+                }
+                else {
+                    if (!interests.isEmpty() || interests != null)
+                        curUser.put(uid, new User(email, fullName, null, interests1)); //Get from currentUser the Email and the FullName from the fireStore.
+                    else
+                        curUser.put(uid, new User(email, fullName)); //Get from currentUser the Email and the FullName from the fireStore.
+                }
             }
         });
     }
@@ -112,6 +119,7 @@ public class MainDB
                             couponsOffered.add(c);
                         }
                         counter[0]++;
+                        System.out.println(counter[0] + " this is the counter");
                         if(counter[0] >= sizeInterests - 1)
                             finishedOfferedCoupons = true;
                         System.out.println("this is the coupons: " + couponsOffered);
@@ -119,6 +127,11 @@ public class MainDB
                     else
                     {
                         System.out.println("Check log! (this is a fail)");
+                        counter[0]++;
+                        System.out.println(counter[0] + " this is the counter");
+                        if(counter[0] >= sizeInterests - 1)
+                            finishedOfferedCoupons = true;
+                        System.out.println("this is the coupons: " + couponsOffered);
                     }
                 }
             });
@@ -133,14 +146,16 @@ public class MainDB
     public void getUriToOfferedCoupons() {
         System.out.println(this.couponsOffered.size() + " this is the coupons deal with it (MainDB)");
         final int[] counter = {0};
-        for (Coupon c : this.couponsOffered) {
-            mStorageReference = FirebaseStorage.getInstance().getReference().child("images/" + c.getCouponImage());
+        for(int i = 0; i < this.couponsOffered.size(); i++)
+        {
+            mStorageReference = FirebaseStorage.getInstance().getReference().child("images/" + couponsOffered.get(i).getCouponImage());
             try {
+                int finalI = i;
                 mStorageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-                        c.setUri(task.getResult());
-                        System.out.println(c.getUri() + " this is the uri of the coupon (MainDB)");
+                        couponsOffered.get(finalI).setUri(task.getResult());
+                        System.out.println(couponsOffered.get(finalI).getUri() + " this is the uri of the coupon (MainDB)");
                         counter[0]++;
                         if((counter[0] >= couponsOffered.size())) {
                             System.out.println(counter[0] + "this is the" + couponsOffered.size());

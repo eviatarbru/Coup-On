@@ -227,7 +227,6 @@ public class SwipeCards extends AppCompatActivity {
             while(user == null) {
                 user = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid());
             }
-            System.out.println("this is the GetCouponsCards the coupon cards2 (SwipeCard)");
             MainDB.getInstance().getOfferedCoupons();
         }
     }
@@ -259,9 +258,7 @@ public class SwipeCards extends AppCompatActivity {
         }
             @Override
             public void run() {
-                while(!MainDB.getInstance().getFinishedOfferedCouponsImage()) {
-                    System.out.println(MainDB.getInstance().getFinishedOfferedCouponsImage() + " this is the");
-                }
+                while(!MainDB.getInstance().getFinishedOfferedCouponsImage()) { }
                 System.out.println("this is the get user firebase the coupon cards1.5 (SwipeCard)");
                 for (Coupon c : MainDB.getInstance().getCouponsOffered())
                 {
