@@ -2,6 +2,7 @@ package com.coupOn.platform.coupOn;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -36,6 +37,9 @@ import java.util.List;
 public class SwipeCards extends AppCompatActivity {
 
     private Cards cards_data[];
+    private ArrayList<String> likedCoupons;
+    private ArrayList<String> dislikedCoupons;
+    public static String tempCouponId;
 
     //For the chatPart
     private RecyclerView messagesRecycleView;
@@ -92,10 +96,13 @@ public class SwipeCards extends AppCompatActivity {
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
         {
+//            String tempCouponId;
             @Override
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
+//                tempCouponId = rowItems.get(0).getCouponId();
+                System.out.println("@@@@ remove " + tempCouponId);
                 rowItems.remove(0); //changed
                 arrayAdapter.notifyDataSetChanged();
             }
@@ -105,12 +112,18 @@ public class SwipeCards extends AppCompatActivity {
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
+
                 Toast.makeText(SwipeCards.this, "Left!", Toast.LENGTH_SHORT).show();
+                //dislikedCoupons.add(SwipeCards.tempCouponId.toString());
+                System.out.println("@@@@ dislike:( " + dislikedCoupons);
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
+
+                //likedCoupons.add(tempCouponId);
+                System.out.println("@@@@ like!! " + likedCoupons);
 
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 userID = user.getUid();
@@ -160,11 +173,15 @@ public class SwipeCards extends AppCompatActivity {
         });
 
         // Optionally add an OnItemClickListener
-        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
+        flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() { // clicked on the card!!
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
                 //Toast.makeText(SwipeCards.this, "Clicked!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), InfoCouponActivity.class);
+                String couponName = rowItems.get(0).getCouponName(); //couponName is a value that needs to be fetched from firebase
+                Uri imageUri = rowItems.get(0).getUri();
+                intent.putExtra("couponName", couponName);
+                intent.putExtra("imageUri", imageUri);
                 startActivity(intent);
             }
         });
@@ -180,6 +197,11 @@ public class SwipeCards extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     // Using a thread to get the user's info and put it as a Hashmap<String, User> in MainDB
@@ -258,7 +280,7 @@ public class SwipeCards extends AppCompatActivity {
                 {
                     // your stuff to update the UI
                     rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
-                            , c.getDiscountType(), c.getCode(), c.getUri()));
+                            , c.getDiscountType(), c.getCouponId(), c.getUri()));
                 }
                 SwipeCards.this.runOnUiThread(new Runnable() {
 
@@ -284,10 +306,12 @@ public class SwipeCards extends AppCompatActivity {
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
     }
 
-    public void gotoCouponInfo(View view){
+    public void gotoCouponInfo(View view){  // Identical to onItemClicked, currently not used
         Intent intent = new Intent(this, InfoCouponActivity.class);
-        final String couponName = rowItems.get(0).getCouponName(); //couponName is a value that needs to be fetched from firebase
+        String couponName = rowItems.get(0).getCouponName(); //couponName is a value that needs to be fetched from firebase
+        Uri imageUri = rowItems.get(0).getUri();
         intent.putExtra("couponName", couponName);
+        intent.putExtra("imageUri", imageUri);
         startActivity(intent);
     }
 
@@ -308,6 +332,8 @@ public class SwipeCards extends AppCompatActivity {
     }
     public void gotoUserCoupons(View view){
         Intent intent = new Intent(this, UserCoupons.class);
+//        Uri imageUri = rowItems.get(0).getUri();
+//        intent.putExtra("imageUri", imageUri);
         startActivity(intent);
     }
 

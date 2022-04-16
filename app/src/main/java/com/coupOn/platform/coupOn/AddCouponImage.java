@@ -182,22 +182,15 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("CouponCode", couponCode);
                 data.put("DiscountType", discountType);
 
-                db.collection("coupons").
-                        add(data)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                db.collection("coupons").document(couponId)
+                        .set(data)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onSuccess(DocumentReference documentReference) {
-
-                                Toast.makeText(AddCouponImage.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(AddCouponImage.this, "Something went wrong, try again later", Toast.LENGTH_SHORT).show();
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(AddCouponImage.this, "Coupon Added!!", Toast.LENGTH_SHORT).show();
                             }
                         });
+
 
 
 

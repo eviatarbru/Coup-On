@@ -1,9 +1,12 @@
 package com.coupOn.platform.coupOn;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +16,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.coupOn.platform.coupOn.Chat.MessagesList;
 import com.coupOn.platform.coupOn.Model.Coupon;
+import com.coupOn.platform.coupOn.Model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -88,7 +93,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
         String location = usersCoupList.get(position).getLocation();
         String description = usersCoupList.get(position).getDescription();
 
-        String image = usersCoupList.get(position).getCouponImage();
+//        String image = usersCoupList.get(position).getCouponImage();
 
         StorageReference mStorageReference = storage.getReference();
 
@@ -96,6 +101,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
         holder.expireDateItem.setText(expireDate);
         holder.locationItem.setText(location);
         holder.descriptionItem.setText(description);
+
     }
 
 

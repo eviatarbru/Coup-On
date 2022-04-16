@@ -11,11 +11,12 @@ public class Cards { //Cards need to have values like picture and so on
     private String expireDate;
     private String location;
     private String discountType;
-    private String code;
+    private String couponId;
 
     private Uri uri;
 
-    public Cards(String couponName, String interests, String description, String expireDate, String location, String discountType, String code, Uri uri) {//String name,
+    public Cards(String couponName, String interests, String description, String expireDate, String location
+            , String discountType, String couponId, Uri uri) {//String name,
         //this.name = name;
         this.couponName = couponName;
         this.interests = interests;
@@ -23,11 +24,11 @@ public class Cards { //Cards need to have values like picture and so on
         this.expireDate = expireDate;
         this.location = location;
         this.discountType = discountType;
-        this.code = code;
+        this.couponId = couponId;
         this.uri = uri;
     }
 
-    public Cards(String couponName, String interests, String description) {//String name,
+    public Cards(String couponName, String interests, String description) {
 //        this.name = name;
         this.couponName = couponName;
         this.interests = interests;
@@ -114,12 +115,12 @@ public class Cards { //Cards need to have values like picture and so on
         this.discountType = discountType;
     }
 
-    public String getCode() {
-        return code;
+    public String getCouponId() {
+        return couponId;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCouponId(String code) {
+        this.couponId = couponId;
     }
 
     public Uri getUri() {

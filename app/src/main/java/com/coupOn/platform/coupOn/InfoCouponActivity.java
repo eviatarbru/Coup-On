@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.coupOn.platform.coupOn.Model.MainDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,44 +40,27 @@ public class InfoCouponActivity extends AppCompatActivity {
 
         String userUid = mAuth.getCurrentUser().getUid();
 
-//        Intent coupInfo = getIntent();
-//        Bundle infoCoup = coupInfo.getExtras();
-//        String couponImage1 = (String) infoCoup.get("couponImage");
-//        String name1 = (String) infoCoup.get("couponName");
-//        String username1 = (String) infoCoup.get("userCouponOwner");
-//        String couponInfo1 = (String) infoCoup.get("infoCoupon");
-
         ImageView couponImage = findViewById(R.id.couponImage);
         TextView couponName = findViewById(R.id.couponName);
         TextView ownerName = findViewById(R.id.ownerName);
         TextView ownerEmail = findViewById(R.id.ownerEmail);
 
-        Intent confirmIntent = getIntent();     //get data from last screen
-        Bundle infoConfirm = confirmIntent.getExtras();
-        //String couponName = (String) infoConfirm.get("couponName"); // need to get from swipeCards the name of the coupon
+        Intent infoIntent = getIntent();     //get data from last screen
+        Bundle info = infoIntent.getExtras();
+        String name = (String) info.get("couponName"); // need to get from swipeCards the name of the coupon
+        Uri imageUri = (Uri) info.get("imageUri");
 
-        db.collection("users")
-                .whereEqualTo("Uid", userUid)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        System.out.println("@@@@ success!!!");
-                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                        for (DocumentSnapshot snapshot : snapshotList){
-                            String name = snapshot.getString("FullName");
-                            String email = snapshot.getString("Email");
-                            ownerName.setText(name);
-                            ownerEmail.setText(email);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-//        couponName.setText(name1);
+        String email = MainDB.getInstance().getCurUser().get(userUid).getEmail();
+        String userName = MainDB.getInstance().getCurUser().get(userUid).getFullName();
+
+        Glide.with(this)
+                .load(imageUri) // the uri you got from Firebase
+                .into(couponImage);
+
+        couponName.setText(name);
+        ownerName.setText(userName);
+        ownerEmail.setText(email);
+
 
     }
 

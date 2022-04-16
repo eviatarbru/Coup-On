@@ -38,7 +38,7 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
 
 
 
-        System.out.println("@@@@ card: "+ card_item.getDiscountType() + " " + card_item.getDescription() + " " + card_item.getCode());
+//        System.out.println("@@@@ card: "+ card_item.getDiscountType() + " " + card_item.getDescription() + " " + card_item.getCouponId());
 
         couponName.setText(card_item.getCouponName());  // gets it from a tread in swipeCards
         expireDate.setText(card_item.getExpireDate());

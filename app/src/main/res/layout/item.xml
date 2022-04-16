@@ -28,7 +28,7 @@
             <ImageView
                 android:id="@+id/imageCoupon"
                 android:layout_width="match_parent"
-                android:layout_height="298dp"
+                android:layout_height="275dp"
                 android:adjustViewBounds="true"
                 android:visibility="visible" />
 
@@ -151,11 +151,16 @@
                     android:id="@+id/couponInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="100dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="26dp"
+                    android:layout_marginEnd="67dp"
+                    android:layout_marginBottom="165dp"
                     android:layout_toEndOf="@+id/name"
                     android:onClick="gotoCouponInfo"
+                    android:visibility="invisible"
                     app:srcCompat="@android:drawable/ic_menu_info_details" />
             </RelativeLayout>
 

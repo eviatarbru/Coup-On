@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.coupOn.platform.coupOn.Model.Coupon;
+import com.coupOn.platform.coupOn.Model.MainDB;
 import com.coupOn.platform.coupOn.Model.User;
 
 
@@ -44,10 +47,17 @@ public class UserCoupons extends AppCompatActivity {
     private final ArrayList<Coupon> userCouponsList = new ArrayList<>();
     private RecyclerView recyclerView;
     private UserCouponAdapter userCouponAdapter;
+    private static UserCoupons instance;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    public static UserCoupons getInstance() {
+        if(instance == null)
+            instance = new UserCoupons();
+        return instance;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,15 @@ public class UserCoupons extends AppCompatActivity {
 
         new Thread(new setCouponInfo()).start(); //Making a Thread for the User's Info
 
+//        Intent intent = UserCoupons.getInstance().getIntent();
+//        Bundle info = intent.getExtras();
+//        Uri imageUri = (Uri) info.get("imageUri");
+//
+//        ImageView couponImage = findViewById(R.id.couponImage);
+//
+//        Glide.with(this)
+//                .load(imageUri) // the uri you got from Firebase
+//                .into(couponImage);
 
 //        readData();
     }
