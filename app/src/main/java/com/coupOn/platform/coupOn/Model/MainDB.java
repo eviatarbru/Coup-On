@@ -115,7 +115,11 @@ public class MainDB
                     {
                         for(QueryDocumentSnapshot document: task.getResult())
                         { //(String couponImage, String couponName, String expireDate, String location, String description, String ownerId, String couponId, String interest
-                            Coupon c = new Coupon(document.getString("CouponImage"), document.getString("CoupName"), document.getString("ExpireDate"), document.getString("Location"), document.getString("Description"), document.getString("UserUid"), document.getString("CouponId"), document.getString("Interest"));
+                            Coupon c = new Coupon(document.getString("CouponImage"), document.getString("CoupName")
+                                    , document.getString("ExpireDate"), document.getString("Location")
+                                    , document.getString("Description"), document.getString("UserUid")
+                                    , document.getString("CouponId"), document.getString("Interest")
+                                    , document.getString("DiscountType"), document.getString("CouponCode"));
                             couponsOffered.add(c);
                         }
                         counter[0]++;
@@ -146,6 +150,11 @@ public class MainDB
     public void getUriToOfferedCoupons() {
         System.out.println(this.couponsOffered.size() + " this is the coupons deal with it (MainDB)");
         final int[] counter = {0};
+        if(this.couponsOffered.size() == 0)
+        {
+            finishedOfferedCouponsImage = true;
+            return;
+        }
         for(int i = 0; i < this.couponsOffered.size(); i++)
         {
             mStorageReference = FirebaseStorage.getInstance().getReference().child("images/" + couponsOffered.get(i).getCouponImage());

@@ -41,7 +41,8 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
 
     public static final String TAG = "TAG";
     private boolean [] isPressed;
-    private String [] interests = {"Gaming", "Utility", "Entertainment", "Merch", "Spa", "Movies", "Sports", "Animals", "Flights", "Transportation", "Culture", "Food"};
+    private String [] interests = {"Food", "Fashion", "Animals", "Health", "Cultivation", "Education", "Travel"
+                                        , "Electronics", "Sports", "House", "Attractions", "Special"};
     private int pressedBeforeInterests = -1;
     private View beforePressedBtn = null;
 

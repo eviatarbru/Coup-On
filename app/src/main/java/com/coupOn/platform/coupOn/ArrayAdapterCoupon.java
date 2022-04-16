@@ -23,14 +23,30 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
 
     public View getView(int position, View convertView, ViewGroup parent){
         Cards card_item = getItem(position);
-        System.out.println(convertView + " this is the view");
+        System.out.println(convertView + "this is the view");
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
 
-        TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView couponName = (TextView) convertView.findViewById(R.id.name);
+        TextView expireDate = (TextView) convertView.findViewById(R.id.expireDate);
+        TextView couponLocation = (TextView) convertView.findViewById(R.id.couponLocation);
+        TextView couponInterest = (TextView) convertView.findViewById(R.id.couponInterest);
+        TextView discountType = (TextView) convertView.findViewById(R.id.discountType);
+        TextView couponDescription = (TextView) convertView.findViewById(R.id.couponDescription);
+
         ImageView image = (ImageView) convertView.findViewById(R.id.imageCoupon);
 
-        name.setText(card_item.getName());
+
+
+        System.out.println("@@@@ card: "+ card_item.getDiscountType() + " " + card_item.getDescription() + " " + card_item.getCode());
+
+        couponName.setText(card_item.getCouponName());  // gets it from a tread in swipeCards
+        expireDate.setText(card_item.getExpireDate());
+        couponLocation.setText(card_item.getLocation());
+        couponInterest.setText(card_item.getInterests());
+        discountType.setText(card_item.getDiscountType());  // null for some reason
+        couponDescription.setText(card_item.getDescription());
+
 //        image.setImageURI(null);
         System.out.println("this is the cardUri" + card_item.getUri());
         Glide.with(getContext())

@@ -28,10 +28,9 @@
             <ImageView
                 android:id="@+id/imageCoupon"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="298dp"
                 android:adjustViewBounds="true"
-                android:visibility="visible"
-                />
+                android:visibility="visible" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -99,7 +98,7 @@
                     android:layout_below="@+id/couponLocation"
                     android:layout_marginStart="60dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@+id/couponIntrest"
+                    android:layout_toEndOf="@+id/couponInterest"
                     android:gravity="center"
                     android:text="Discount:"
                     android:textColor="#494949"
@@ -107,7 +106,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/couponIntrest"
+                    android:id="@+id/couponInterest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/couponLocation"
@@ -124,7 +123,7 @@
                     android:id="@+id/couponDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/couponIntrest"
+                    android:layout_below="@+id/couponInterest"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="29dp"

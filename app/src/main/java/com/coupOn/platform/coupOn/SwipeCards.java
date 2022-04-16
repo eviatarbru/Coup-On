@@ -73,16 +73,10 @@ public class SwipeCards extends AppCompatActivity {
         swipes = findViewById(R.id.swipeScreen);
         loading.setVisibility(View.VISIBLE);
         swipes.setVisibility(View.INVISIBLE);
-        Cards item = new Cards("id", "Coupon 1");
-        Cards item2 = new Cards("id", "Coupon 2");
-        Cards item3 = new Cards("id", "Coupon 3");
-        Cards item4 = new Cards("id", "Coupon 4");
-        Cards item5 = new Cards("id", "Coupon 5");
-        rowItems.add(item);
-        rowItems.add(item2);
-        rowItems.add(item3);
-        rowItems.add(item4);
-        rowItems.add(item5);
+
+//        Cards item = new Cards("id", "Coupon 1");
+//        rowItems.add(item);
+
 
         new Thread(new InitDB()).start(); //Making a Thread for the User's Info
 
@@ -263,7 +257,8 @@ public class SwipeCards extends AppCompatActivity {
                 for (Coupon c : MainDB.getInstance().getCouponsOffered())
                 {
                     // your stuff to update the UI
-                    rowItems.add(new Cards(c.getCouponName(), c.getExpireDate(), c.getUri()));
+                    rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
+                            , c.getDiscountType(), c.getCode(), c.getUri()));
                 }
                 SwipeCards.this.runOnUiThread(new Runnable() {
 

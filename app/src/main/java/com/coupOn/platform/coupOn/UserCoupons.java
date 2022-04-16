@@ -101,7 +101,9 @@ public class UserCoupons extends AppCompatActivity {
                                         , snapshot.getString("Description")
                                         , snapshot.getString("UserUid")
                                         , snapshot.getString("CouponId")
-                                        , snapshot.getString("Interest"));
+                                        , snapshot.getString("Interest")
+                                        , snapshot.getString("DiscountType")
+                                        , snapshot.getString("CouponCode"));
                                 userCouponsList.add(coupon);
                             }
                             userCouponAdapter.updateData(userCouponsList);

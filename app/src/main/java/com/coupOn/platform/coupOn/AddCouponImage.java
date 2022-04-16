@@ -179,8 +179,8 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("UserUid",userUid);
                 data.put("Interest", interest);
                 data.put("CouponId", couponId);
-                data.put("couponCode", couponCode);
-                data.put("discountType", discountType);
+                data.put("CouponCode", couponCode);
+                data.put("DiscountType", discountType);
 
                 db.collection("coupons").
                         add(data)
@@ -201,7 +201,7 @@ public class AddCouponImage extends AppCompatActivity {
 
 
 
-                Coupon coupon = new Coupon(name, expireDate, location, description, fileName, userUid, interest, couponId);
+                Coupon coupon = new Coupon(fileName, name, expireDate, location, description, userUid, couponId, interest, discountType, couponCode);
                 MainDB.getInstance().getCurUser().get(userUid).addCouponToUser(coupon);
 
                 startActivity(intent);
