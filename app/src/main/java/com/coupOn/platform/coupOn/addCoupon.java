@@ -77,7 +77,7 @@ public class addCoupon extends AppCompatActivity {
     // end code for google autocomplete location
 
     public void gotoAddCouponImage(View view) {
-        Intent intent = new Intent(addCoupon.this, InterestsScreen.class);
+//        Intent intent = new Intent(addCoupon.this, InterestsScreen.class);
         int rank = 0;
 
         final String name = this.name.getText().toString();
@@ -94,14 +94,14 @@ public class addCoupon extends AppCompatActivity {
         System.out.println(rank + " this is the rank, MY G @@@@");
 
 
-        intent.putExtra("name", name);
-        intent.putExtra("expireDate", expireDate);
-        intent.putExtra("location", location);
-        intent.putExtra("description", description);
-        intent.putExtra("couponCode", couponCode);
-        intent.putExtra("discountType", discountType);
-        intent.putExtra("fromScreen", 2);
-        intent.putExtra("rank", rank);
+//        intent.putExtra("name", name);
+//        intent.putExtra("expireDate", expireDate);
+//        intent.putExtra("location", location);
+//        intent.putExtra("description", description);
+//        intent.putExtra("couponCode", couponCode);
+//        intent.putExtra("discountType", discountType);
+//        intent.putExtra("fromScreen", 2);
+//        intent.putExtra("rank", rank);
         // we can add here the part that we give a ranking based on the discountType
         // evi need to look
         boolean validateCoupon = validateCoupon(name, expireDate, location, description);
@@ -110,8 +110,8 @@ public class addCoupon extends AppCompatActivity {
             return;
         }
 
-        startActivity(intent);
-        finish();
+//        startActivity(intent);
+//        finish();
         return;
     }
 
@@ -141,7 +141,7 @@ public class addCoupon extends AppCompatActivity {
                 rank = -1;
             }
         }//<item>buy this, discount that</item>
-        else if(choice.contains("x discount"))
+        else if(choice.contains("x discount")) //money money 10$
         {
             if((!discountType.contains("₪") && !discountType.contains("$")  && !discountType.contains("€") && !discountType.contains("£") || discountType.contains(" ")) || !onlyDigits(discountType, discountType.length() - 1)) {
                 Toast.makeText(addCoupon.this, "discount wrong, for example: 20$", Toast.LENGTH_SHORT).show();
@@ -157,22 +157,24 @@ public class addCoupon extends AppCompatActivity {
             else
                 rank = 5;
         }
-        else if(choice.contains("free"))
+        else if(choice.contains("free")) // x+y free
         {
-            if(!discountType.contains("+") || discountType.contains(" + ") || !onlyDigits(discountType, discountType.length())) {
+            if(!discountType.contains("+") || discountType.contains(" + ") || discountType.contains(" ") || !onlyDigits(discountType, discountType.length())) {
                 Toast.makeText(addCoupon.this, "discount wrong, for example: 1+1", Toast.LENGTH_SHORT).show();
                 return -1;
             }
             String [] vals = discountType.split("[+]" ,2);
-            int valueleft = Integer.parseInt(vals[0]);
-            int valueright = Integer.parseInt(vals[1]);
-            int finalVal = 10 / (valueright + (valueleft/ 2 ));
-            if(finalVal < 4)
-                rank = 5;
-            else if(finalVal < 6)
+            double valueleft = Double.parseDouble(vals[0]);
+            double valueright = Double.parseDouble(vals[1]);
+             double finalVal = 10.0 / (double)( valueleft / valueright);
+            if(finalVal < 7)
+                rank = 2;
+            else if(finalVal <= 10.0)
+                rank = 3;
+            else if(finalVal <= 20.0)
                 rank = 4;
             else
-                rank = 3;
+                rank = 5;
         }
         return rank;
     }
@@ -222,7 +224,6 @@ public class addCoupon extends AppCompatActivity {
             }
 
         }
-        System.out.println(val + " this is the rank val");
         return val;
     }
 

@@ -233,7 +233,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 String description = (String) infoReg.get("description");
                 String couponCode2 = (String) infoReg.get("couponCode");
                 String discountType2 = (String) infoReg.get("discountType");
-                String rank = (String) infoReg.get("rank");
+                int rank = (int) infoReg.get("rank");
                 String couponInterests = interestsFb.get(0);
 
                 System.out.println(coupName + " " + expireDate + " " + location + " " + description + " " + couponInterests);

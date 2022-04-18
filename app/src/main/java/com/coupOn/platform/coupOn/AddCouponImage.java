@@ -162,7 +162,7 @@ public class AddCouponImage extends AppCompatActivity {
                 String interest = (String) infoConfirm.get("interests");
                 String couponCode = (String) infoConfirm.get("couponCode");
                 String discountType = (String) infoConfirm.get("discountType");
-                String rank = (String) infoConfirm.get("rank");
+                int rank = (int) infoConfirm.get("rank");
 
                 String userUid =  mAuth.getCurrentUser().getUid();
                 String couponId = db.collection("coupons")
