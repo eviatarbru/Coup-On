@@ -31,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
         android:layout_marginBottom="604dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
@@ -67,11 +66,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="545dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/titleText"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
         android:divider="@drawable/empty_tall_divider"
         android:orientation="vertical"
         android:paddingLeft="32dp"
@@ -123,7 +121,7 @@
                 android:inputType="date"
                 android:maxLength="10"
                 android:paddingLeft="10dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -145,7 +143,7 @@
                 android:maxLines="1"
                 android:paddingLeft="10dp"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -171,6 +169,38 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/Field3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:theme="@style/EditScreenTextInputLayoutStyleLight"
+            android:layout_marginTop="10dp">
+
+            <FrameLayout
+                android:id="@+id/SpinnerWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bordertextfield"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <Spinner
+                    android:id="@+id/TypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:entries="@array/title_options"
+                    android:prompt="@string/title_prompt"
+                    android:textSize="@dimen/font_medium"
+                    android:fontFamily="@font/calibri"
+                    android:drawablePadding="16dp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="226dp"
             android:layout_height="wrap_content"
@@ -184,7 +214,7 @@
                 android:drawablePadding="16dp"
                 android:ems="10"
                 android:fontFamily="@font/calibri"
-                android:hint="Discount Type (1+1/ 50% / etc)..."
+                android:hint="Discount Type (1+1 / 50% / 20$)..."
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="10dp"
@@ -218,7 +248,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:orientation="horizontal">

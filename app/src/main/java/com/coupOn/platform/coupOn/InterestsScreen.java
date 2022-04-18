@@ -233,33 +233,10 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 String description = (String) infoReg.get("description");
                 String couponCode2 = (String) infoReg.get("couponCode");
                 String discountType2 = (String) infoReg.get("discountType");
+                String rank = (String) infoReg.get("rank");
                 String couponInterests = interestsFb.get(0);
 
                 System.out.println(coupName + " " + expireDate + " " + location + " " + description + " " + couponInterests);
-//                Map<String, Object> data = new HashMap<>();
-//                //data.put("CoupUid", "coupon");
-//                data.put("CoupName", coupName);
-//                data.put("ExpireDate", expireDate);
-//                data.put("Location", location);
-//                data.put("Description", description);
-//                data.put("CouponImage", null);
-//                data.put("UserUid",userUid);
-//                data.put("Interests", couponInterests);
-//
-//
-//                db.collection("coupons").document().set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        Toast.makeText(InterestsScreen.this, "Coupon added successfully", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(InterestsScreen.this, "Something went wrong, try again later", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-
 
                 Intent intent2 = new Intent(InterestsScreen.this, AddCouponImage.class);
                 intent2.putExtra("name", coupName);
@@ -269,6 +246,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 intent2.putExtra("interests", couponInterests);
                 intent2.putExtra("couponCode", couponCode2);
                 intent2.putExtra("discountType", discountType2);
+                intent2.putExtra("rank", rank);
 
                 startActivity(intent2);
                 break;

@@ -162,6 +162,7 @@ public class AddCouponImage extends AppCompatActivity {
                 String interest = (String) infoConfirm.get("interests");
                 String couponCode = (String) infoConfirm.get("couponCode");
                 String discountType = (String) infoConfirm.get("discountType");
+                String rank = (String) infoConfirm.get("rank");
 
                 String userUid =  mAuth.getCurrentUser().getUid();
                 String couponId = db.collection("coupons")
@@ -181,6 +182,7 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("CouponId", couponId);
                 data.put("CouponCode", couponCode);
                 data.put("DiscountType", discountType);
+                data.put("Rank", rank);
 
                 db.collection("coupons").document(couponId)
                         .set(data)

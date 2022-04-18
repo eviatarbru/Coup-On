@@ -11,9 +11,16 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textView">Add Coup-on</string>
+
+    <string-array name="title_options">
+        <item>x+y free</item>
+        <item>xy%</item>
+        <item>x discount</item>
+<!--        <item>buy this, discount that</item>-->
+    </string-array>
+    <string name="title_prompt">Type of the title</string>
+
 </resources>

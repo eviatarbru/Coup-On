@@ -107,7 +107,6 @@ public class MainDB
         CollectionReference couponsRef = users.collection("coupons");
         for(String interest: MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getInterests()) {
             Query query = couponsRef.whereEqualTo("Interest", interest);
-            System.out.println("this is the coupons: " + couponsOffered);
             query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -123,10 +122,8 @@ public class MainDB
                             couponsOffered.add(c);
                         }
                         counter[0]++;
-                        System.out.println(counter[0] + " this is the counter");
                         if(counter[0] >= sizeInterests - 1)
                             finishedOfferedCoupons = true;
-                        System.out.println("this is the coupons: " + couponsOffered);
                     }
                     else
                     {
@@ -135,7 +132,6 @@ public class MainDB
                         System.out.println(counter[0] + " this is the counter");
                         if(counter[0] >= sizeInterests - 1)
                             finishedOfferedCoupons = true;
-                        System.out.println("this is the coupons: " + couponsOffered);
                     }
                 }
             });
