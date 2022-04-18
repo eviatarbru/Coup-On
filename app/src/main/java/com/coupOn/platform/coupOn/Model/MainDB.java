@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.coupOn.platform.coupOn.Cards;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,6 +54,8 @@ public class MainDB
     private final HashMap<String, User> curUser = new HashMap<>();
     private final HashMap<String, User> chattingUsers = new HashMap<>();
     private final ArrayList<Coupon> couponsOffered = new ArrayList<>();
+
+    private ArrayList<Cards> couponCards = new ArrayList<Cards>(); //to save the cards
 
     private boolean finishedOfferedCoupons = false;
 
@@ -129,7 +132,6 @@ public class MainDB
                     {
                         System.out.println("Check log! (this is a fail)");
                         counter[0]++;
-                        System.out.println(counter[0] + " this is the counter");
                         if(counter[0] >= sizeInterests - 1)
                             finishedOfferedCoupons = true;
                     }
@@ -144,7 +146,6 @@ public class MainDB
     }
 
     public void getUriToOfferedCoupons() {
-        System.out.println(this.couponsOffered.size() + " this is the coupons deal with it (MainDB)");
         final int[] counter = {0};
         if(this.couponsOffered.size() == 0)
         {
@@ -160,11 +161,8 @@ public class MainDB
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         couponsOffered.get(finalI).setUri(task.getResult());
-                        System.out.println(couponsOffered.get(finalI).getUri() + " this is the uri of the coupon (MainDB)");
                         counter[0]++;
                         if((counter[0] >= couponsOffered.size())) {
-                            System.out.println(counter[0] + "this is the" + couponsOffered.size());
-
                             finishedOfferedCouponsImage = true;
                         }
                     }
@@ -197,14 +195,17 @@ public class MainDB
         });
     }
 
+    public ArrayList<Cards> getCouponCards() {
+        return couponCards;
+    }
+
+    public void setCouponCards(ArrayList<Cards> couponCards) {
+        this.couponCards = couponCards;
+    }
 
     public HashMap<String, User> getCurUser() {
         return curUser;
     }
-
-//    public void setCurUser(HashMap<String, User> curUser) {
-//        curUser = curUser;
-//    }
 
     public HashMap<String, User> getChattingUsers() {
         return chattingUsers;
@@ -219,48 +220,5 @@ public class MainDB
         return couponsOffered;
     }
 
-    //    public void setChattingUsers(HashMap<String, User> chattingUsers) {
-//        chattingUsers = chattingUsers;
-//    }
-
-    //    /*  Steps for Success
-//        1. new Thread(new GetUserFirebase(uid)).start();
-//        2. Get user.
-//     */
-//    public static class GetUserFirebase implements Runnable
-//    {
-//        User user;
-//        String uidFB;
-//
-//        public GetUserFirebase(String uidFB) {
-//            this.uidFB = uidFB;
-//        }
-//
-//        @Override
-//        public void run() {
-//            user = MainDB.getInstance().getUserFirebase(uidFB);
-//            System.out.println(MainDB.getInstance().getCurUser());
-//        }
-//    }
-
-//    public User getUserFirebase(String uid1)
-//    {
-//        final User[] userInfo = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
-//        User user;
-//        System.out.println(uid1);
-//
-//        DocumentReference dr = users.collection("users").document(uid1); //This is how u retrieve data from fireStore.
-//        dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                String email = value.getString("Email");
-//                String fullName = value.getString("FullName");
-//                userInfo[0] = new User(email, fullName); //Get from currentUser the Email and the FullName from the fireStore.
-//            }
-//        });
-//        while(userInfo[0] == null) {
-//        }
-//        return userInfo[0];
-//    }
 }
 

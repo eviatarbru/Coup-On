@@ -77,7 +77,7 @@ public class addCoupon extends AppCompatActivity {
     // end code for google autocomplete location
 
     public void gotoAddCouponImage(View view) {
-//        Intent intent = new Intent(addCoupon.this, InterestsScreen.class);
+        Intent intent = new Intent(addCoupon.this, InterestsScreen.class);
         int rank = 0;
 
         final String name = this.name.getText().toString();
@@ -94,14 +94,14 @@ public class addCoupon extends AppCompatActivity {
         System.out.println(rank + " this is the rank, MY G @@@@");
 
 
-//        intent.putExtra("name", name);
-//        intent.putExtra("expireDate", expireDate);
-//        intent.putExtra("location", location);
-//        intent.putExtra("description", description);
-//        intent.putExtra("couponCode", couponCode);
-//        intent.putExtra("discountType", discountType);
-//        intent.putExtra("fromScreen", 2);
-//        intent.putExtra("rank", rank);
+        intent.putExtra("name", name);
+        intent.putExtra("expireDate", expireDate);
+        intent.putExtra("location", location);
+        intent.putExtra("description", description);
+        intent.putExtra("couponCode", couponCode);
+        intent.putExtra("discountType", discountType);
+        intent.putExtra("fromScreen", 2);
+        intent.putExtra("rank", rank);
         // we can add here the part that we give a ranking based on the discountType
         // evi need to look
         boolean validateCoupon = validateCoupon(name, expireDate, location, description);
@@ -110,8 +110,8 @@ public class addCoupon extends AppCompatActivity {
             return;
         }
 
-//        startActivity(intent);
-//        finish();
+        startActivity(intent);
+        finish();
         return;
     }
 
@@ -176,6 +176,8 @@ public class addCoupon extends AppCompatActivity {
             else
                 rank = 5;
         }
+        else
+            rank = 2;
         return rank;
     }
 

@@ -19,7 +19,7 @@
         <item>x+y free</item>
         <item>xy%</item>
         <item>x discount</item>
-<!--        <item>buy this, discount that</item>-->
+        <item>Others</item>
     </string-array>
     <string name="title_prompt">Type of the title</string>
 

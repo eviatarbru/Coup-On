@@ -37,8 +37,8 @@ import java.util.List;
 public class SwipeCards extends AppCompatActivity {
 
     private Cards cards_data[];
-    private ArrayList<String> likedCoupons;
-    private ArrayList<String> dislikedCoupons;
+    private static ArrayList<String> likedCoupons = new ArrayList<>();
+    private static ArrayList<String> dislikedCoupons = new ArrayList<>();
     public static String tempCouponId;
 
     //For the chatPart
@@ -81,17 +81,19 @@ public class SwipeCards extends AppCompatActivity {
 //        Cards item = new Cards("id", "Coupon 1");
 //        rowItems.add(item);
 
+        if(MainDB.getInstance().getCouponCards() == null || MainDB.getInstance().getCouponCards().isEmpty()) {
+            new Thread(new InitDB()).start(); //Making a Thread for the User's Info
 
-        new Thread(new InitDB()).start(); //Making a Thread for the User's Info
-
-        new Thread((new GetChatUsers())).start(); //Chat Thread
+            new Thread((new GetChatUsers())).start(); //Chat Thread
 //        String uidU = MainDB.getInstance().getCurUser().keySet().toString(); //For the testing
 //        uidU = uidU.substring(1, uidU.length()-1); //For the testing
-        new Thread(new GetCouponsCards()).start();
+            new Thread(new GetCouponsCards()).start();
 //
-        new Thread(new setUrisToCoupons()).start();
-//
+            new Thread(new setUrisToCoupons()).start();
+        }
         new Thread(new GetUserFirebaseS(flingContainer)).start(); //Just an example to test the random user info.
+
+        System.out.println(MainDB.getInstance().getCouponCards() + "this is the");
 
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
@@ -103,7 +105,8 @@ public class SwipeCards extends AppCompatActivity {
                 Log.d("LIST", "removed object!");
 //                tempCouponId = rowItems.get(0).getCouponId();
                 System.out.println("@@@@ remove " + tempCouponId);
-                rowItems.remove(0); //changed
+                MainDB.getInstance().getCouponCards().remove(0);
+//                rowItems.remove(0); //changed
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -276,11 +279,18 @@ public class SwipeCards extends AppCompatActivity {
             public void run() {
                 while(!MainDB.getInstance().getFinishedOfferedCouponsImage()) { }
                 System.out.println("this is the get user firebase the coupon cards1.5 (SwipeCard)");
-                for (Coupon c : MainDB.getInstance().getCouponsOffered())
-                {
-                    // your stuff to update the UI
-                    rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
-                            , c.getDiscountType(), c.getCouponId(), c.getUri()));
+                if(MainDB.getInstance().getCouponCards().isEmpty() || MainDB.getInstance().getCouponCards() == null) {
+                    System.out.println("this is the if");
+                    for (Coupon c : MainDB.getInstance().getCouponsOffered()) {
+                        // your stuff to update the UI
+                        rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
+                                , c.getDiscountType(), c.getCouponId(), c.getUri()));
+                    }
+                    MainDB.getInstance().setCouponCards(rowItems);
+                }
+                else {
+                    isFinished = true;
+                    rowItems = MainDB.getInstance().getCouponCards();
                 }
                 SwipeCards.this.runOnUiThread(new Runnable() {
 
@@ -291,7 +301,9 @@ public class SwipeCards extends AppCompatActivity {
                         flingContainer.setAdapter(arrayAdapter);
 
                         arrayAdapter.notifyDataSetChanged();
+                        System.out.println("this is the after the array adapter1");
                         while(!isFinished){ }
+                        System.out.println("this is the after the array adapter2");
                         loading.setVisibility(View.INVISIBLE);
                         swipes.setVisibility(View.VISIBLE);
                         isFinished = false;
