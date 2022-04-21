@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="#DCDCDC"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.coupOn.platform.coupOn.NotificationsFragment">
+    tools:context="com.coupOn.platform.coupOn.Notification.NotificationsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,11 +33,11 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="35dp"
-            android:onClick="mainMenu"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="5dp"
+            android:onClick="mainMenu"
             android:src="@drawable/coupon_logo"></ImageView>
     </RelativeLayout>
 
@@ -45,7 +45,7 @@
         android:id="@+id/notificationRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/row_notification"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_notification" />
 
 </LinearLayout>

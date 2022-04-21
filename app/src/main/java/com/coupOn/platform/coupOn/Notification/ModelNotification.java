@@ -1,17 +1,18 @@
 package com.coupOn.platform.coupOn.Notification;
 
+import com.coupOn.platform.coupOn.SwipeCards;
+
 // class for recyclerview of notification
 public class ModelNotification {
-    String pId, timestamp, pUid, notification, sName, sEmail, sImage;
+    String pId, timestamp, pUid, notification, sName, sEmail;
 
     public ModelNotification(String pId, String timestamp, String pUid, String notification, String sName, String sEmail, String sImage) {
         this.pId = pId;
-        this.timestamp = timestamp;
+        this.timestamp = timestamp; //get current time
         this.pUid = pUid;
-        this.notification = notification;
+        this.notification = "Liked your coupon. Do you want to open a chat with him?";
         this.sName = sName;
         this.sEmail = sEmail;
-        this.sImage = sImage;
     }
 
     public String getpId() {
@@ -62,11 +63,4 @@ public class ModelNotification {
         this.sEmail = sEmail;
     }
 
-    public String getsImage() {
-        return sImage;
-    }
-
-    public void setsImage(String sImage) {
-        this.sImage = sImage;
-    }
 }

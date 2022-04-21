@@ -130,13 +130,6 @@ public class UserChatList extends AppCompatActivity
                                             }
                                         }
                                     }
-//                                    chatKey = (maxkey[0] + 1) + "";
-//                                    User user = MainDB.getInstance().getChattingUsers().get(uidOtherUser);
-//                                    MessagesList messagesList = new MessagesList(user.getFullName(), user.getEmail(), lastMessage, unseenMessages, chatKey, uidUser);
-//                                    msl.put(user.getEmail(),messagesList);
-//                                    System.out.println(msl + " this is the hashmap");
-//                                    messagesLists.addAll(msl.values());
-                                    //PETER NEEDS TO LOOK
                                 }
                             }
 

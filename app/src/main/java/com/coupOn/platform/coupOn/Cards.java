@@ -3,8 +3,6 @@ package com.coupOn.platform.coupOn;
 import android.net.Uri;
 
 public class Cards { //Cards need to have values like picture and so on
-    private String userId;
-    //private String name;
     private String couponName;
     private String interests;
     private String description;
@@ -12,12 +10,12 @@ public class Cards { //Cards need to have values like picture and so on
     private String location;
     private String discountType;
     private String couponId;
+    private String ownerId;
 
     private Uri uri;
 
     public Cards(String couponName, String interests, String description, String expireDate, String location
-            , String discountType, String couponId, Uri uri) {//String name,
-        //this.name = name;
+            , String discountType, String couponId, Uri uri, String ownerId) {//String name,
         this.couponName = couponName;
         this.interests = interests;
         this.description = description;
@@ -26,46 +24,23 @@ public class Cards { //Cards need to have values like picture and so on
         this.discountType = discountType;
         this.couponId = couponId;
         this.uri = uri;
+        this.ownerId = ownerId;
     }
 
-    public Cards(String couponName, String interests, String description) {
-//        this.name = name;
+    public Cards(String couponName, String ownerId) {
         this.couponName = couponName;
-        this.interests = interests;
-        this.description = description;
-        this.uri = null;
+        this.ownerId = ownerId;
     }
 
-    public Cards(String userId, String couponName){
-        this.userId = userId;
-        this.couponName = couponName;
-        this.uri = null;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public Cards(String userId, String couponName, Uri uri){
-        this.userId = userId;
-        this.couponName = couponName;
-        this.uri = uri;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
-
-
 
     //getters and setters
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
 
     public String getCouponName() {
         return couponName;
@@ -129,5 +104,20 @@ public class Cards { //Cards need to have values like picture and so on
 
     public void setUri(Uri uri) {
         this.uri = uri;
+    }
+
+    @Override
+    public String toString() {
+        return "Cards{" +
+                "couponName='" + couponName + '\'' +
+                ", interests='" + interests + '\'' +
+                ", description='" + description + '\'' +
+                ", expireDate='" + expireDate + '\'' +
+                ", location='" + location + '\'' +
+                ", discountType='" + discountType + '\'' +
+                ", couponId='" + couponId + '\'' +
+                ", ownerId='" + ownerId + '\'' +
+                ", uri=" + uri +
+                '}';
     }
 }

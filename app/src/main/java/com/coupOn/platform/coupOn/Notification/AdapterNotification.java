@@ -6,30 +6,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.coupOn.platform.coupOn.Chat.MessagesList;
 import com.shashank.platform.coup_on.R;
 import com.squareup.picasso.Picasso;
 
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.HolderNotification> {
 
     private Context context;
-    private ArrayList<ModelNotification> notificationsList;
+    private ArrayList<String> notificationsList;
 
-    public AdapterNotification(Context context, ArrayList<ModelNotification> notificationsList) {
+    public AdapterNotification(Context context, ArrayList<String> notificationsList) {
         this.context = context;
         this.notificationsList = notificationsList;
     }
@@ -49,28 +47,27 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         //get and set data to views
 
         //get data
-        ModelNotification model = notificationsList.get(position);
-        String name = model.getsName();
-        String notification = model.getNotification();
-        String image = model.getsImage();
-        String timestamp = model.getTimestamp();
+        String model = notificationsList.get(position);
+       // String name = model.getsName();
+       // String notification = model.getNotification();
+        long timestamp = Calendar.getInstance().getTimeInMillis();
 
         //convert timestamp to dd/mm/yyyy hh:mm am/pm
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.setTimeInMillis(Long.parseLong(timestamp));
-        String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+        //Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        //calendar.setTimeInMillis(Long.parseLong(timestamp));
+        String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", timestamp).toString();
 
         //set to views
-        holder.nameTv.setText(name);
-        holder.notificationTv.setText(notification);
+        holder.nameTv.setText(model);
+        holder.notificationTv.setText("Liked your coupon. Do you want to open a chat with him?");
         holder.timeTv.setText(pTime);
 
-        try{
-            Picasso.get().load(image).placeholder(R.drawable.ic_person).into(holder.avatarIv);
-        }
-        catch (Exception e){
-            holder.avatarIv.setImageResource(R.drawable.ic_person);
-        }
+    }
+
+    public void updateData(ArrayList<String> notificationsList1)
+    {
+        notificationsList = notificationsList1;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -82,14 +79,18 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     class HolderNotification extends RecyclerView.ViewHolder{
 
         // declare views
-        ImageView avatarIv;
+        private AdapterNotification adapter;
+        //ImageView avatarIv;
         TextView nameTv, notificationTv, timeTv;
+        private LinearLayout currentRow;
+        //int position;
 
         public HolderNotification(@NonNull View itemView) {
             super(itemView);
 
             // init views
-            avatarIv = itemView.findViewById(R.id.avatarIv);
+            //avatarIv = itemView.findViewById(R.id.avatarIv);
+            currentRow = itemView.findViewById(R.id.currentRow);
             nameTv = itemView.findViewById(R.id.nameTv);
             notificationTv = itemView.findViewById(R.id.notificationTv);
             timeTv = itemView.findViewById(R.id.timeTv);
@@ -97,32 +98,16 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     }
 
 }
+/*itemView.findViewById(R.id.button_accept).setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   // go to the chat of the user
+               }
+           });
 
+            itemView.findViewById(R.id.button_delete).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-   /* private void addToHisNotifications(String hisUid,String pId,String message){
-        //timestamp for time and notification id
-        String timestamp = ""+System.currentTimeMillis();
-
-        HashMap<Object, String> hasMap = new HashMap<>();
-        hasMap.put("pId", pId);
-        hasMap.put("timestamp", timestamp);
-        hasMap.put("pUid", hisUid);
-        hasMap.put("notification", message);
-        //hasMap.put("sUid", myUid);
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.child(hisUid).child("Notifications").child(timestamp).setValue(hasMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        //added successfully
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //failed
-                    }
-                });
-    }*/
+                }
+            });*/

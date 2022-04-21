@@ -20,18 +20,26 @@ import com.coupOn.platform.coupOn.Chat.UserChatList;
 import com.coupOn.platform.coupOn.Model.Coupon;
 import com.coupOn.platform.coupOn.Model.MainDB;
 import com.coupOn.platform.coupOn.Model.User;
+import com.coupOn.platform.coupOn.Notification.ModelNotification;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.shashank.platform.coup_on.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //MainActivity
 public class SwipeCards extends AppCompatActivity {
@@ -57,10 +65,12 @@ public class SwipeCards extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private String userID;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     ListView listView;
     private ArrayList<Cards> rowItems = new ArrayList<Cards>();
 
+    private Cards firstCoupon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -101,6 +111,7 @@ public class SwipeCards extends AppCompatActivity {
 //            String tempCouponId;
             @Override
             public void removeFirstObjectInAdapter() {
+                firstCoupon = MainDB.getInstance().getCouponCards().get(0);
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
 //                tempCouponId = rowItems.get(0).getCouponId();
@@ -124,36 +135,12 @@ public class SwipeCards extends AppCompatActivity {
             @Override
             public void onRightCardExit(Object dataObject) {
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
-
+                //System.out.println("first coupon" + firstCoupon);
                 //likedCoupons.add(tempCouponId);
                 System.out.println("@@@@ like!! " + likedCoupons);
 
-                user = FirebaseAuth.getInstance().getCurrentUser();
-                userID = user.getUid();
-                // Firebase-Firestore
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference docRef = db.collection("users")
-                        .document(userID);
-
-                docRef.get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    String fullNameStr = document.getString("FullName");
-                                    String emailStr = document.getString("Email");
-                                    if (fullNameStr != null) {
-
-                                    }
-                                    if (emailStr != null) {
-
-                                    } else {
-                                        Toast.makeText(SwipeCards.this, "Failed to get user from FB", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            }
-                        });
+                addToHisNotifications();
+                //addToHisNotifications(hisUid: ""+firstCoupon.getOwnerId(), pid:""+firstCoupon.getCouponId(), notification:"Liked your post");
             }
 
             @Override //required DataSnapShot
@@ -166,6 +153,7 @@ public class SwipeCards extends AppCompatActivity {
                 Log.d("LIST", "notified");
                 i++;
             }
+
 
             @Override
             public void onScroll(float scrollProgressPercent) {
@@ -186,6 +174,7 @@ public class SwipeCards extends AppCompatActivity {
                 intent.putExtra("couponName", couponName);
                 intent.putExtra("imageUri", imageUri);
                 startActivity(intent);
+
             }
         });
 
@@ -237,6 +226,30 @@ public class SwipeCards extends AppCompatActivity {
         }
     }
 
+
+    private void addToHisNotifications(){
+        //timestamp for time and notification id
+        String timeStamp = ""+System.currentTimeMillis();
+
+        List<String> notifications = new ArrayList<>();
+
+        //data to put in notification in firebase
+        /*HashMap<String, Object> hasMap = new HashMap<>();
+        hasMap.put("pId",pId);
+        hasMap.put("timestamp",timeStamp);
+        hasMap.put("pUid",hisUid);
+        hasMap.put("notification",notification);
+        hasMap.put("sUid",mAuth.getCurrentUser().getUid());*/
+
+        // Firebase-Firestore
+        Map<String, Object> dataEdit = new HashMap<>();
+        //data.put("CoupUid", "coupon");
+        dataEdit.put("Notifications", notifications);
+        DocumentReference updateUser = db.collection("users")
+                .document(firstCoupon.getOwnerId());
+        updateUser.update("Notifications", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid() + " " + timeStamp));
+    }
+
     //Gets the offered coupons
     public class GetCouponsCards implements Runnable
     {
@@ -284,7 +297,7 @@ public class SwipeCards extends AppCompatActivity {
                     for (Coupon c : MainDB.getInstance().getCouponsOffered()) {
                         // your stuff to update the UI
                         rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
-                                , c.getDiscountType(), c.getCouponId(), c.getUri()));
+                                , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
                     }
                     MainDB.getInstance().setCouponCards(rowItems);
                 }
