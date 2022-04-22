@@ -158,6 +158,17 @@ public class UserChatList extends AppCompatActivity
         super.onStart();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for(int i = 0; i < this.messagesLists.size(); i++)
+        {
+            this.messagesLists.get(i).setUnseenMessages(0);
+            messagesAdapter.updateData(messagesLists);
+
+        }
+    }
+
     public void mainMenu(View view)
     {
         Intent intent = new Intent(UserChatList.this, SwipeCards.class);

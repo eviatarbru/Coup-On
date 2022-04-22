@@ -81,25 +81,52 @@ public class MainDB
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 String email = value.getString("Email");
                 String fullName = value.getString("FullName");
+                String date = value.getString("DateOfBirth");
                 List<String> chatUsers = (List<String>) value.get("ChatUsers");
                 ArrayList<String> chatUsers1 = new ArrayList<>();
                 if(chatUsers != null)
                     chatUsers1.addAll(chatUsers);
                 List<String> interests = (List<String>) value.get("Interests");
-                ArrayList<String> interests1 = new ArrayList<>(interests);
-                if(!interests.isEmpty() || interests != null)
-//                    curUser.get(mAuth.getCurrentUser().getUid()).setInterests(interests1);
-                if(!chatUsers1.isEmpty() || chatUsers1 != null) {
-                    if (!interests.isEmpty() || interests != null)
-                        curUser.put(uid, new User(email, fullName, chatUsers1, interests1)); //Get from currentUser the Email and the FullName from the fireStore.
+                ArrayList<String> interests1 = new ArrayList<>();
+                if(interests != null)
+                    interests1.addAll(interests);
+                List<String> notifications = (List<String>) value.get("Notifications");
+                ArrayList<String> notifications1 = new ArrayList<>();
+                if(notifications != null)
+                    notifications1.addAll(notifications);
+                boolean chatB = (!chatUsers1.isEmpty() || chatUsers1 != null);
+                boolean interestsB = (!interests.isEmpty() || interests != null);
+                boolean notificationsB = (!notifications1.isEmpty() || notifications1 != null);
+                if(chatB) //Check Chats
+                {
+                    if (interestsB) //Check Interests
+                    {
+                        if(notificationsB) // true - chat, interests and notifications.
+                            curUser.put(uid, new User(email, fullName, date, chatUsers1, interests1, notifications1)); //Get from currentUser the Email and the FullName from the fireStore.
+                        else // true - chat and interests / False - notifications.
+                            curUser.put(uid, new User(email, fullName, date,  chatUsers1, interests1)); //Get from currentUser the Email and the FullName from the fireStore.
+                    }
                     else
-                        curUser.put(uid, new User(email, fullName, chatUsers1)); //Get from currentUser the Email and the FullName from the fireStore.
+                    if(notificationsB) // true - chat and notifications / False - interests.
+                        curUser.put(uid, new User(email, fullName, date,  chatUsers1, null, notifications1)); //Get from currentUser the Email and the FullName from the fireStore.
+                    else // true - chat / False - interests and notifications.
+                        curUser.put(uid, new User(email, fullName, date,  chatUsers1)); //Get from currentUser the Email and the FullName from the fireStore.
                 }
-                else {
-                    if (!interests.isEmpty() || interests != null)
-                        curUser.put(uid, new User(email, fullName, null, interests1)); //Get from currentUser the Email and the FullName from the fireStore.
-                    else
-                        curUser.put(uid, new User(email, fullName)); //Get from currentUser the Email and the FullName from the fireStore.
+                else {  //No Chats
+                    if (interestsB) //True - Interests / False - Chats
+                    {
+                        if(notificationsB) //True - Interests and Notifications / False - Chats
+                            curUser.put(uid, new User(email, fullName, date,  null, interests1 , notifications1)); //Get from currentUser the Email and the FullName from the fireStore.
+                        else //True - Interests / False - Chats and Notifications
+                            curUser.put(uid, new User(email, fullName, date,  null, interests1)); //Get from currentUser the Email and the FullName from the fireStore.
+                    }
+                    else //False - Chats and Interests
+                    {
+                        if(notificationsB) //True - Notifications / False - Chats and Interests
+                            curUser.put(uid, new User(email, fullName, date,  null, null, notifications1)); //Get from currentUser the Email and the FullName from the fireStore.
+                        else //False - Chats, Interests and Notifications
+                            curUser.put(uid, new User(email, fullName, date)); //Get from currentUser the Email and the FullName from the fireStore.
+                    }
                 }
             }
         });
@@ -199,7 +226,8 @@ public class MainDB
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 String email = value.getString("Email");
                 String fullName = value.getString("FullName");
-                chattingUsers.put(uid1, new User(email, fullName));//Get from currentUser the Email and the FullName from the fireStore.
+                String date = value.getString("DateOfBirth");
+                chattingUsers.put(uid1, new User(email, fullName, date));//Get from currentUser the Email and the FullName from the fireStore.
             }
         });
     }

@@ -52,7 +52,7 @@
                 android:layout_marginStart="184dp"
                 android:layout_marginTop="4dp"
                 android:text="Expired On:"
-                android:textColor="#5A5A5A" />
+                android:textColor="#5A5A5A"/>
 
             <TextView
                 android:id="@+id/locationItem"
@@ -73,6 +73,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="17dp"
+                android:layout_toStartOf="@+id/deleteCoupon"
                 android:text="Description"
                 android:textColor="#303030" />
 
@@ -85,6 +86,17 @@
                 android:layout_marginStart="-2dp"
                 android:layout_marginBottom="-1dp"
                 android:background="#14000000" />
+
+            <Button
+                android:id="@+id/deleteCoupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/blackbutton"
+                android:text="delete" />
 
         </RelativeLayout>
 

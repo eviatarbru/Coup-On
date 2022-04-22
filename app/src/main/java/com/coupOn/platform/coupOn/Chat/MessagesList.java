@@ -33,16 +33,24 @@ public class MessagesList
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getLastMessage() {
         return lastMessage;
     }
 
-    public int getUnseenMessages() {
-        return unseenMessages;
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     public String getChatKey() {
@@ -61,6 +69,14 @@ public class MessagesList
         this.mobile = mobile;
     }
 
+    public int getUnseenMessages() {
+        return unseenMessages;
+    }
+
+    public void setUnseenMessages(int unseenMessages) {
+        this.unseenMessages = unseenMessages;
+    }
+
     @Override
     public String toString() {
         return "MessagesList{" +
@@ -72,4 +88,5 @@ public class MessagesList
                 ", unseenMessages=" + unseenMessages +
                 '}';
     }
+
 }

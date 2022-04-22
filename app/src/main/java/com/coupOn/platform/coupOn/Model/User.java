@@ -10,38 +10,58 @@ public class User
     private Image profileImg;
     private String email;
     private String fullName;
-    private Date date;
+    private String date;
     private String gender;
     private ArrayList<String> interests;
     private ArrayList<Coupon> coupons;
     private ArrayList<Coupon> likedCoupons;
     private ArrayList<String> chattingUserUIDs;
+    private ArrayList<String> notifications;
 
-    public User(String email, String fullName, ArrayList<String> chattingString, ArrayList<String> interests) {
+    public User(String email, String fullName, String date, ArrayList<String> chattingString, ArrayList<String> interests, ArrayList<String> notifications) {
         this.email = email;
         this.fullName = fullName;
+        this.date = date;
         this.chattingUserUIDs = new ArrayList<String>();
         this.interests = new ArrayList<>();
         this.interests = interests;
         this.coupons = new ArrayList<Coupon>();
         this.chattingUserUIDs = chattingString;
+        this.notifications = new ArrayList<>();
+        this.notifications = notifications;
     }
 
-    public User(String email, String fullName, ArrayList<String> chattingString) {
+    public User(String email, String fullName, String date, ArrayList<String> chattingString, ArrayList<String> interests) {
         this.email = email;
         this.fullName = fullName;
+        this.date = date;
         this.chattingUserUIDs = new ArrayList<String>();
         this.interests = new ArrayList<>();
+        this.interests = interests;
         this.coupons = new ArrayList<Coupon>();
         this.chattingUserUIDs = chattingString;
+        this.notifications = new ArrayList<>();
     }
 
-    public User(String email, String fullName) {
+    public User(String email, String fullName, String date, ArrayList<String> chattingString) {
         this.email = email;
         this.fullName = fullName;
-        this.chattingUserUIDs = new ArrayList<>();
+        this.date = date;
         this.coupons = new ArrayList<Coupon>();
+        this.chattingUserUIDs = new ArrayList<String>();
+        this.chattingUserUIDs = chattingString;
         this.interests = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+    }
+
+    public User(String email, String fullName, String date) {
+        this.email = email;
+        this.fullName = fullName;
+        this.date = date;
+        this.coupons = new ArrayList<Coupon>();
+        this.chattingUserUIDs = new ArrayList<>();
+        this.interests = new ArrayList<>();
+        this.notifications = new ArrayList<>();
     }
 
     public void addCouponToUser(Coupon coupon){
@@ -82,7 +102,10 @@ public class User
         return "User{" +
                 "email='" + email + '\'' +
                 ", fullName='" + fullName + '\'' +
+                ", date=" + date +
+                ", interests=" + interests +
                 ", chattingUserUIDs=" + chattingUserUIDs +
+                ", notifications=" + notifications +
                 '}';
     }
 }

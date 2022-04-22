@@ -16,7 +16,6 @@
         <item name="colorAccent">@color/textInputLayoutLight</item>
         <item name="android:textColorHint">#80000000</item>
         <item name="android:textColor">@color/textInputLayoutLight</item>
-<!--        <item name="android:background">@drawable/bordertextfield</item>-->
     </style>
 
     <style name="EditScreenTextInputLayoutStyle" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -34,13 +33,4 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-
-<!--    <style name="Widget.AppTheme.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">-->
-<!--        <item name="android:background">@color/black_overlay</item>-->
-<!--    </style>-->
-
-<!--    <style name="Widget.AppTheme.ButtonBar.Fullscreen" parent="">-->
-<!--        <item name="android:background">@color/black_overlay</item>-->
-<!--        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>-->
-<!--    </style>-->
 </resources>

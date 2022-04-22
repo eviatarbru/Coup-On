@@ -1,11 +1,15 @@
 package com.coupOn.platform.coupOn.ChatMessage;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Chat.MemoryData;
 import com.coupOn.platform.coupOn.Model.MainDB;
+import com.coupOn.platform.coupOn.UserCoupons;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -82,7 +90,7 @@ public class ChatScreen extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if(chatKey.isEmpty()) {
-                    //generate chat key. by defult chatKey is 1.
+                    //generate chat key. by default chatKey is 1.
                     chatKey = "1";
 
                     if (snapshot.hasChild("chat")) {
@@ -139,6 +147,34 @@ public class ChatScreen extends AppCompatActivity {
 
             }
         });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Confirm");
+        builder.setMessage("Did you trade your coupons?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                Intent intent = new Intent(ChatScreen.this, UserCoupons.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
