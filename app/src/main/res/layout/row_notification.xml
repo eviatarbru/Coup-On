@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,8 +8,7 @@
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
-    app:contentPadding="3dp"
-    tools:context="com.coupOn.platform.coupOn.Notification.AdapterForButtons">
+    app:contentPadding="3dp">
 
     <LinearLayout
         android:id="@+id/currentRow"
@@ -70,6 +68,7 @@
             android:layout_marginTop="10dp"
             android:text="X"
             android:textColor="#FF0000"/>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

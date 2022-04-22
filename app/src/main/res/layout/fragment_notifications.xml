@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,7 +29,8 @@
             android:text="Notifications"
             android:textColor="#424242"
             android:textSize="18sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold">
+        </TextView>
 
         <ImageView
             android:layout_width="120dp"
@@ -37,15 +39,14 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="5dp"
-            android:onClick="mainMenu"
-            android:src="@drawable/coupon_logo"></ImageView>
+            android:src="@drawable/coupon_logo_invs_br">
+        </ImageView>
+
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationRv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/row_notification" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

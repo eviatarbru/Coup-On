@@ -20,7 +20,8 @@
             android:layout_marginTop="20dp"
             android:onClick="mainMenu"
             android:background="@drawable/round_back_light_10"
-            android:src="@drawable/back_btn"></ImageView>
+            android:src="@drawable/back_btn">
+        </ImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +30,8 @@
             android:text="Messages"
             android:textColor="#424242"
             android:textSize="18sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold">
+        </TextView>
 
         <ImageView
             android:layout_width="120dp"
@@ -39,7 +41,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="5dp"
             android:onClick="mainMenu"
-            android:src="@drawable/coupon_logo_invs_br"></ImageView>
+            android:src="@drawable/coupon_logo_invs_br">
+        </ImageView>
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

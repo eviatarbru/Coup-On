@@ -21,6 +21,7 @@ import com.coupOn.platform.coupOn.Model.Coupon;
 import com.coupOn.platform.coupOn.Model.MainDB;
 import com.coupOn.platform.coupOn.Model.User;
 import com.coupOn.platform.coupOn.Notification.ModelNotification;
+import com.coupOn.platform.coupOn.Notification.NotificationsFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,7 +52,6 @@ public class SwipeCards extends AppCompatActivity {
 
     //For the chatPart
     private RecyclerView messagesRecycleView;
-    private ImageView chat_Icon;
     ConstraintLayout loading; //Loading screen
     ConstraintLayout swipes; //Main screen
 
@@ -79,7 +79,6 @@ public class SwipeCards extends AppCompatActivity {
         setContentView(R.layout.activity_swipe_cards);
         System.out.println("onCreate");
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
-        this.chat_Icon = findViewById(R.id.chat_icon);
 
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
 
@@ -140,7 +139,6 @@ public class SwipeCards extends AppCompatActivity {
                 System.out.println("@@@@ like!! " + likedCoupons);
 
                 addToHisNotifications();
-                //addToHisNotifications(hisUid: ""+firstCoupon.getOwnerId(), pid:""+firstCoupon.getCouponId(), notification:"Liked your post");
             }
 
             @Override //required DataSnapShot
@@ -181,12 +179,6 @@ public class SwipeCards extends AppCompatActivity {
             }
         });
 
-        chat_Icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chatScreen(view);
-            }
-        });
 
     }
     @Override
@@ -236,13 +228,6 @@ public class SwipeCards extends AppCompatActivity {
 
         List<String> notifications = new ArrayList<>();
 
-        //data to put in notification in firebase
-        /*HashMap<String, Object> hasMap = new HashMap<>();
-        hasMap.put("pId",pId);
-        hasMap.put("timestamp",timeStamp);
-        hasMap.put("pUid",hisUid);
-        hasMap.put("notification",notification);
-        hasMap.put("sUid",mAuth.getCurrentUser().getUid());*/
 
         // Firebase-Firestore
         Map<String, Object> dataEdit = new HashMap<>();
@@ -250,7 +235,8 @@ public class SwipeCards extends AppCompatActivity {
         dataEdit.put("Notifications", notifications);
         DocumentReference updateUser = db.collection("users")
                 .document(firstCoupon.getOwnerId());
-        updateUser.update("Notifications", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid() + " " + timeStamp));
+        updateUser.update("Notifications", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid() + "*" + timeStamp + "*" + firstCoupon.getCouponName() + "*"
+                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName()));
     }
 
     //Gets the offered coupons
@@ -350,6 +336,11 @@ public class SwipeCards extends AppCompatActivity {
 
     public void gotoAddCoupon(View view){
         Intent intent = new Intent(this, addCoupon.class);
+        startActivity(intent);
+    }
+
+    public void notificationScreen(View view){
+        Intent intent = new Intent(this, NotificationsFragment.class);
         startActivity(intent);
     }
 

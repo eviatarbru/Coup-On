@@ -97,6 +97,14 @@ public class User
         this.interests = interests;
     }
 
+    public ArrayList<String> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(ArrayList<String> notifications) {
+        this.notifications = notifications;
+    }
+
     @Override
     public String toString() {
         return "User{" +

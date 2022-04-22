@@ -5,22 +5,23 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.coupOn.platform.coupOn.Chat.MessagesList;
+import com.coupOn.platform.coupOn.Model.MainDB;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 import com.shashank.platform.coup_on.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.HolderNotification> {
 
@@ -31,10 +32,12 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         this.context = context;
         this.notificationsList = notificationsList;
     }
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @NonNull
     @Override
-    public HolderNotification onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterNotification.HolderNotification onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate view row_notification
 
         View view = LayoutInflater.from(context).inflate(R.layout.row_notification, parent, false);
@@ -47,21 +50,46 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         //get and set data to views
 
         //get data
-        String model = notificationsList.get(position);
-       // String name = model.getsName();
-       // String notification = model.getNotification();
-        long timestamp = Calendar.getInstance().getTimeInMillis();
+        String info[] = this.notificationsList.get(position).split("\\*");
+        String uID = info[0];
+        String timestamp = info[1];
+        String coupName = info[2];
+        String myID = info[3];
 
-        //convert timestamp to dd/mm/yyyy hh:mm am/pm
-        //Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        //calendar.setTimeInMillis(Long.parseLong(timestamp));
-        String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", timestamp).toString();
+        String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", Long.parseLong(timestamp)).toString();
 
         //set to views
-        holder.nameTv.setText(model);
-        holder.notificationTv.setText("Liked your coupon. Do you want to open a chat with him?");
+        holder.nameTv.setText(myID);
         holder.timeTv.setText(pTime);
+        holder.notificationTv.setText("Liked your coupon " + coupName);
 
+        // holder.notificationTv.setText("Liked your coupon.Do you want to open a chat with him?");
+
+        holder.deleteBut.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Notification Deleted!!", Toast.LENGTH_SHORT).show();
+                notificationsList.remove(holder.getAdapterPosition());
+                updateData(notificationsList);
+                db.collection("users").document(mAuth.getCurrentUser().getUid()).
+                        update("Notifications",FieldValue.arrayRemove(holder.getAdapterPosition()));
+            }
+        });
+
+        holder.acceptBut.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                DocumentReference updateUser = db.collection("users")
+                        .document(mAuth.getCurrentUser().getUid());
+                updateUser.update("ChatUsers", FieldValue.arrayUnion(uID));
+
+                DocumentReference updateUser1 = db.collection("users")
+                        .document(uID);
+                updateUser1.update("ChatUsers", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+            }
+        });
     }
 
     public void updateData(ArrayList<String> notificationsList1)
@@ -80,20 +108,20 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
         // declare views
         private AdapterNotification adapter;
-        //ImageView avatarIv;
         TextView nameTv, notificationTv, timeTv;
+        Button deleteBut, acceptBut;
         private LinearLayout currentRow;
-        //int position;
 
         public HolderNotification(@NonNull View itemView) {
             super(itemView);
 
             // init views
-            //avatarIv = itemView.findViewById(R.id.avatarIv);
             currentRow = itemView.findViewById(R.id.currentRow);
             nameTv = itemView.findViewById(R.id.nameTv);
             notificationTv = itemView.findViewById(R.id.notificationTv);
             timeTv = itemView.findViewById(R.id.timeTv);
+            deleteBut = itemView.findViewById(R.id.button_delete);
+            acceptBut = itemView.findViewById(R.id.button_accept);
         }
     }
 
