@@ -196,7 +196,7 @@ public class AddCouponImage extends AppCompatActivity {
 
 
 
-                Coupon coupon = new Coupon(fileName, name, expireDate, location, description, userUid, couponId, interest, discountType, couponCode);
+                Coupon coupon = new Coupon(fileName, name, expireDate, location, description, userUid, couponId, interest, discountType, couponCode, rank);
                 MainDB.getInstance().getCurUser().get(userUid).addCouponToUser(coupon);
 
                 startActivity(intent);

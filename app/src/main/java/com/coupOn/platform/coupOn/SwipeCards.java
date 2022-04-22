@@ -144,7 +144,8 @@ public class SwipeCards extends AppCompatActivity {
             }
 
             @Override //required DataSnapShot
-            public void onAdapterAboutToEmpty(int itemsInAdapter) {
+            public void onAdapterAboutToEmpty(int itemsInAdapter) { //need to ask for more coupons
+                                                                    //OR notify user that there are no coupons to show
                 // Ask for more data here
                 //Cards item = new Cards( dataSnapshot);
                 Cards item = new Cards("id", "No Coupons");// need to be changed based on DB
@@ -171,8 +172,10 @@ public class SwipeCards extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), InfoCouponActivity.class);
                 String couponName = rowItems.get(0).getCouponName(); //couponName is a value that needs to be fetched from firebase
                 Uri imageUri = rowItems.get(0).getUri();
+                String ownerId = rowItems.get(0).getOwnerId();
                 intent.putExtra("couponName", couponName);
                 intent.putExtra("imageUri", imageUri);
+                intent.putExtra("ownerId", ownerId);
                 startActivity(intent);
 
             }

@@ -55,7 +55,9 @@ public class MainDB
     private final HashMap<String, User> chattingUsers = new HashMap<>();
     private final ArrayList<Coupon> couponsOffered = new ArrayList<>();
 
-    private ArrayList<Cards> couponCards = new ArrayList<Cards>(); //to save the cards
+    private ArrayList<Cards> couponCards = new ArrayList<Cards>();      //to save the cards
+    private ArrayList<Coupon> matchCoupons = new ArrayList<Coupon>();   //1 in 5 coupons that are good (20)
+    private ArrayList<Coupon> unmatchCoupons = new ArrayList<Coupon>(); //4 in 5 coupons that are not very good (80)
 
     private boolean finishedOfferedCoupons = false;
 
@@ -121,8 +123,10 @@ public class MainDB
                                     , document.getString("ExpireDate"), document.getString("Location")
                                     , document.getString("Description"), document.getString("UserUid")
                                     , document.getString("CouponId"), document.getString("Interest")
-                                    , document.getString("DiscountType"), document.getString("CouponCode"));
-                            couponsOffered.add(c);
+                                    , document.getString("DiscountType"), document.getString("CouponCode")
+                                    , document.getLong("Rank").intValue());
+                            if(!document.getString("UserUid").equals(mAuth.getCurrentUser().getUid()))
+                                couponsOffered.add(c);
                         }
                         counter[0]++;
                         if(counter[0] >= sizeInterests - 1)
@@ -160,6 +164,11 @@ public class MainDB
                 mStorageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
+                        if(couponsOffered.get(finalI).getRank() > 3)
+                            matchCoupons.add(couponsOffered.get(finalI));
+                        else
+                            unmatchCoupons.add(couponsOffered.get(finalI));
+
                         couponsOffered.get(finalI).setUri(task.getResult());
                         counter[0]++;
                         if((counter[0] >= couponsOffered.size())) {
@@ -220,5 +229,20 @@ public class MainDB
         return couponsOffered;
     }
 
+    public ArrayList<Coupon> getMatchCoupons() {
+        return matchCoupons;
+    }
+
+    public void setMatchCoupons(ArrayList<Coupon> matchCoupons) {
+        this.matchCoupons = matchCoupons;
+    }
+
+    public ArrayList<Coupon> getUnmatchCoupons() {
+        return unmatchCoupons;
+    }
+
+    public void setUnmatchCoupons(ArrayList<Coupon> unmatchCoupons) {
+        this.unmatchCoupons = unmatchCoupons;
+    }
 }
 

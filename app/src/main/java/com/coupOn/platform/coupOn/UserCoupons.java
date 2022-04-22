@@ -111,8 +111,6 @@ public class UserCoupons extends AppCompatActivity {
                             List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
                             for (DocumentSnapshot snapshot : snapshotList) {
 
-                                //                            System.out.println("@@@@ "+ snapshot.getString("CoupName"));
-
                                 coupon = new Coupon(snapshot.getString("CouponImage")
                                         , snapshot.getString("CoupName")
                                         , snapshot.getString("ExpireDate")
@@ -122,7 +120,8 @@ public class UserCoupons extends AppCompatActivity {
                                         , snapshot.getString("CouponId")
                                         , snapshot.getString("Interest")
                                         , snapshot.getString("DiscountType")
-                                        , snapshot.getString("CouponCode"));
+                                        , snapshot.getString("CouponCode")
+                                        ,snapshot.getLong("Rank").intValue());
                                 userCouponsList.add(coupon);
                             }
                             userCouponAdapter.updateData(userCouponsList);

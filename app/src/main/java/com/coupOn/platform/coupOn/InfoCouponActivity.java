@@ -49,17 +49,25 @@ public class InfoCouponActivity extends AppCompatActivity {
         Bundle info = infoIntent.getExtras();
         String name = (String) info.get("couponName"); // need to get from swipeCards the name of the coupon
         Uri imageUri = (Uri) info.get("imageUri");
+        String ownerId = (String) info.get("ownerId");
 
-        String email = MainDB.getInstance().getCurUser().get(userUid).getEmail();
-        String userName = MainDB.getInstance().getCurUser().get(userUid).getFullName();
+        db.collection("users")
+                .document(ownerId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        ownerName.setText(documentSnapshot.getString("FullName"));
+                        ownerEmail.setText(documentSnapshot.getString("Email"));
+                    }
+                });
 
         Glide.with(this)
                 .load(imageUri) // the uri you got from Firebase
                 .into(couponImage);
 
         couponName.setText(name);
-        ownerName.setText(userName);
-        ownerEmail.setText(email);
 
 
     }

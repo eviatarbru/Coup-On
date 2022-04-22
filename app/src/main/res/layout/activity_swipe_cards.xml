@@ -39,6 +39,7 @@
             android:indeterminateBehavior="cycle"
             android:minWidth="50dp"
             android:minHeight="50dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -52,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -61,10 +63,27 @@
             app:srcCompat="@drawable/lightcoupon" />
         <!--    #ffeee9e2-->
 
+        <ImageView
+            android:id="@+id/nopeArrow"
+            android:layout_width="115dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_constraintLayout"
+            app:srcCompat="@drawable/nope_arrow" />
+
+        <ImageView
+            android:id="@+id/yesArrow"
+            android:layout_width="115dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_constraintLayout"
+            app:srcCompat="@drawable/yes_arrow" />
+
         <com.lorentzos.flingswipe.SwipeFlingAdapterView
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
             app:rotation_degrees="15.5"
             tools:context=".MyActivity" />
 
@@ -110,6 +129,7 @@
                 android:id="@+id/filter_icon"
                 android:layout_width="50dp"
                 android:layout_height="42dp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.422"

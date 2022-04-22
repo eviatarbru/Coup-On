@@ -17,13 +17,14 @@ public class Coupon
     private String interest;
     private String discountType;
     private String code;
+    private int rank;
 
     private Uri uri;
 
     private FirebaseAuth mAuth;
 
     public Coupon(String couponImage, String couponName, String expireDate, String location, String description
-            , String ownerId, String couponId, String interest, String discountType, String code) {
+            , String ownerId, String couponId, String interest, String discountType, String code, int rank) {
         this.couponImage = couponImage;
         this.couponName = couponName;
         this.expireDate = expireDate;
@@ -34,6 +35,7 @@ public class Coupon
         this.interest = interest;
         this.discountType = discountType;
         this.code = code;
+        this.rank = rank;
         this.uri = null;
     }
 
@@ -50,6 +52,7 @@ public class Coupon
                 ", interest='" + interest + '\'' +
                 ", discountType='" + discountType + '\'' +
                 ", code='" + code + '\'' +
+                ", rank='" + rank + '\'' +
                 ", uri=" + uri +
                 '}';
     }
@@ -140,5 +143,13 @@ public class Coupon
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }
