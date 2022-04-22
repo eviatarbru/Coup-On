@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:text="V"
-            android:textColor="#FF0000"/>
+            android:textColor="#00FF12"/>
 
         <Button
             android:id="@+id/button_delete"

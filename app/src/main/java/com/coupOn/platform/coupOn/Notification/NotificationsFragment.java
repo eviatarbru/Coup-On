@@ -1,6 +1,8 @@
 package com.coupOn.platform.coupOn.Notification;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.coupOn.platform.coupOn.Chat.MessagesList;
+import com.coupOn.platform.coupOn.Chat.UserChatList;
 import com.coupOn.platform.coupOn.Model.MainDB;
 import com.coupOn.platform.coupOn.Model.User;
+import com.coupOn.platform.coupOn.SwipeCards;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,5 +76,11 @@ public class NotificationsFragment extends AppCompatActivity {
         else{
             adapterNotify.updateData(null);
         }
+    }
+
+    public void mainMenu(View view)
+    {
+        Intent intent = new Intent(NotificationsFragment.this, SwipeCards.class);
+        startActivity(intent);
     }
 }

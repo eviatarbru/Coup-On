@@ -22,6 +22,7 @@ import com.google.firebase.firestore.Source;
 import com.shashank.platform.coup_on.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.HolderNotification> {
 
@@ -69,11 +70,13 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         {
             @Override
             public void onClick(View view) {
+                HashMap<String, String> delNotify = new HashMap<>();
+                delNotify.put("Notifications", notificationsList.get(holder.getAdapterPosition()));
                 Toast.makeText(view.getContext(), "Notification Deleted!!", Toast.LENGTH_SHORT).show();
                 notificationsList.remove(holder.getAdapterPosition());
                 updateData(notificationsList);
                 db.collection("users").document(mAuth.getCurrentUser().getUid()).
-                        update("Notifications",FieldValue.arrayRemove(holder.getAdapterPosition()));
+                        update("Notifications", FieldValue.arrayRemove(delNotify.get("Notifications")));
             }
         });
 
