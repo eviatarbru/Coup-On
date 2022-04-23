@@ -94,8 +94,7 @@ public class SwipeCards extends AppCompatActivity {
                 firstCoupon = MainDB.getInstance().getCouponCards().get(0);
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
-//                tempCouponId = rowItems.get(0).getCouponId();
-                System.out.println("@@@@ remove " + tempCouponId);
+                tempCouponId = rowItems.get(0).getCouponId();
                 MainDB.getInstance().getCouponCards().remove(0);
 //                rowItems.remove(0); //changed
                 arrayAdapter.notifyDataSetChanged();
@@ -108,16 +107,13 @@ public class SwipeCards extends AppCompatActivity {
                 //If you want to use it just cast it (String) dataObject
 
                 Toast.makeText(SwipeCards.this, "Left!", Toast.LENGTH_SHORT).show();
-                //dislikedCoupons.add(SwipeCards.tempCouponId.toString());
-                System.out.println("@@@@ dislike:( " + dislikedCoupons);
+                dislikedCoupons.add(SwipeCards.tempCouponId.toString());
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
-                //likedCoupons.add(tempCouponId);
-                System.out.println("@@@@ like!! " + likedCoupons);
-
+                likedCoupons.add(tempCouponId);
                 addToHisNotifications();
             }
 
@@ -260,10 +256,26 @@ public class SwipeCards extends AppCompatActivity {
             public void run() {
                 while(!MainDB.getInstance().getFinishedOfferedCouponsImage()) { }
                 if(MainDB.getInstance().getCouponCards().isEmpty() || MainDB.getInstance().getCouponCards() == null) {
-                    for (Coupon c : MainDB.getInstance().getCouponsOffered()) {
-                        // your stuff to update the UI
-                        rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
-                                , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
+
+                    int highIndex = 0;
+                    int lowIndex = 0;
+
+                    for(int i = 0; i < MainDB.getInstance().getCouponsOffered().size(); i++){
+
+                        if( ((i+1) % 5 == 0 && !MainDB.getInstance().getMatchCoupons().isEmpty()) || MainDB.getInstance().getUnmatchCoupons().isEmpty()){
+//                           (We are at the fifth coupon) OR (No low rank coupons to show) --> show high rank coupon
+                            Coupon c = MainDB.getInstance().getMatchCoupons().get(highIndex);
+                            highIndex++;
+                            rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
+                                    , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
+                        }
+                        else{
+//                            (We are NOT at the fifth coupon) OR (No high rank coupons to show) --> show Low rank coupon
+                            Coupon c = MainDB.getInstance().getUnmatchCoupons().get(lowIndex);
+                            lowIndex++;
+                            rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
+                                    , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
+                        }
                     }
                     MainDB.getInstance().setCouponCards(rowItems);
                 }
