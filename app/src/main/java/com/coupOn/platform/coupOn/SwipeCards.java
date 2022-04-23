@@ -252,29 +252,31 @@ public class SwipeCards extends AppCompatActivity {
         public GetUserFirebaseS(SwipeFlingAdapterView flingContainer) {
             this.flingContainer = flingContainer;
         }
+
             @Override
             public void run() {
                 while(!MainDB.getInstance().getFinishedOfferedCouponsImage()) { }
                 if(MainDB.getInstance().getCouponCards().isEmpty() || MainDB.getInstance().getCouponCards() == null) {
 
-                    int highIndex = 0;
-                    int lowIndex = 0;
-
                     for(int i = 0; i < MainDB.getInstance().getCouponsOffered().size(); i++){
-
-                        if( ((i+1) % 5 == 0 && !MainDB.getInstance().getMatchCoupons().isEmpty()) || MainDB.getInstance().getUnmatchCoupons().isEmpty()){
+                        
+                        if( (((i+1) % 5) == 0 && !MainDB.getInstance().getMatchCoupons().isEmpty()) || MainDB.getInstance().getUnmatchCoupons().isEmpty()){
 //                           (We are at the fifth coupon) OR (No low rank coupons to show) --> show high rank coupon
-                            Coupon c = MainDB.getInstance().getMatchCoupons().get(highIndex);
-                            highIndex++;
+
+                            Coupon c = MainDB.getInstance().getMatchCoupons().get(0);
+                            MainDB.getInstance().getMatchCoupons().remove(0);
                             rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
                                     , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
                         }
                         else{
-//                            (We are NOT at the fifth coupon) OR (No high rank coupons to show) --> show Low rank coupon
-                            Coupon c = MainDB.getInstance().getUnmatchCoupons().get(lowIndex);
-                            lowIndex++;
-                            rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
-                                    , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
+                            if( (((i+1) % 5) != 0 || MainDB.getInstance().getMatchCoupons().isEmpty()) || MainDB.getInstance().getMatchCoupons().isEmpty()){
+//                                (We are NOT at the fifth coupon) OR (No high rank coupons to show) --> show Low rank coupon
+
+                                Coupon c = MainDB.getInstance().getUnmatchCoupons().get(0);
+                                MainDB.getInstance().getUnmatchCoupons().remove(0);
+                                rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
+                                        , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
+                            }
                         }
                     }
                     MainDB.getInstance().setCouponCards(rowItems);
