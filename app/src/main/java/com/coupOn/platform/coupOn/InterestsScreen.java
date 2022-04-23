@@ -61,7 +61,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         Intent regIntent = getIntent();
         Bundle infoReg = regIntent.getExtras();
         this.fromScreen = (int) infoReg.get("fromScreen");
-        System.out.println(this.fromScreen);
         switch(this.fromScreen)
         {
             case 2:
@@ -80,7 +79,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         container.setColumnCount(3);
         container.setRowCount(this.interests.length / 3);
         mAuth = FirebaseAuth.getInstance();
-        System.out.println(mAuth);
         switch (this.fromScreen)
         {
             case 1:
@@ -161,7 +159,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         }
         this.pressedBeforeInterests = index;
         this.beforePressedBtn = view;
-        System.out.println(Arrays.toString(this.isPressed));
     }
 
     public void registerCompletion(View view)
@@ -176,7 +173,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         }
 //        interestsFb = interestsFb.substring(0, interestsFb.length()-2);
 
-        System.out.println(interestsFb);
         Intent regIntent = getIntent();
         Bundle infoReg = regIntent.getExtras();
         switch (this.fromScreen)
@@ -188,8 +184,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 String dateOfBirth = (String) infoReg.get("dateOfBirth");
 
                 List<String> finalInterestsFb = interestsFb;
-
-                System.out.println(email + " " + password + " " + fullName + " " + dateOfBirth + " " + finalInterestsFb);
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(InterestsScreen.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -236,8 +230,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 int rank = (int) infoReg.get("rank");
                 String couponInterests = interestsFb.get(0);
 
-                System.out.println(coupName + " " + expireDate + " " + location + " " + description + " " + couponInterests);
-
                 Intent intent2 = new Intent(InterestsScreen.this, AddCouponImage.class);
                 intent2.putExtra("name", coupName);
                 intent2.putExtra("expireDate", expireDate);
@@ -268,7 +260,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
     protected void onStart()
     {
         super.onStart();
-        System.out.println(this.fromScreen);
         switch (this.fromScreen)
         {
             case 1:
@@ -281,7 +272,6 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
     protected void onStop()
     {
         super.onStop();
-        System.out.println(this.fromScreen);
         switch (this.fromScreen)
         {
             case 1:

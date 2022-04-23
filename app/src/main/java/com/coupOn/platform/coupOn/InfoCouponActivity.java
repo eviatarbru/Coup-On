@@ -1,9 +1,5 @@
 package com.coupOn.platform.coupOn;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,20 +7,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
-import com.coupOn.platform.coupOn.Model.MainDB;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.shashank.platform.coup_on.R;
-
-import java.util.List;
 
 public class InfoCouponActivity extends AppCompatActivity {
 
@@ -79,7 +69,3 @@ public class InfoCouponActivity extends AppCompatActivity {
         finish();
     }
 }
-
-// #### put in swipeCard in gotoCouponInfo ####
-//final String couponName = this.couponName.getText().toString(); //couponName is a value that needs to be fetched from firebase
-//intent.putExtra("couponName", couponName);

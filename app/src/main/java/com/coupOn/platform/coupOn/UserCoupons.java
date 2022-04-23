@@ -1,45 +1,23 @@
 package com.coupOn.platform.coupOn;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.media.Image;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.coupOn.platform.coupOn.Model.Coupon;
-import com.coupOn.platform.coupOn.Model.MainDB;
-import com.coupOn.platform.coupOn.Model.User;
-
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.shashank.platform.coup_on.R;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 public class UserCoupons extends AppCompatActivity {
@@ -70,18 +48,6 @@ public class UserCoupons extends AppCompatActivity {
         setAdapter();
 
         new Thread(new setCouponInfo()).start(); //Making a Thread for the User's Info
-
-//        Intent intent = UserCoupons.getInstance().getIntent();
-//        Bundle info = intent.getExtras();
-//        Uri imageUri = (Uri) info.get("imageUri");
-//
-//        ImageView couponImage = findViewById(R.id.couponImage);
-//
-//        Glide.with(this)
-//                .load(imageUri) // the uri you got from Firebase
-//                .into(couponImage);
-
-//        readData();
     }
 
     private void setAdapter() {

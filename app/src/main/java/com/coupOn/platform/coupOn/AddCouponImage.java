@@ -1,38 +1,25 @@
 package com.coupOn.platform.coupOn;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.graphics.drawable.DrawableCompat;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.coupOn.platform.coupOn.Model.Coupon;
 import com.coupOn.platform.coupOn.Model.MainDB;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.shashank.platform.coup_on.R;
@@ -43,7 +30,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 
 public class AddCouponImage extends AppCompatActivity {
 
@@ -64,26 +50,13 @@ public class AddCouponImage extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public ActivityAddCouponImageBinding binding; //for the image
-    //public ActivityResultLauncher<String> mTakePhoto;
     public Uri imageUri;
-    //public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddCouponImageBinding.inflate(getLayoutInflater()); //for the image
         setContentView(binding.getRoot());
-
-//        mTakePhoto = registerForActivityResult(
-//                new ActivityResultContracts.GetContent(),
-//                new ActivityResultCallback<Uri>() {
-//                    @Override
-//                    public void onActivityResult(Uri result) {
-//
-//                        binding.imageIcon.setImageURI(result);
-//                    }
-//                }
-//        );
 
         this.mAuth = FirebaseAuth.getInstance();
 
@@ -95,7 +68,6 @@ public class AddCouponImage extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storageReference;
-        //storageReference = storage.getReference();
 
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             public void onSwipeTop() {
@@ -221,7 +193,6 @@ public class AddCouponImage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100 && data != null && data.getData() != null){
             imageUri = data.getData();
-            System.out.println("@@@@ dataaa" + imageUri);
             binding.imageIcon.setImageURI(imageUri);
             //uploadPicture();
         }
@@ -239,8 +210,6 @@ public class AddCouponImage extends AppCompatActivity {
         String userUid =  mAuth.getCurrentUser().getUid();
         fileName = userUid + "_" + fileName;
 
-        System.out.println("@@@fileName: "+fileName);
-
         storageReference = FirebaseStorage.getInstance().getReference("images/" + fileName);
 
         storageReference.putFile(imageUri)
@@ -250,25 +219,15 @@ public class AddCouponImage extends AppCompatActivity {
 
                         binding.imageIcon.setImageURI(null);
                         Toast.makeText(AddCouponImage.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                        //if(progressDialog.isShowing())
-                            //progressDialog.dismiss();
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
-                //if(progressDialog.isShowing())
-                    //progressDialog.dismiss();
                 Toast.makeText(AddCouponImage.this, "Failed to upload", Toast.LENGTH_SHORT).show();
             }
         });
         return fileName;
-
-//        final String randomKey = UUID.randomUUID().toString();
-//        //System.out.println("@@@the random key:" + randomKey);
-//        String imageUri_String;
-
         }
 }
 

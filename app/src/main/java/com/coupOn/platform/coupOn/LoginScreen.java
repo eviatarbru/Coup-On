@@ -1,9 +1,5 @@
 package com.coupOn.platform.coupOn;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,22 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.shashank.platform.coup_on.R;
-
-import java.util.List;
 
 public class LoginScreen extends AppCompatActivity {
 
@@ -48,8 +37,6 @@ public class LoginScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login_screen);
         this.imageView = findViewById(R.id.imageView);
         this.textView = findViewById(R.id.textView);
@@ -58,7 +45,6 @@ public class LoginScreen extends AppCompatActivity {
         this.signInButton = findViewById(R.id.register);
         this.forgotPassword = findViewById(R.id.forgotPassword);
 
-        // I think its ok, thats how the youtube guy did it
         forgotPassword.setOnClickListener(this::ForgotPasswordBtn);
 
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
@@ -114,8 +100,6 @@ public class LoginScreen extends AppCompatActivity {
     {
         final String email = this.email.getText().toString();
         final String password = this.password.getText().toString();
-        System.out.println("@@@@ email " + email);
-        System.out.println("@@@@ pass " + password);
         if(email.equals("") || password.equals(""))
         {
             Toast.makeText(LoginScreen.this, "Enter Email and Password", Toast.LENGTH_SHORT).show();
@@ -153,13 +137,6 @@ public class LoginScreen extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    public void signInListener(View view)
-//    {
-//
-//        Intent intent = new Intent(this, SwipeCards.class);
-//        startActivity(intent);
-//    }
-
     public void ForgotPasswordBtn(View view)
     {
         Intent intent = new Intent(this, ForgotPasswordScreen.class);
@@ -170,19 +147,5 @@ public class LoginScreen extends AppCompatActivity {
     public void onBackPressed() {
         return;
     }
-
-    // he did it like that, its looking kinda more organized
-   /* public void onClick(View v){
-        switch(v.getId()){
-            case R.id.signUpButton:
-                startActivity(new Intent( packageContext this, RegisterActivity.class));
-                break;
-
-            ...
-
-            case R.id.forgotPassword:
-                startActivity(new Intent ( packageContext this, ForgotPasswordScreen.class));
-
-    }*/
 
 }

@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,18 +17,10 @@ import com.coupOn.platform.coupOn.Chat.UserChatList;
 import com.coupOn.platform.coupOn.Model.Coupon;
 import com.coupOn.platform.coupOn.Model.MainDB;
 import com.coupOn.platform.coupOn.Model.User;
-import com.coupOn.platform.coupOn.Notification.ModelNotification;
 import com.coupOn.platform.coupOn.Notification.NotificationsFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
@@ -77,7 +66,6 @@ public class SwipeCards extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_cards);
-        System.out.println("onCreate");
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
 
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
@@ -87,23 +75,16 @@ public class SwipeCards extends AppCompatActivity {
         loading.setVisibility(View.VISIBLE);
         swipes.setVisibility(View.INVISIBLE);
 
-//        Cards item = new Cards("id", "Coupon 1");
-//        rowItems.add(item);
-
         if(MainDB.getInstance().getCouponCards() == null || MainDB.getInstance().getCouponCards().isEmpty()) {
             new Thread(new InitDB()).start(); //Making a Thread for the User's Info
 
             new Thread((new GetChatUsers())).start(); //Chat Thread
-//        String uidU = MainDB.getInstance().getCurUser().keySet().toString(); //For the testing
-//        uidU = uidU.substring(1, uidU.length()-1); //For the testing
+
             new Thread(new GetCouponsCards()).start();
 //
             new Thread(new setUrisToCoupons()).start();
         }
         new Thread(new GetUserFirebaseS(flingContainer)).start(); //Just an example to test the random user info.
-
-        System.out.println(MainDB.getInstance().getCouponCards() + "this is the");
-
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
         {
@@ -134,7 +115,6 @@ public class SwipeCards extends AppCompatActivity {
             @Override
             public void onRightCardExit(Object dataObject) {
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
-                //System.out.println("first coupon" + firstCoupon);
                 //likedCoupons.add(tempCouponId);
                 System.out.println("@@@@ like!! " + likedCoupons);
 
@@ -258,7 +238,6 @@ public class SwipeCards extends AppCompatActivity {
         @Override
         public void run() {
             while(!MainDB.getInstance().getFinishedOfferedCoupons()) {  }
-            System.out.println("this is the setUrisToCoupons the coupon cards2 (SwipeCard)");
             MainDB.getInstance().getUriToOfferedCoupons();
         }
     }
@@ -280,9 +259,7 @@ public class SwipeCards extends AppCompatActivity {
             @Override
             public void run() {
                 while(!MainDB.getInstance().getFinishedOfferedCouponsImage()) { }
-                System.out.println("this is the get user firebase the coupon cards1.5 (SwipeCard)");
                 if(MainDB.getInstance().getCouponCards().isEmpty() || MainDB.getInstance().getCouponCards() == null) {
-                    System.out.println("this is the if");
                     for (Coupon c : MainDB.getInstance().getCouponsOffered()) {
                         // your stuff to update the UI
                         rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
@@ -303,13 +280,10 @@ public class SwipeCards extends AppCompatActivity {
                         flingContainer.setAdapter(arrayAdapter);
 
                         arrayAdapter.notifyDataSetChanged();
-                        System.out.println("this is the after the array adapter1");
                         while(!isFinished){ }
-                        System.out.println("this is the after the array adapter2");
                         loading.setVisibility(View.INVISIBLE);
                         swipes.setVisibility(View.VISIBLE);
                         isFinished = false;
-                        System.out.println("this is the get user firebase the coupon cards2 (SwipeCard)");
                     }
                 });
             }
@@ -347,12 +321,9 @@ public class SwipeCards extends AppCompatActivity {
     public void chatScreen(View view){
         Intent intent = new Intent(this, UserChatList.class);
         startActivity(intent);
-//        finish();
     }
     public void gotoUserCoupons(View view){
         Intent intent = new Intent(this, UserCoupons.class);
-//        Uri imageUri = rowItems.get(0).getUri();
-//        intent.putExtra("imageUri", imageUri);
         startActivity(intent);
     }
 

@@ -1,15 +1,13 @@
 package com.coupOn.platform.coupOn.Chat;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Model.MainDB;
 import com.coupOn.platform.coupOn.Model.User;
@@ -20,15 +18,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.shashank.platform.coup_on.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class UserChatList extends AppCompatActivity
@@ -37,7 +30,6 @@ public class UserChatList extends AppCompatActivity
     private boolean dataset = false;
 
     private String email;
-    private String fullname;
 
     private RecyclerView messagesRecycleView;
     private MessagesAdapter messagesAdapter;
@@ -66,7 +58,6 @@ public class UserChatList extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
 
-        //PETER NEEDS TO LOOK 70-76
         messagesRecycleView = findViewById(R.id.messagesRecyclerView);
         messagesRecycleView.setHasFixedSize(true);
         messagesRecycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -87,7 +78,6 @@ public class UserChatList extends AppCompatActivity
                     usersChat.addAll(MainDB.getInstance().getChattingUsers().values());
                     for( String uidOtherUser: MainDB.getInstance().getChattingUsers().keySet())
                     {
-                        String rightKey = "";
                         final String authUid = mAuth.getCurrentUser().getUid();
 
                         final String uidUser = uidOtherUser;

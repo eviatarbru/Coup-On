@@ -13,12 +13,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.coupOn.platform.coupOn.Model.MainDB;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Source;
 import com.shashank.platform.coup_on.R;
 
 import java.util.ArrayList;
@@ -35,6 +38,9 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     }
     private FirebaseAuth mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference databaseReference = database.getReference();
 
     @NonNull
     @Override
@@ -64,8 +70,6 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         holder.timeTv.setText(pTime);
         holder.notificationTv.setText("Liked your coupon " + coupName);
 
-        // holder.notificationTv.setText("Liked your coupon.Do you want to open a chat with him?");
-
         holder.deleteBut.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -84,6 +88,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         {
             @Override
             public void onClick(View view) {
+                addToRealtime(holder.getAdapterPosition(), uID);
                 DocumentReference updateUser = db.collection("users")
                         .document(mAuth.getCurrentUser().getUid());
                 updateUser.update("ChatUsers", FieldValue.arrayUnion(uID));
@@ -91,6 +96,12 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                 DocumentReference updateUser1 = db.collection("users")
                         .document(uID);
                 updateUser1.update("ChatUsers", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+                HashMap<String, String> delNotify = new HashMap<>();
+                delNotify.put("Notifications", notificationsList.get(holder.getAdapterPosition()));
+                notificationsList.remove(holder.getAdapterPosition());
+                updateData(notificationsList);
+                db.collection("users").document(mAuth.getCurrentUser().getUid()).
+                        update("Notifications", FieldValue.arrayRemove(delNotify.get("Notifications")));
             }
         });
     }
@@ -127,18 +138,40 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             acceptBut = itemView.findViewById(R.id.button_accept);
         }
     }
+    public void addToRealtime(int position, String user2)
+    {
+        final int[] chatKey = {0};
+        final int[] maxKey = {0};
+        final boolean checker[] = {false};
+        databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int getChatCounts = (int) snapshot.getChildrenCount();
+                if (getChatCounts > 0) {
+                    for (DataSnapshot dataSnapshot2 : snapshot.getChildren()) {
+                        final String getKey = dataSnapshot2.getKey();
+                        chatKey[0] = Integer.parseInt(getKey);
+                        maxKey[0] = Math.max(maxKey[0], chatKey[0]);
+                        final String getUserOne = dataSnapshot2.child("user_1").getValue(String.class); //User 1
+                        final String getUserTwo = dataSnapshot2.child("user_2").getValue(String.class); //User 2
+                        if ((getUserOne.equals(mAuth.getCurrentUser().getUid()) && getUserTwo.equals(user2)) || (getUserOne.equals(user2) && getUserTwo.equals(mAuth.getCurrentUser().getUid())))
+                            checker[0] = true;
+                        System.out.println(maxKey[0] + " this is the chatKey (UserChatList)");
+                    }
+                }
+                final String currentTimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
+                if(!checker[0]) {
+                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("user_1").setValue(mAuth.getCurrentUser().getUid());
+                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("user_2").setValue(user2);
+                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("msg").setValue("Hello i accepted your request!");
+                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("mobile").setValue(mAuth.getCurrentUser().getUid());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }
-/*itemView.findViewById(R.id.button_accept).setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   // go to the chat of the user
-               }
-           });
-
-            itemView.findViewById(R.id.button_delete).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });*/

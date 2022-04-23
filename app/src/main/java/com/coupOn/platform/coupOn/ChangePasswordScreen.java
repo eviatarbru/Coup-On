@@ -24,7 +24,6 @@ public class ChangePasswordScreen extends AppCompatActivity {
     private ImageView imageView;
     private EditText emailEditText;
     private Button resetPasswordBtn;
-    //private ProgressBar progressBar; // if we want i didnt add it
     int count = 0;
 
     FirebaseAuth auth;

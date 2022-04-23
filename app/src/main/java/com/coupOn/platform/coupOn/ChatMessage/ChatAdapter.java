@@ -10,11 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.coupOn.platform.coupOn.Model.MainDB;
 import com.google.firebase.auth.FirebaseAuth;
 import com.shashank.platform.coup_on.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>

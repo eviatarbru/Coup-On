@@ -1,17 +1,12 @@
 package com.coupOn.platform.coupOn.Model;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.coupOn.platform.coupOn.Cards;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -23,17 +18,13 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
-import io.grpc.internal.JsonUtil;
 
 public class MainDB
 {
@@ -216,10 +207,6 @@ public class MainDB
 
     public void getChatUsersInfo(String uid1)
     {
-        final User[] userInfo = new User[1]; //Firebase wants to change the User to Final when retrieving the data.
-        User user;
-        System.out.println(uid1);
-
         DocumentReference dr = users.collection("users").document(uid1); //This is how u retrieve data from fireStore.
         dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override

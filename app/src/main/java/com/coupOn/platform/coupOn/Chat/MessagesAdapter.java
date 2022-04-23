@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.coupOn.platform.coupOn.ChatMessage.ChatScreen;
 import com.shashank.platform.coup_on.R;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MyViewHolder>

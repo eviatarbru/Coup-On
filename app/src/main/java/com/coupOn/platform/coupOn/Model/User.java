@@ -3,15 +3,12 @@ package com.coupOn.platform.coupOn.Model;
 import android.media.Image;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class User
 {
-    private Image profileImg;
     private String email;
     private String fullName;
     private String date;
-    private String gender;
     private ArrayList<String> interests;
     private ArrayList<Coupon> coupons;
     private ArrayList<Coupon> likedCoupons;
@@ -22,10 +19,10 @@ public class User
         this.email = email;
         this.fullName = fullName;
         this.date = date;
-        this.chattingUserUIDs = new ArrayList<String>();
+        this.chattingUserUIDs = new ArrayList<>();
         this.interests = new ArrayList<>();
         this.interests = interests;
-        this.coupons = new ArrayList<Coupon>();
+        this.coupons = new ArrayList<>();
         this.chattingUserUIDs = chattingString;
         this.notifications = new ArrayList<>();
         this.notifications = notifications;
@@ -38,7 +35,7 @@ public class User
         this.chattingUserUIDs = new ArrayList<String>();
         this.interests = new ArrayList<>();
         this.interests = interests;
-        this.coupons = new ArrayList<Coupon>();
+        this.coupons = new ArrayList<>();
         this.chattingUserUIDs = chattingString;
         this.notifications = new ArrayList<>();
     }
@@ -47,8 +44,8 @@ public class User
         this.email = email;
         this.fullName = fullName;
         this.date = date;
-        this.coupons = new ArrayList<Coupon>();
-        this.chattingUserUIDs = new ArrayList<String>();
+        this.coupons = new ArrayList<>();
+        this.chattingUserUIDs = new ArrayList<>();
         this.chattingUserUIDs = chattingString;
         this.interests = new ArrayList<>();
         this.notifications = new ArrayList<>();
@@ -58,7 +55,7 @@ public class User
         this.email = email;
         this.fullName = fullName;
         this.date = date;
-        this.coupons = new ArrayList<Coupon>();
+        this.coupons = new ArrayList<>();
         this.chattingUserUIDs = new ArrayList<>();
         this.interests = new ArrayList<>();
         this.notifications = new ArrayList<>();

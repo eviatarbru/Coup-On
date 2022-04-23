@@ -15,8 +15,6 @@ import java.util.List;
 
 public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
 
-    Context context;
-
     public ArrayAdapterCoupon(Context context, int resourceId, List<Cards> items){
         super(context, resourceId, items);
     }
@@ -35,10 +33,6 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
 
         ImageView image = (ImageView) convertView.findViewById(R.id.imageCoupon);
 
-
-
-//        System.out.println("@@@@ card: "+ card_item.getDiscountType() + " " + card_item.getDescription() + " " + card_item.getCouponId());
-
         couponName.setText(card_item.getCouponName());  // gets it from a tread in swipeCards
         expireDate.setText(card_item.getExpireDate());
         couponLocation.setText(card_item.getLocation());
@@ -46,12 +40,9 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
         discountType.setText(card_item.getDiscountType());  // null for some reason
         couponDescription.setText(card_item.getDescription());
 
-//        image.setImageURI(null);
         Glide.with(getContext())
                 .load(card_item.getUri()) // the uri you got from Firebase
                 .into(image); //Your imageView variable
-//        image.setImageResource(R.drawable.example_coupon);// mipmap.ic_launcher
-
         return convertView;
     }
 }
