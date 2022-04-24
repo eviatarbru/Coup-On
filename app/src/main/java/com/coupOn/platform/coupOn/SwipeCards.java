@@ -107,14 +107,18 @@ public class SwipeCards extends AppCompatActivity {
                 //If you want to use it just cast it (String) dataObject
 
                 Toast.makeText(SwipeCards.this, "Left!", Toast.LENGTH_SHORT).show();
-                dislikedCoupons.add(SwipeCards.tempCouponId.toString());
+                if(tempCouponId != null){
+                    dislikedCoupons.add(SwipeCards.tempCouponId.toString());
+                }
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
                 Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
-                likedCoupons.add(tempCouponId);
-                addToHisNotifications();
+                if(tempCouponId != null){
+                    likedCoupons.add(tempCouponId);
+                    addToHisNotifications();
+                }
             }
 
             @Override //required DataSnapShot
@@ -259,7 +263,7 @@ public class SwipeCards extends AppCompatActivity {
                 if(MainDB.getInstance().getCouponCards().isEmpty() || MainDB.getInstance().getCouponCards() == null) {
 
                     for(int i = 0; i < MainDB.getInstance().getCouponsOffered().size(); i++){
-                        
+
                         if( (((i+1) % 5) == 0 && !MainDB.getInstance().getMatchCoupons().isEmpty()) || MainDB.getInstance().getUnmatchCoupons().isEmpty()){
 //                           (We are at the fifth coupon) OR (No low rank coupons to show) --> show high rank coupon
 
