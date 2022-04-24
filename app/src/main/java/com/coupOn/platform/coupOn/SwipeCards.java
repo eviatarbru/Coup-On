@@ -106,7 +106,7 @@ public class SwipeCards extends AppCompatActivity {
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
 
-                Toast.makeText(SwipeCards.this, "Left!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SwipeCards.this, "Left!", Toast.LENGTH_SHORT).show();
                 if(tempCouponId != null){
                     dislikedCoupons.add(SwipeCards.tempCouponId.toString());
                 }
@@ -114,7 +114,7 @@ public class SwipeCards extends AppCompatActivity {
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
                 if(tempCouponId != null){
                     likedCoupons.add(tempCouponId);
                     addToHisNotifications();

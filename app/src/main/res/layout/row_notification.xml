@@ -53,21 +53,20 @@
 
         <Button
             android:id="@+id/button_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="5dp"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
-            android:text="V"
-            android:textColor="#00FF12"/>
+            android:layout_weight="1"
+            android:background="@drawable/ic_v"/>
 
         <Button
             android:id="@+id/button_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="5dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="3dp"
             android:layout_marginTop="10dp"
-            android:text="X"
-            android:textColor="#FF0000"/>
+            android:layout_weight="1"
+            android:background="@drawable/ic_x" />
 
     </LinearLayout>
 
