@@ -31,6 +31,7 @@ public class addCoupon extends AppCompatActivity {
     private EditText description;
     private EditText couponCode;
     private EditText discountType;
+    private EditText price;
     private Spinner spinner;
 
 
@@ -51,6 +52,7 @@ public class addCoupon extends AppCompatActivity {
         this.couponCode = findViewById(R.id.couponCode);
         this.discountType = findViewById(R.id.discountType);
         this.spinner = (Spinner)(findViewById(R.id.TypeSpinner));
+        this.price = findViewById(R.id.price);
 
         this.imageView = findViewById(R.id.imageView);
         imageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
@@ -130,6 +132,8 @@ public class addCoupon extends AppCompatActivity {
         final String couponCode = this.couponCode.getText().toString();
         final String discountType = this.discountType.getText().toString();
         final String choice = this.spinner.getSelectedItem().toString();
+        final String price = this.price.getText().toString();
+        final double finalPrice = Integer.parseInt(price);
         rank = rankCoupon(discountType, choice);
         if(rank == -1)
             return;
@@ -145,9 +149,10 @@ public class addCoupon extends AppCompatActivity {
         intent.putExtra("discountType", discountType);
         intent.putExtra("fromScreen", 2);
         intent.putExtra("rank", rank);
+        intent.putExtra("price", finalPrice);
         // we can add here the part that we give a ranking based on the discountType
         // evi need to look
-        boolean validateCoupon = validateCoupon(name, expireDate, location, description);
+        boolean validateCoupon = validateCoupon(name, expireDate, location, description, couponCode, discountType, finalPrice);
         if(!validateCoupon)
         {
             return;
@@ -224,7 +229,8 @@ public class addCoupon extends AppCompatActivity {
         return rank;
     }
 
-    public boolean validateCoupon(String name, String expireDate, String location, String description)
+    public boolean validateCoupon(String name, String expireDate, String location, String description, String couponCode
+            , String discountType, double Price)
     {
         if(name.trim().isEmpty()) //name check
         {
@@ -243,7 +249,27 @@ public class addCoupon extends AppCompatActivity {
         }
         else if(description.trim().isEmpty()) //name check
         {
-            Toast.makeText(addCoupon.this, "descriptions is empty or wrong!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(addCoupon.this, "Descriptions is empty or wrong!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(couponCode.trim().isEmpty())
+        {
+            Toast.makeText(addCoupon.this, "The coupon code is empty or wrong!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(discountType.trim().isEmpty())
+        {
+            Toast.makeText(addCoupon.this, "Discount type is empty or wrong!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(discountType.trim().isEmpty())
+        {
+            Toast.makeText(addCoupon.this, "Discount type is empty or wrong!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(Price < 0)
+        {
+            Toast.makeText(addCoupon.this, "Enter a positive price", Toast.LENGTH_SHORT).show();
             return false;
         }
 

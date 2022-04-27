@@ -270,7 +270,7 @@ public class SwipeCards extends AppCompatActivity {
                             Coupon c = MainDB.getInstance().getMatchCoupons().get(0);
                             MainDB.getInstance().getMatchCoupons().remove(0);
                             rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
-                                    , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
+                                    , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId(), c.getPrice()));
                         }
                         else{
                             if( (((i+1) % 5) != 0 || MainDB.getInstance().getMatchCoupons().isEmpty()) || MainDB.getInstance().getMatchCoupons().isEmpty()){
@@ -279,7 +279,7 @@ public class SwipeCards extends AppCompatActivity {
                                 Coupon c = MainDB.getInstance().getUnmatchCoupons().get(0);
                                 MainDB.getInstance().getUnmatchCoupons().remove(0);
                                 rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
-                                        , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId()));
+                                        , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId(), c.getPrice()));
                             }
                         }
                     }

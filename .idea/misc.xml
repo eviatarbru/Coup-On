@@ -61,7 +61,7 @@
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/drawable/opo_msg_back.xml" value="0.259" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout-w1240dp/content_scrolling.xml" value="0.16331994645247658" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout-w936dp/content_scrolling.xml" value="0.190625" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_add_coupon.xml" value="0.17333333333333334" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_add_coupon.xml" value="0.264" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_add_coupon_image.xml" value="0.264" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_change_password_screen.xml" value="0.264" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/activity_chat_screen.xml" value="0.25416666666666665" />
@@ -78,7 +78,7 @@
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/chat_adapter_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/content_scrolling.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/fragment_notifications.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/item.xml" value="0.536" />
+        <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/item.xml" value="0.8800000000000001" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/messages_adapter_layout.xml" value="0.2" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/row_notification.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/idowi/Documents/GitHub/Coup-On/app/src/main/res/layout/user_coupons_list_items.xml" value="0.4" />

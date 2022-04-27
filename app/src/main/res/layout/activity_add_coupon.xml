@@ -169,37 +169,73 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/Field3"
+        <RelativeLayout
+            android:id="@+id/discountNcost"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:theme="@style/EditScreenTextInputLayoutStyleLight"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/SpinnerWrapper"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/priceHolder"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="1dp"
+                android:layout_toEndOf="@+id/Field3"
                 android:background="@drawable/bordertextfield"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent">
+                android:theme="@style/EditScreenTextInputLayoutStyleLight">
 
-                <Spinner
-                    android:id="@+id/TypeSpinner"
+                <EditText
+                    android:id="@+id/price"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:entries="@array/title_options"
-                    android:prompt="@string/title_prompt"
-                    android:textSize="@dimen/font_medium"
-                    android:fontFamily="@font/calibri"
                     android:drawablePadding="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/calibri"
+                    android:hint="Offered Price"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
-            </FrameLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Field3"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="-3dp"
+                android:layout_marginTop="0dp"
+                android:theme="@style/EditScreenTextInputLayoutStyleLight">
+
+                <FrameLayout
+                    android:id="@+id/SpinnerWrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/bordertextfield"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:layout_editor_absoluteY="2dp">
+
+                    <Spinner
+                        android:id="@+id/TypeSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:drawablePadding="16dp"
+                        android:entries="@array/title_options"
+                        android:fontFamily="@font/calibri"
+                        android:prompt="@string/title_prompt"
+                        android:textSize="@dimen/font_medium"
+                        android:textStyle="bold" />
+                </FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="226dp"

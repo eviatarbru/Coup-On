@@ -136,13 +136,14 @@ public class MainDB
                     if(task.isSuccessful())
                     {
                         for(QueryDocumentSnapshot document: task.getResult())
-                        { //(String couponImage, String couponName, String expireDate, String location, String description, String ownerId, String couponId, String interest
+                        {
                             Coupon c = new Coupon(document.getString("CouponImage"), document.getString("CoupName")
                                     , document.getString("ExpireDate"), document.getString("Location")
                                     , document.getString("Description"), document.getString("UserUid")
                                     , document.getString("CouponId"), document.getString("Interest")
                                     , document.getString("DiscountType"), document.getString("CouponCode")
-                                    , document.getLong("Rank").intValue());
+                                    , document.getLong("Rank").intValue()
+                                    , document.getLong("Price").intValue());
                             if(!document.getString("UserUid").equals(mAuth.getCurrentUser().getUid()))
                                 couponsOffered.add(c);
                         }

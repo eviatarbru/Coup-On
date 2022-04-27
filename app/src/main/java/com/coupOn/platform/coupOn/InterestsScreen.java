@@ -227,6 +227,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 String description = (String) infoReg.get("description");
                 String couponCode2 = (String) infoReg.get("couponCode");
                 String discountType2 = (String) infoReg.get("discountType");
+                int price = (int) infoReg.get("price");
                 int rank = (int) infoReg.get("rank");
                 String couponInterests = interestsFb.get(0);
 
@@ -239,6 +240,7 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 intent2.putExtra("couponCode", couponCode2);
                 intent2.putExtra("discountType", discountType2);
                 intent2.putExtra("rank", rank);
+                intent2.putExtra("price", price);
 
                 startActivity(intent2);
                 break;

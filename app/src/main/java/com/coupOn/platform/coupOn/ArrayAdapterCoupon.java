@@ -30,6 +30,7 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
         TextView couponInterest = (TextView) convertView.findViewById(R.id.couponInterest);
         TextView discountType = (TextView) convertView.findViewById(R.id.discountType);
         TextView couponDescription = (TextView) convertView.findViewById(R.id.couponDescription);
+        TextView couponPrice = (TextView) convertView.findViewById(R.id.price);
 
         ImageView image = (ImageView) convertView.findViewById(R.id.imageCoupon);
 
@@ -39,6 +40,14 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
         couponInterest.setText(card_item.getInterests());
         discountType.setText(card_item.getDiscountType());  // null for some reason
         couponDescription.setText(card_item.getDescription());
+        if(card_item.getPrice() % 1 != 0)
+            couponPrice.setText("₪" + card_item.getPrice() + "");
+        else
+        {
+            int intPrice = (int)card_item.getPrice();
+            couponPrice.setText("₪" + intPrice + "");
+        }
+
 
         Glide.with(getContext())
                 .load(card_item.getUri()) // the uri you got from Firebase

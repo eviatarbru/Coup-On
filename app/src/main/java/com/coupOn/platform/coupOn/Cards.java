@@ -11,11 +11,12 @@ public class Cards { //Cards need to have values like picture and so on
     private String discountType;
     private String couponId;
     private String ownerId;
+    private double price;
 
     private Uri uri;
 
     public Cards(String couponName, String interests, String description, String expireDate, String location
-            , String discountType, String couponId, Uri uri, String ownerId) {//String name,
+            , String discountType, String couponId, Uri uri, String ownerId, double price) {//String name,
         this.couponName = couponName;
         this.interests = interests;
         this.description = description;
@@ -25,6 +26,7 @@ public class Cards { //Cards need to have values like picture and so on
         this.couponId = couponId;
         this.uri = uri;
         this.ownerId = ownerId;
+        this.price = price;
     }
 
     public Cards(String couponName, String ownerId) {
@@ -39,8 +41,6 @@ public class Cards { //Cards need to have values like picture and so on
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
-
-    //getters and setters
 
     public String getCouponName() {
         return couponName;
@@ -106,6 +106,14 @@ public class Cards { //Cards need to have values like picture and so on
         this.uri = uri;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Cards{" +
@@ -117,6 +125,7 @@ public class Cards { //Cards need to have values like picture and so on
                 ", discountType='" + discountType + '\'' +
                 ", couponId='" + couponId + '\'' +
                 ", ownerId='" + ownerId + '\'' +
+                ", price='" + price + '\'' +
                 ", uri=" + uri +
                 '}';
     }

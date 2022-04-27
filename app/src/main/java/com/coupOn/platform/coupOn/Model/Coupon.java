@@ -14,12 +14,13 @@ public class Coupon
     private String interest;
     private String discountType;
     private String code;
+    private double price;
     private int rank;
 
     private Uri uri;
 
     public Coupon(String couponImage, String couponName, String expireDate, String location, String description
-            , String ownerId, String couponId, String interest, String discountType, String code, int rank) {
+            , String ownerId, String couponId, String interest, String discountType, String code, int rank, double price) {
         this.couponImage = couponImage;
         this.couponName = couponName;
         this.expireDate = expireDate;
@@ -31,6 +32,7 @@ public class Coupon
         this.discountType = discountType;
         this.code = code;
         this.rank = rank;
+        this.price = price;
         this.uri = null;
     }
 
@@ -50,6 +52,14 @@ public class Coupon
                 ", rank='" + rank + '\'' +
                 ", uri=" + uri +
                 '}';
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public String getCouponImage() {

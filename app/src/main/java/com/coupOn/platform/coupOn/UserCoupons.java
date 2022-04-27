@@ -87,7 +87,8 @@ public class UserCoupons extends AppCompatActivity {
                                         , snapshot.getString("Interest")
                                         , snapshot.getString("DiscountType")
                                         , snapshot.getString("CouponCode")
-                                        ,snapshot.getLong("Rank").intValue());
+                                        ,snapshot.getLong("Rank").intValue()
+                                        ,snapshot.getLong("Price").intValue());
                                 userCouponsList.add(coupon);
                             }
                             userCouponAdapter.updateData(userCouponsList);
