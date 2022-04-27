@@ -1,11 +1,15 @@
 package com.coupOn.platform.coupOn;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,6 +42,7 @@ public class SwipeCards extends AppCompatActivity {
     private static ArrayList<String> likedCoupons = new ArrayList<>();
     private static ArrayList<String> dislikedCoupons = new ArrayList<>();
     public static String tempCouponId;
+    public static String tempCouponName;
 
     //For the chatPart
     private RecyclerView messagesRecycleView;
@@ -95,6 +100,7 @@ public class SwipeCards extends AppCompatActivity {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
                 tempCouponId = rowItems.get(0).getCouponId();
+                tempCouponName = rowItems.get(0).getCouponName();
                 MainDB.getInstance().getCouponCards().remove(0);
 //                rowItems.remove(0); //changed
                 arrayAdapter.notifyDataSetChanged();
@@ -115,10 +121,62 @@ public class SwipeCards extends AppCompatActivity {
             @Override
             public void onRightCardExit(Object dataObject) {
                // Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
-                if(tempCouponId != null){
-                    likedCoupons.add(tempCouponId);
-                    addToHisNotifications();
-                }
+
+                final EditText edittext = new EditText(SwipeCards.this);        //pop-up for offer
+                edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+                AlertDialog.Builder builder = new AlertDialog.Builder(SwipeCards.this);
+                builder.setTitle("Offer Coupoints!");
+                builder.setMessage("How much Coupoints do you offer for " + tempCouponName + "?");
+                builder.setView(edittext);
+
+                builder.setPositiveButton("Submit", new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)  //FAKE positive button
+                            {
+                                //Do nothing here because we override this button later to change the close behaviour.
+                                //However, we still need this because on older versions of Android unless we
+                                //pass a handler the button doesn't get instantiated
+                            }
+                        });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() { //Negative button
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(SwipeCards.this, "Offer canceled", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+
+                // start positive button
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+                //Overriding the handler immediately after show is probably a better approach than OnShowListener as described below
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)     //the REAL positive button!
+                    {
+                        Boolean wantToCloseDialog = false;
+
+                        String offerTxt = edittext.getText().toString();
+                        final double offer;
+                        if(!offerTxt.isEmpty())
+                        {
+                            wantToCloseDialog = true;
+                            offer = Integer.parseInt(offerTxt);
+                            if(tempCouponId != null){
+                                likedCoupons.add(tempCouponId);
+                                Toast.makeText(SwipeCards.this, "Offer submitted", Toast.LENGTH_SHORT).show();
+                                addToHisNotifications();
+                            }
+                        }
+                        if(wantToCloseDialog)
+                            dialog.dismiss();
+                        else    //else dialog stays open
+                            Toast.makeText(SwipeCards.this, "Field is empty", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                    //end pop-up offer
             }
 
             @Override //required DataSnapShot
@@ -216,7 +274,7 @@ public class SwipeCards extends AppCompatActivity {
         DocumentReference updateUser = db.collection("users")
                 .document(firstCoupon.getOwnerId());
         updateUser.update("Notifications", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid() + "*" + timeStamp + "*" + firstCoupon.getCouponName() + "*"
-                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName()));
+                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +firstCoupon.getCouponId()));
     }
 
     //Gets the offered coupons

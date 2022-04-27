@@ -62,6 +62,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         String timestamp = info[1];
         String coupName = info[2];
         String myID = info[3];
+        String couponId = info[4];
 
         String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", Long.parseLong(timestamp)).toString();
 
@@ -88,7 +89,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         {
             @Override
             public void onClick(View view) {
-                addToRealtime(holder.getAdapterPosition(), uID);
+                addToRealtime(holder.getAdapterPosition(), uID, couponId);
                 DocumentReference updateUser = db.collection("users")
                         .document(mAuth.getCurrentUser().getUid());
                 updateUser.update("ChatUsers", FieldValue.arrayUnion(uID));
@@ -138,7 +139,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             acceptBut = itemView.findViewById(R.id.button_accept);
         }
     }
-    public void addToRealtime(int position, String user2)
+    public void addToRealtime(int position, String user2, String couponId)
     {
         final int[] chatKey = {0};
         final int[] maxKey = {0};
@@ -165,6 +166,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("user_2").setValue(user2);
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("msg").setValue("Hello i accepted your request!");
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("mobile").setValue(mAuth.getCurrentUser().getUid());
+                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("coupons").setValue(couponId);
                 }
             }
             @Override
