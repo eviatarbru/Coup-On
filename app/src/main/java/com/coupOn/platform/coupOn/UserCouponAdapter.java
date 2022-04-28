@@ -1,24 +1,31 @@
 package com.coupOn.platform.coupOn;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.coupOn.platform.coupOn.Model.Coupon;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.shashank.platform.coup_on.R;
 
 import java.util.ArrayList;
@@ -29,10 +36,12 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
 
     private List<Coupon> usersCoupList = new ArrayList<>();
 
+    private Context context;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
+    StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
     public UserCouponAdapter(ArrayList<Coupon> usersCoupList){
         this.usersCoupList = usersCoupList;
@@ -44,6 +53,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
         private TextView locationItem;
         private TextView descriptionItem;
         private Button deleteCoupon;
+        private ImageView imageView;
 
         public CouponsListViewHolder(final View view){
             super(view);
@@ -53,6 +63,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
             locationItem = view.findViewById(R.id.locationItem);
             descriptionItem = view.findViewById(R.id.descriptionItem);
             deleteCoupon = view.findViewById(R.id.deleteCoupon);
+            imageView = view.findViewById(R.id.imageCoupon);
 
         }
     }
@@ -75,9 +86,39 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
         String description = usersCoupList.get(position).getDescription();
 
         holder.couponNameItem.setText(couponName);
-        holder.expireDateItem.setText(expireDate);
-        holder.locationItem.setText(location);
+        holder.expireDateItem.setText("Expire On: "+ expireDate);
+        holder.locationItem.setText("Location: " + location);
         holder.descriptionItem.setText(description);
+
+        db.collection("coupons")
+                .document(cid)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String imageName = documentSnapshot.getString("CouponImage");
+                        mStorageReference = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
+                        System.out.println("@@@@ name " + imageName);
+
+                        try {
+                            mStorageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                    Uri uri = task.getResult();
+                                    Glide.with(context)
+                                            .load(uri) // the uri you got from Firebase
+                                            .into(holder.imageView); //Your imageView variable
+
+
+                                }
+                            });
+                        } catch (Exception e) {
+                            System.out.println("this is an error with the uri (MainDB)");
+                        }
+
+
+                    }
+                });
 
         holder.deleteCoupon.setOnClickListener(new View.OnClickListener()
         {
@@ -128,6 +169,13 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
             }
         });
 
+
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        context = recyclerView.getContext();
     }
 
 

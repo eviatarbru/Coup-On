@@ -158,7 +158,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="37dp"
                     android:gravity="center"
-                    android:text="Location: "
+                    android:text="Shop:"
                     android:textColor="#66000000"
                     android:textSize="16sp"
                     android:textStyle="bold" />

@@ -133,7 +133,7 @@ public class addCoupon extends AppCompatActivity {
         final String discountType = this.discountType.getText().toString();
         final String choice = this.spinner.getSelectedItem().toString();
         final String price = this.price.getText().toString();
-        final double finalPrice = Integer.parseInt(price);
+        final int finalPrice = Integer.parseInt(price);
         rank = rankCoupon(discountType, choice);
         if(rank == -1)
             return;
@@ -159,7 +159,7 @@ public class addCoupon extends AppCompatActivity {
         }
 
         startActivity(intent);
-        finish();
+//        finish();
         return;
     }
 

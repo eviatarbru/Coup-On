@@ -43,6 +43,7 @@ public class SwipeCards extends AppCompatActivity {
     private static ArrayList<String> dislikedCoupons = new ArrayList<>();
     public static String tempCouponId;
     public static String tempCouponName;
+    public static int tempPrice;
 
     //For the chatPart
     private RecyclerView messagesRecycleView;
@@ -101,6 +102,7 @@ public class SwipeCards extends AppCompatActivity {
                 Log.d("LIST", "removed object!");
                 tempCouponId = rowItems.get(0).getCouponId();
                 tempCouponName = rowItems.get(0).getCouponName();
+                tempPrice = rowItems.get(0).getPrice();
                 MainDB.getInstance().getCouponCards().remove(0);
 //                rowItems.remove(0); //changed
                 arrayAdapter.notifyDataSetChanged();
@@ -123,10 +125,10 @@ public class SwipeCards extends AppCompatActivity {
                // Toast.makeText(SwipeCards.this, "Right!", Toast.LENGTH_SHORT).show();
 
                 final EditText edittext = new EditText(SwipeCards.this);        //pop-up for offer
-                edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+                edittext.setInputType(InputType.TYPE_CLASS_NUMBER);//"The desired price is: " + tempPrice + "\n" +
                 AlertDialog.Builder builder = new AlertDialog.Builder(SwipeCards.this);
-                builder.setTitle("Offer Coupoints!");
-                builder.setMessage("How much Coupoints do you offer for " + tempCouponName + "?");
+                builder.setTitle("Offer Coupoints!  " + "Price: " + tempPrice);
+                builder.setMessage( "How much Coupoints do you offer for " + "\"" + tempCouponName +"\"" +  "?");
                 builder.setView(edittext);
 
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener(){
@@ -158,7 +160,7 @@ public class SwipeCards extends AppCompatActivity {
                         Boolean wantToCloseDialog = false;
 
                         String offerTxt = edittext.getText().toString();
-                        final double offer;
+                        final int offer;
                         if(!offerTxt.isEmpty())
                         {
                             wantToCloseDialog = true;
@@ -166,7 +168,7 @@ public class SwipeCards extends AppCompatActivity {
                             if(tempCouponId != null){
                                 likedCoupons.add(tempCouponId);
                                 Toast.makeText(SwipeCards.this, "Offer submitted", Toast.LENGTH_SHORT).show();
-                                addToHisNotifications();
+                                addToHisNotifications(offer);
                             }
                         }
                         if(wantToCloseDialog)
@@ -260,7 +262,7 @@ public class SwipeCards extends AppCompatActivity {
     }
 
 
-    private void addToHisNotifications(){
+    private void addToHisNotifications(int offer){
         //timestamp for time and notification id
         String timeStamp = ""+System.currentTimeMillis();
 
@@ -274,7 +276,8 @@ public class SwipeCards extends AppCompatActivity {
         DocumentReference updateUser = db.collection("users")
                 .document(firstCoupon.getOwnerId());
         updateUser.update("Notifications", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid() + "*" + timeStamp + "*" + firstCoupon.getCouponName() + "*"
-                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +firstCoupon.getCouponId()));
+                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +firstCoupon.getCouponId()
+                                + "*" + offer));
     }
 
     //Gets the offered coupons

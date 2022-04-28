@@ -1,11 +1,16 @@
 package com.coupOn.platform.coupOn.Notification;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
+import android.net.Uri;
+import android.text.Html;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +18,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,9 +29,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.shashank.platform.coup_on.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +54,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference databaseReference = database.getReference();
+    StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
     @NonNull
     @Override
@@ -63,13 +77,48 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         String coupName = info[2];
         String myID = info[3];
         String couponId = info[4];
+        String offer = info[5];
+
 
         String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", Long.parseLong(timestamp)).toString();
 
         //set to views
         holder.nameTv.setText(myID);
         holder.timeTv.setText(pTime);
-        holder.notificationTv.setText("Liked your coupon " + coupName);
+        String sourceString = "Offered " + "<b>" + offer + " Coupoints " + "</b> " + "for your coupon: " +  "<b>" + "\"" + coupName + "\"" + "<b>";
+//        mytextview.setText(Html.fromHtml(sourceString));
+        holder.notificationTv.setText(Html.fromHtml(sourceString));
+//        holder.notificationTv.setText("Offered " +"Coupoints for your coupon: " + "\"" + coupName + "\"");
+
+        db.collection("coupons")
+                .document(couponId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String imageName = documentSnapshot.getString("CouponImage");
+                        mStorageReference = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
+                        try {
+                            mStorageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+                                        Uri uri = task.getResult();
+                                        Glide.with(context)
+                                                .load(uri) // the uri you got from Firebase
+                                                .into(holder.imageView); //Your imageView variable
+                                }
+                            });
+                        } catch (Exception e) {
+                            System.out.println("this is an error with the uri, Exception: " + e);
+                        }
+                    }
+                });
+
+
+//        Glide.with(context)
+//                .load(card_item.getUri()) // the uri you got from Firebase
+//                .into(image); //Your imageView variable
+
 
         holder.deleteBut.setOnClickListener(new View.OnClickListener()
         {
@@ -126,6 +175,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         TextView nameTv, notificationTv, timeTv;
         Button deleteBut, acceptBut;
         private LinearLayout currentRow;
+        ImageView imageView;
 
         public HolderNotification(@NonNull View itemView) {
             super(itemView);
@@ -137,6 +187,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             timeTv = itemView.findViewById(R.id.timeTv);
             deleteBut = itemView.findViewById(R.id.button_delete);
             acceptBut = itemView.findViewById(R.id.button_accept);
+            imageView = itemView.findViewById(R.id.imageCoupon);
         }
     }
     public void addToRealtime(int position, String user2, String couponId)

@@ -156,7 +156,7 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("CouponCode", couponCode);
                 data.put("DiscountType", discountType);
                 data.put("Rank", rank);
-                data.put("price", price);
+                data.put("Price", price);
 
                 db.collection("coupons").document(couponId)
                         .set(data)

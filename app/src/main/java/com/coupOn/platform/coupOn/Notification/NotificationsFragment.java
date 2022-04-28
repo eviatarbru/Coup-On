@@ -27,23 +27,16 @@ public class NotificationsFragment extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("check number 0");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_notifications);
-        System.out.println("check number 1");
         mAuth = FirebaseAuth.getInstance();
 
         notificationRv = findViewById(R.id.notificationRv);
-        System.out.println("check number 2");
         notificationRv.setHasFixedSize(true);
-        System.out.println("check number 3");
         notificationRv.setLayoutManager(new LinearLayoutManager(this));
-        System.out.println("check number 4");
         adapterNotify = new AdapterNotification(this, notificationLists);
-        System.out.println("check number 5");
 
         notificationRv.setAdapter(adapterNotify);
-        System.out.println("check number 6");
 
         if(MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getNotifications() != null || !MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getNotifications().isEmpty()){
             ArrayList<String> notifications = MainDB.getInstance().getCurUser().

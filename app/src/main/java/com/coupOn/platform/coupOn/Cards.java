@@ -11,12 +11,12 @@ public class Cards { //Cards need to have values like picture and so on
     private String discountType;
     private String couponId;
     private String ownerId;
-    private double price;
+    private int price;
 
     private Uri uri;
 
     public Cards(String couponName, String interests, String description, String expireDate, String location
-            , String discountType, String couponId, Uri uri, String ownerId, double price) {//String name,
+            , String discountType, String couponId, Uri uri, String ownerId, int price) {//String name,
         this.couponName = couponName;
         this.interests = interests;
         this.description = description;
@@ -106,7 +106,7 @@ public class Cards { //Cards need to have values like picture and so on
         this.uri = uri;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
