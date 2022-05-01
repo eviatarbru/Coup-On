@@ -98,7 +98,6 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String imageName = documentSnapshot.getString("CouponImage");
                         mStorageReference = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
-                        System.out.println("@@@@ name " + imageName);
 
                         try {
                             mStorageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -142,7 +141,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
                                 updateData(usersCoupList);
                             }
                         });
-                        if(usersCoupList.get(holder.getAdapterPosition()).getCouponImage().equals("default_coupon")) {
+                        if(!usersCoupList.get(holder.getAdapterPosition()).getCouponImage().equals("default_coupon")) {
                             storage.getReference().child("/images").child(usersCoupList.get(holder.getAdapterPosition()).getCouponImage()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
