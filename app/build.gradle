@@ -58,4 +58,7 @@ dependencies {
 
     implementation 'com.mikhaellopez:circularimageview:4.3.0'
 
+    //Credit Card
+    implementation 'com.craftman.cardform:cardform:0.0.2'
+
 }

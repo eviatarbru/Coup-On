@@ -16,7 +16,8 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup">
+        tools:ignore="AllowBackup"
+        tools:replace="android:supportsRtl">
         <activity
             android:name="com.coupOn.platform.coupOn.UserCoupons"
             android:exported="false" />
@@ -55,6 +56,18 @@
             android:exported="false" />
         <activity
             android:name="com.coupOn.platform.coupOn.Notification.NotificationsFragment"
+            android:exported="false" />
+        <activity
+            android:name="com.coupOn.platform.coupOn.CouponPoints"
+            android:exported="false" />
+        <activity
+            android:name="com.coupOn.platform.coupOn.CreditCard1"
+            android:exported="false" />
+        <activity
+            android:name="com.coupOn.platform.coupOn.CreditCard2"
+            android:exported="false" />
+        <activity
+            android:name="com.coupOn.platform.coupOn.CreditCard3"
             android:exported="false" />
         <activity
             android:name="com.coupOn.platform.coupOn.LoginScreen"

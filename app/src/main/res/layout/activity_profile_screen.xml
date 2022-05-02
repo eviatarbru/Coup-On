@@ -22,13 +22,23 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
+            <Button
+                android:layout_width="105dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bg_btn"
+                android:text="Buy Coupoints"
+                android:onClick="gotoCouponPoints"
+                android:textColor="@android:color/black"
+                android:textSize="12dp"
+                android:textStyle="normal" />
+
             <TextView
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingLeft="20dp"
+                android:paddingLeft="-25dp"
                 android:text="Account Profile"
                 android:textColor="@android:color/black"
                 android:textSize="20dp"
@@ -43,7 +53,7 @@
                 android:text="Logout"
                 android:textColor="@android:color/black"
                 android:textSize="12dp"
-                android:textStyle="normal" />
+                android:textStyle="normal"/>
 
         </LinearLayout>
 

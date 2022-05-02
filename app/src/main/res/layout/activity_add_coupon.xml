@@ -299,7 +299,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/textInputLayoutLight"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
 
