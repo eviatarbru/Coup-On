@@ -1,5 +1,6 @@
 package com.coupOn.platform.coupOn;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -68,7 +70,6 @@ public class Profile_screen extends AppCompatActivity {
         logOut = (Button) findViewById(R.id.signOut);
         this.daemon = findViewById(R.id.deamon);
         String uid = mAuth.getCurrentUser().getUid().toString();
-        System.out.println("@@@@ uid:###" + uid + "#####");
 
         if (uid.equals("zlsGYk5EvLUfvyJtKe8k50nnrIG2")|| uid.equals("9K7MPR33qzN4gpO4Sp0onzRUmJG2") || uid.equals("rDknxGEhmLMd7KxVCbNgv0hMzwi1"))
             daemon.setVisibility(View.VISIBLE);
@@ -168,6 +169,14 @@ public class Profile_screen extends AppCompatActivity {
                             }
 
                             System.out.println("@@@@ expired: " + expiredCoupons);
+
+                                //now we clear all the notifications of those expired coupons
+
+                            if(!expiredCoupons.isEmpty()){
+                                NotificationClear(expiredCoupons);
+                                Toast.makeText(view.getContext(), "Notifications cleared", Toast.LENGTH_SHORT).show();
+                            }
+
                             for(String cid : expiredCoupons){
                                 db.collection("coupons").document(cid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
@@ -181,7 +190,7 @@ public class Profile_screen extends AppCompatActivity {
                                             }
                                         });
 
-                                        if(!imageName.equals("default_coupon")) {
+                                        if(!imageName.equals("default_coupon.jpeg")) {
                                             storage.getReference().child("/images").child(imageName).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void unused) {
@@ -237,10 +246,41 @@ public class Profile_screen extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-
+                    //end for
                     }
                 });
 
+    }
+
+    public void NotificationClear(ArrayList<String> expiredCouponsId) {
+        // get users's notifications arrays then go over each array and delete the item that contain an id from expiredCoupons
+
+        db.collection("users")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {     //gets users
+
+
+                            ArrayList<String> userNotifications = new ArrayList<String>();
+                            userNotifications = (ArrayList) document.get("Notifications");  //holds all the notifications for that user
+
+                            if (userNotifications != null) {
+                                for (String notification : userNotifications) {             //go over every notification
+                                    for (String cid : expiredCouponsId){                      //check if an expired coupon is in there
+                                        if(notification.contains("*" + cid + "*")){
+                                            db.collection("users").document(document.getString("Uid")).
+                                                    update("Notifications", FieldValue.arrayRemove(notification));
+                                        }
+                                    }
+                                }
+                            }
+
+                        }   //end for
+
+                    }
+                });         //end on success
     }
 
     int getDateDiff(Date currDate, Date couponDate){
@@ -257,5 +297,9 @@ public class Profile_screen extends AppCompatActivity {
         return (int) elapsedDays;
     }
 
+    public void gotoCouponPoints(View view) {
+        Intent intent = new Intent(Profile_screen.this, CouponPoints.class);
+        startActivity(intent);
+    }
 
 }

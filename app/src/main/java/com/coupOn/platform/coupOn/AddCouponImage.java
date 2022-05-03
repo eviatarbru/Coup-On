@@ -142,6 +142,7 @@ public class AddCouponImage extends AppCompatActivity {
                         .document()
                         .getId();
 
+
                 String fileName = uploadPicture();
 
                 Map<String, Object> data = new HashMap<>();
@@ -215,21 +216,27 @@ public class AddCouponImage extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference("images/" + fileName);
 
-        storageReference.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        if(imageUri != null){
+            storageReference.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        binding.imageIcon.setImageURI(null);
-                        Toast.makeText(AddCouponImage.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                            binding.imageIcon.setImageURI(null);
+                            Toast.makeText(AddCouponImage.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddCouponImage.this, "Failed to upload", Toast.LENGTH_SHORT).show();
-            }
-        });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AddCouponImage.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else{
+            fileName = "default_coupon.jpeg";
+        }
+
         return fileName;
         }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,8 +87,8 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
         String description = usersCoupList.get(position).getDescription();
 
         holder.couponNameItem.setText(couponName);
-        holder.expireDateItem.setText("Expire On: "+ expireDate);
-        holder.locationItem.setText("Location: " + location);
+        holder.expireDateItem.setText(Html.fromHtml("Expire On: " + "<b>" + expireDate + "<b>"));
+        holder.locationItem.setText(Html.fromHtml("Shop: " + "<b>" + location + "<b>"));
         holder.descriptionItem.setText(description);
 
         db.collection("coupons")
@@ -141,7 +142,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
                                 updateData(usersCoupList);
                             }
                         });
-                        if(!usersCoupList.get(holder.getAdapterPosition()).getCouponImage().equals("default_coupon")) {
+                        if(!usersCoupList.get(holder.getAdapterPosition()).getCouponImage().equals("default_coupon.jpeg")) {
                             storage.getReference().child("/images").child(usersCoupList.get(holder.getAdapterPosition()).getCouponImage()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {

@@ -16,10 +16,10 @@
     <string name="textView">Add Coup-on</string>
 
     <string-array name="title_options">
-        <item>x+y free</item>
-        <item>xy%</item>
+        <item>Buy x get y free</item>
+        <item>% of discount</item>
         <item>x discount</item>
-        <item>Others</item>
+        <item>Other</item>
     </string-array>
     <string name="title_prompt">Type of the title</string>
 

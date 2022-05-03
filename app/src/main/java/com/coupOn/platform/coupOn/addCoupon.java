@@ -191,10 +191,11 @@ public class addCoupon extends AppCompatActivity {
         }//<item>buy this, discount that</item>
         else if(choice.contains("x discount")) //money money 10$
         {
-            if((!discountType.contains("₪") && !discountType.contains("$")  && !discountType.contains("€") && !discountType.contains("£") || discountType.contains(" ")) || !onlyDigits(discountType, discountType.length() - 1)) {
-                Toast.makeText(addCoupon.this, "discount wrong, for example: 20$", Toast.LENGTH_SHORT).show();
-                return -1;
-            }
+//            if((!discountType.contains("₪") && !discountType.contains("$")  && !discountType.contains("€") && !discountType.contains("£") || discountType.contains(" ")) || !onlyDigits(discountType, discountType.length() - 1))
+//            {
+//                Toast.makeText(addCoupon.this, "discount wrong, for example: 20$", Toast.LENGTH_SHORT).show();
+//                return -1;
+//            }
             int value = Integer.parseInt(discountType.substring(0, discountType.length() - 1));
             if(value < 20)
                 rank = 2;
