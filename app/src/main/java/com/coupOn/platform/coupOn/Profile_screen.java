@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.coupOn.platform.coupOn.Model.MainDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -173,7 +174,7 @@ public class Profile_screen extends AppCompatActivity {
                                 //now we clear all the notifications of those expired coupons
 
                             if(!expiredCoupons.isEmpty()){
-                                NotificationClear(expiredCoupons);
+                                MainDB.getInstance().NotificationClear(expiredCoupons);
                                 Toast.makeText(view.getContext(), "Notifications cleared", Toast.LENGTH_SHORT).show();
                             }
 
@@ -250,37 +251,6 @@ public class Profile_screen extends AppCompatActivity {
                     }
                 });
 
-    }
-
-    public void NotificationClear(ArrayList<String> expiredCouponsId) {
-        // get users's notifications arrays then go over each array and delete the item that contain an id from expiredCoupons
-
-        db.collection("users")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {     //gets users
-
-
-                            ArrayList<String> userNotifications = new ArrayList<String>();
-                            userNotifications = (ArrayList) document.get("Notifications");  //holds all the notifications for that user
-
-                            if (userNotifications != null) {
-                                for (String notification : userNotifications) {             //go over every notification
-                                    for (String cid : expiredCouponsId){                      //check if an expired coupon is in there
-                                        if(notification.contains("*" + cid + "*")){
-                                            db.collection("users").document(document.getString("Uid")).
-                                                    update("Notifications", FieldValue.arrayRemove(notification));
-                                        }
-                                    }
-                                }
-                            }
-
-                        }   //end for
-
-                    }
-                });         //end on success
     }
 
     int getDateDiff(Date currDate, Date couponDate){

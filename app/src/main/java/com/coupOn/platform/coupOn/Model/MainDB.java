@@ -6,13 +6,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.coupOn.platform.coupOn.Cards;
+import com.coupOn.platform.coupOn.Chat.MemoryData;
+import com.coupOn.platform.coupOn.Chat.MessagesList;
+import com.coupOn.platform.coupOn.Chat.UserChatList;
+import com.coupOn.platform.coupOn.SwipeCards;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -41,6 +53,8 @@ public class MainDB
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseFirestore users = FirebaseFirestore.getInstance();
     StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference databaseReference = database.getReference();
 
     private final HashMap<String, User> curUser = new HashMap<>();
     private final HashMap<String, User> chattingUsers = new HashMap<>();
@@ -121,6 +135,72 @@ public class MainDB
                 }
             }
         });
+        setCoupointsRealtime();
+        onChangeCoupoints();
+    }
+
+    //Gets the coupoint value
+    public void setCoupointsRealtime()
+    {
+        try {
+
+            this.databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        System.out.println("there is a problem");
+                    }
+                    else {
+                        String coupoints = String.valueOf(task.getResult().getValue());
+                        curUser.get(mAuth.getCurrentUser().getUid()).setCoupoints(Integer.parseInt(coupoints));
+                        System.out.println(coupoints + " this is the coupoints");
+                    }
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+
+    public void onChangeCoupoints()
+    {
+        try {
+
+            this.databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    System.out.println(snapshot.getValue() + " this is the value");
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    System.out.println(snapshot.getValue() + " this is the value");
+                    curUser.get(mAuth.getCurrentUser().getUid()).setCoupoints(Integer.parseInt(snapshot.getValue() + ""));
+                    SwipeCards.changeCoupoints(snapshot.getValue() + "");
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 
     public void getOfferedCoupons()
@@ -218,6 +298,37 @@ public class MainDB
                 chattingUsers.put(uid1, new User(email, fullName, date));//Get from currentUser the Email and the FullName from the fireStore.
             }
         });
+    }
+
+    public void NotificationClear(ArrayList<String> expiredCouponsId) {
+        // get users's notifications arrays then go over each array and delete the item that contain an id from expiredCoupons
+
+        users.collection("users")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {     //gets users
+
+
+                            ArrayList<String> userNotifications = new ArrayList<String>();
+                            userNotifications = (ArrayList) document.get("Notifications");  //holds all the notifications for that user
+
+                            if (userNotifications != null) {
+                                for (String notification : userNotifications) {             //go over every notification
+                                    for (String cid : expiredCouponsId){                      //check if an expired coupon is in there
+                                        if(notification.contains("*" + cid + "*")){
+                                            users.collection("users").document(document.getString("Uid")).
+                                                    update("Notifications", FieldValue.arrayRemove(notification));
+                                        }
+                                    }
+                                }
+                            }
+
+                        }   //end for
+
+                    }
+                });         //end on success
     }
 
     public ArrayList<Cards> getCouponCards() {

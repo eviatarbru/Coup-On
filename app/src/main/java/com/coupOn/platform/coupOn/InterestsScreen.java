@@ -26,8 +26,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firestore.v1.WriteResult;
 import com.shashank.platform.coup_on.R;
 
@@ -52,6 +56,8 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference databaseReference = database.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,6 +225,8 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                         }
                     }
                 });
+                // Adds the currency to the realtime firebase
+                databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(0);
                 break;
             case 2: //The coupon registration
                 String coupName = (String) infoReg.get("name");

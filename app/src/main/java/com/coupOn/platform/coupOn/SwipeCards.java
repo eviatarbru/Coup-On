@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class SwipeCards extends AppCompatActivity {
     public static String tempCouponId;
     public static String tempCouponName;
     public static int tempPrice;
+    private static TextView coupointsAmount;
 
     //For the chatPart
     private RecyclerView messagesRecycleView;
@@ -80,6 +82,7 @@ public class SwipeCards extends AppCompatActivity {
         swipes = findViewById(R.id.swipeScreen);
         loading.setVisibility(View.VISIBLE);
         swipes.setVisibility(View.INVISIBLE);
+        coupointsAmount = findViewById(R.id.coupointsText);
 
         if(MainDB.getInstance().getCouponCards() == null || MainDB.getInstance().getCouponCards().isEmpty()) {
             new Thread(new InitDB()).start(); //Making a Thread for the User's Info
@@ -135,6 +138,7 @@ public class SwipeCards extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which)  //FAKE positive button
                             {
+                                Toast.makeText(SwipeCards.this, "Offer Sent!", Toast.LENGTH_SHORT).show();
                                 //Do nothing here because we override this button later to change the close behaviour.
                                 //However, we still need this because on older versions of Android unless we
                                 //pass a handler the button doesn't get instantiated
@@ -165,9 +169,10 @@ public class SwipeCards extends AppCompatActivity {
                         {
                             wantToCloseDialog = true;
                             offer = Integer.parseInt(offerTxt);
+                            System.out.println(tempCouponId + " t");
                             if(tempCouponId != null){
                                 likedCoupons.add(tempCouponId);
-                                Toast.makeText(SwipeCards.this, "Offer submitted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SwipeCards.this, "Offer submitted", Toast.LENGTH_LONG).show();
                                 addToHisNotifications(offer);
                             }
                         }
@@ -175,7 +180,6 @@ public class SwipeCards extends AppCompatActivity {
                             dialog.dismiss();
                         else    //else dialog stays open
                             Toast.makeText(SwipeCards.this, "Field is empty", Toast.LENGTH_SHORT).show();
-
                     }
                 });
                     //end pop-up offer
@@ -198,8 +202,6 @@ public class SwipeCards extends AppCompatActivity {
             public void onScroll(float scrollProgressPercent) {
 
             }
-
-
         });
 
         // Optionally add an OnItemClickListener
@@ -229,6 +231,11 @@ public class SwipeCards extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    public static void changeCoupoints(String coupoints)
+    {
+        coupointsAmount.setText(coupoints);
     }
 
     // Using a thread to get the user's info and put it as a Hashmap<String, User> in MainDB
@@ -275,7 +282,7 @@ public class SwipeCards extends AppCompatActivity {
         dataEdit.put("Notifications", notifications);
         DocumentReference updateUser = db.collection("users")
                 .document(firstCoupon.getOwnerId());
-        updateUser.update("Notifications", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid() + "*" + timeStamp + "*" + firstCoupon.getCouponName() + "*"
+        updateUser.update("Notifications", FieldValue.arrayUnion("1" + "*" + mAuth.getCurrentUser().getUid() + "*" + timeStamp + "*" + firstCoupon.getCouponName() + "*"
                                 + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +firstCoupon.getCouponId()
                                 + "*" + offer));
     }
@@ -354,6 +361,7 @@ public class SwipeCards extends AppCompatActivity {
 
                     @Override
                     public void run() {
+                        coupointsAmount.setText(MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getCoupoints() + "");
                         arrayAdapter = new ArrayAdapterCoupon(SwipeCards.this, R.layout.item, rowItems);
 
                         flingContainer.setAdapter(arrayAdapter);

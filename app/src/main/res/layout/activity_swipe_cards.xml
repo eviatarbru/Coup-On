@@ -126,17 +126,18 @@
                 app:srcCompat="@drawable/coupon_logo_invs_br" />
 
             <TextView
-                android:id="@+id/coupoints"
+                android:id="@+id/coupointsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/textInputLayoutLight"
-                android:textSize="20sp"
+                android:textSize="28sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/logo"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:drawableRightCompat="@drawable/coupoint_c" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

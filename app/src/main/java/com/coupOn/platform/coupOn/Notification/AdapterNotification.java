@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.coupOn.platform.coupOn.Model.MainDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +41,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.HolderNotification> {
 
@@ -51,6 +55,8 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     }
     private FirebaseAuth mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private boolean chatCreater = false;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference databaseReference = database.getReference();
@@ -69,25 +75,46 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     @Override
     public void onBindViewHolder(@NonNull HolderNotification holder, int position) {
         //get and set data to views
-
+        System.out.println(this.notificationsList + " this is the");
         //get data
         String info[] = this.notificationsList.get(position).split("\\*");
-        String uID = info[0];
-        String timestamp = info[1];
-        String coupName = info[2];
-        String myID = info[3];
-        String couponId = info[4];
-        String offer = info[5];
+        System.out.println(info + "this is the");
+        int state = Integer.parseInt(info[0]);
+        String SenderName = info[1];
+        String timestamp = info[2];
+        String coupName = info[3];
+        String myName = info[4];
+        String couponId = info[5];
+        String offer = info[6];
+        int numOffer = Integer.parseInt(info[6]);
+
+        int myCoupoints = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getCoupoints();
 
 
         String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", Long.parseLong(timestamp)).toString();
-
         //set to views
-        holder.nameTv.setText(myID);
+        holder.nameTv.setText(myName);
         holder.timeTv.setText(pTime);
-        String sourceString = "Offered " + "<b>" + offer + " Coupoints " + "</b> " + "for your coupon: " +  "<b>" + "\"" + coupName + "\"" + "<b>";
-//        mytextview.setText(Html.fromHtml(sourceString));
+        String sourceString = "";
+        switch(state) {
+            case 1:
+                sourceString = "Offered " + "</b>" + offer + " Coupoints " + "</b> " + "for your coupon: " + "</b>" + "\"" + coupName + "\"" + "</b>";
+                break;
+            case 2:
+                sourceString = "Didn't have enough money to pay for your coupon: " + coupName + "</b> Would you like to open a chat with him? The offer was: " + "</b>" + offer + " Coupoints ";
+                break;
+            case 3:
+                sourceString = "[Updated] Offered: " + "</b>" + offer + " Coupoints " + "</b> " + "for your coupon: " + "</b>" + "\"" + coupName + "\"" + "</b>";
+                break;
+            case 4:
+                sourceString = "[Deleted] Your coupon: " + coupName + " </b> has been deleted because it got expired!";
+                break;
+            case 5:
+                sourceString = "[Succeeded] The coupon: " + coupName + "</b> was exchanged successfully! Price: " + offer + " coupoints! </b> You can view your coupon in your Coupon List!";
+                break;
+        }
         holder.notificationTv.setText(Html.fromHtml(sourceString));
+
 //        holder.notificationTv.setText("Offered " +"Coupoints for your coupon: " + "\"" + coupName + "\"");
 
         db.collection("coupons")
@@ -114,16 +141,20 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                     }
                 });
 
-
-//        Glide.with(context)
-//                .load(card_item.getUri()) // the uri you got from Firebase
-//                .into(image); //Your imageView variable
-
-
         holder.deleteBut.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
+                switch (state)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        removeRealtime(holder.getAdapterPosition(), SenderName, couponId);
+                        break;
+                }
+
+
                 HashMap<String, String> delNotify = new HashMap<>();
                 delNotify.put("Notifications", notificationsList.get(holder.getAdapterPosition()));
                 Toast.makeText(view.getContext(), "Notification Deleted!!", Toast.LENGTH_SHORT).show();
@@ -136,16 +167,97 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
         holder.acceptBut.setOnClickListener(new View.OnClickListener()
         {
+            String timestampNow = ""+System.currentTimeMillis();
             @Override
             public void onClick(View view) {
-                addToRealtime(holder.getAdapterPosition(), uID, couponId);
-                DocumentReference updateUser = db.collection("users")
-                        .document(mAuth.getCurrentUser().getUid());
-                updateUser.update("ChatUsers", FieldValue.arrayUnion(uID));
+                switch(state)
+                {
+                    case 1: //TODO Check coupoints + if not enough -> send a new notification with a chat option. else -> reduce coupoints and send coupon.
+                        databaseReference.child("Users").child(SenderName).child("coupoints").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (!task.isSuccessful()) {
+                                    System.out.println("there is a problem");
+                                }
+                                else {
+                                    String coupoints = String.valueOf(task.getResult().getValue());
+                                    int coupoint = Integer.parseInt(coupoints);
+                                    if(numOffer <= coupoint) //Checks The other user's Coupoints
+                                    {
+                                        databaseReference.child("Users").child(SenderName).child("coupoints").setValue(coupoint - numOffer);
+                                        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(myCoupoints + numOffer);
+                                        addUserNotification("5" + "*" + mAuth.getCurrentUser().getUid() + "*" + timestampNow + "*" + coupName + "*"
+                                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +couponId
+                                                + "*" + offer, SenderName);
+                                        ArrayList <String> notificationClearCouponId = new ArrayList<>();
+                                        notificationClearCouponId.add(couponId);
+                                        MainDB.getInstance().NotificationClear(notificationClearCouponId);
+                                        Map<String, Object> dataEdit = new HashMap<>();
+                                        dataEdit.put("UserUid", SenderName);
+                                        dataEdit.put("Tradable", false);
+                                        DocumentReference updateUser = db.collection("coupons")
+                                                .document(couponId);
+                                        updateUser.update(dataEdit);
+                                    }
+                                    else // If the other user doesnt have enough money to pay for the coupon.
+                                    {
+                                        //Message for the one giving the offer that he doesnt have enough and if he would like to open a chat with him.
+                                        addUserNotification("2" + "*" + mAuth.getCurrentUser().getUid() + "*" + timestampNow + "*" + coupName + "*"
+                                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +couponId
+                                                + "*" + offer, SenderName);
+                                        //Message for the owner of the coupon, if he would like to open a chat with him!
+                                        addUserNotification("2" + "*" + SenderName + "*" + timestampNow + "*" + coupName + "*"
+                                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +couponId
+                                                + "*" + offer, mAuth.getCurrentUser().getUid());
+                                    }
+                                    System.out.println(coupoints + " this is the coupoints");
+                                }
+                            }
+                        });
+                        break;
+                    case 2: //TODO Notification That asks the user to open a chat, if the other user didn't have enough coupoints.
+                        addToRealtimeAndFirestore(holder.getAdapterPosition(), SenderName, couponId); //Checks if it can open a chat (Both pressed yes), otherwise, it will add a one to their chat and if one of them pressed no we will delete the chat.
+                        break;
+                    case 3: //TODO Same as the first one, but when he sends the offer, we will reduce the coupoints from him to make sure the trade will happen 100%
+                        databaseReference.child("Users").child(SenderName).child("coupoints").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (!task.isSuccessful()) {
+                                    System.out.println("there is a problem");
+                                }
+                                else {
+                                    String coupoints = String.valueOf(task.getResult().getValue());
+                                    int coupoint = Integer.parseInt(coupoints);
+                                    if(numOffer <= coupoint) //Checks The other user's Coupoints
+                                    {
+                                        databaseReference.child("Users").child(SenderName).child("coupoints").setValue(coupoint - numOffer);
+                                        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(myCoupoints + numOffer);
+                                        addUserNotification("5" + "*" + mAuth.getCurrentUser().getUid() + "*" + timestampNow + "*" + coupName + "*"
+                                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +couponId
+                                                + "*" + offer, SenderName);
 
-                DocumentReference updateUser1 = db.collection("users")
-                        .document(uID);
-                updateUser1.update("ChatUsers", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+                                        Map<String, Object> dataEdit = new HashMap<>();
+                                        dataEdit.put("UserUid", SenderName);
+                                        dataEdit.put("Tradable", false);
+                                        DocumentReference updateUser = db.collection("coupons")
+                                                .document(couponId);
+                                        updateUser.update(dataEdit);
+                                    }
+                                    else // If the other user doesnt have enough money to pay for the coupon.
+                                    {
+                                        //Message for the one giving the offer that he doesnt have enough and if he would like to open a chat with him.
+                                        noCoupointMessage(SenderName);
+                                    }
+                                    System.out.println(coupoints + " this is the coupoints");
+                                }
+                            }
+                        });
+                        break;
+                    case 4:
+                    case 5:
+                        //We don't need to do anything with those, they are only confirmation notifications.
+                        break;
+                }
                 HashMap<String, String> delNotify = new HashMap<>();
                 delNotify.put("Notifications", notificationsList.get(holder.getAdapterPosition()));
                 notificationsList.remove(holder.getAdapterPosition());
@@ -154,6 +266,19 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                         update("Notifications", FieldValue.arrayRemove(delNotify.get("Notifications")));
             }
         });
+    }
+
+    //Adds the notification to the user
+    public void addUserNotification(String notification, String ownerCoupon)
+    {
+        List<String> notifications = new ArrayList<>();
+
+        Map<String, Object> dataEdit = new HashMap<>();
+        //data.put("CoupUid", "coupon");
+        dataEdit.put("Notifications", notifications);
+        DocumentReference updateUser = db.collection("users")
+                .document(ownerCoupon);
+        updateUser.update("Notifications", FieldValue.arrayUnion(notification));
     }
 
     public void updateData(ArrayList<String> notificationsList1)
@@ -190,7 +315,9 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             imageView = itemView.findViewById(R.id.imageCoupon);
         }
     }
-    public void addToRealtime(int position, String user2, String couponId)
+
+    //Opens a chat with the user (Case 2)
+    public void addToRealtimeAndFirestore(int position, String user2, String couponId)
     {
         final int[] chatKey = {0};
         final int[] maxKey = {0};
@@ -206,18 +333,32 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                         maxKey[0] = Math.max(maxKey[0], chatKey[0]);
                         final String getUserOne = dataSnapshot2.child("user_1").getValue(String.class); //User 1
                         final String getUserTwo = dataSnapshot2.child("user_2").getValue(String.class); //User 2
-                        if ((getUserOne.equals(mAuth.getCurrentUser().getUid()) && getUserTwo.equals(user2)) || (getUserOne.equals(user2) && getUserTwo.equals(mAuth.getCurrentUser().getUid())))
+                        if ((getUserOne.equals(mAuth.getCurrentUser().getUid()) && getUserTwo.equals(user2)) || (getUserOne.equals(user2) && getUserTwo.equals(mAuth.getCurrentUser().getUid()))) {
                             checker[0] = true;
+                            if (dataSnapshot2.child("agreed").exists()) {
+                                System.out.println(chatKey[0] + " this is the chatKey");
+                                databaseReference.child("chat").child((chatKey[0]) + "").child("agreed").child(mAuth.getCurrentUser().getUid()).setValue("1");
+                                DocumentReference updateUser = db.collection("users")
+                                        .document(mAuth.getCurrentUser().getUid());
+                                updateUser.update("ChatUsers", FieldValue.arrayUnion(user2));
+
+                                DocumentReference updateUser1 = db.collection("users")
+                                        .document(user2);
+                                updateUser1.update("ChatUsers", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+                            }
+                        }
                         System.out.println(maxKey[0] + " this is the chatKey (UserChatList)");
                     }
+
                 }
                 final String currentTimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
                 if(!checker[0]) {
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("user_1").setValue(mAuth.getCurrentUser().getUid());
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("user_2").setValue(user2);
-                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("msg").setValue("Hello i accepted your request!");
+                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("msg").setValue("Hello I Opened a chat with you!");
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("mobile").setValue(mAuth.getCurrentUser().getUid());
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("coupons").setValue(couponId);
+                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("agreed").child(mAuth.getCurrentUser().getUid()).setValue("1");
                 }
             }
             @Override
@@ -227,4 +368,77 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         });
     }
 
+    //Opens a chat with the user (Case 2)
+    public void removeRealtime(int position, String user2, String couponId)
+    {
+        final int[] chatKey = {0};
+        final int[] maxKey = {0};
+        final boolean checker[] = {false};
+        databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int getChatCounts = (int) snapshot.getChildrenCount();
+                if (getChatCounts > 0) {
+                    for (DataSnapshot dataSnapshot2 : snapshot.getChildren()) {
+                        final String getKey = dataSnapshot2.getKey();
+                        chatKey[0] = Integer.parseInt(getKey);
+                        maxKey[0] = Math.max(maxKey[0], chatKey[0]);
+                        final String getUserOne = dataSnapshot2.child("user_1").getValue(String.class); //User 1
+                        final String getUserTwo = dataSnapshot2.child("user_2").getValue(String.class); //User 2
+                        if ((getUserOne.equals(mAuth.getCurrentUser().getUid()) && getUserTwo.equals(user2)) || (getUserOne.equals(user2) && getUserTwo.equals(mAuth.getCurrentUser().getUid()))) {
+                            databaseReference.child("chat").child(chatKey[0] + "").child("agreed").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    System.out.println(snapshot.getValue().toString().split(",").length + "this is the snapshot");
+                                    if(snapshot.getValue().toString().split(",").length != 2)
+                                        databaseReference.child("chat").child(chatKey[0] + "").removeValue();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    //Opens a chat with the user (Case 2)
+    public void noCoupointMessage(String user2)
+    {
+        final String currentTimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
+        final int[] chatKey = {0};
+        final int[] maxKey = {0};
+        final boolean checker[] = {false};
+        databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int getChatCounts = (int) snapshot.getChildrenCount();
+                if (getChatCounts > 0) {
+                    for (DataSnapshot dataSnapshot2 : snapshot.getChildren()) {
+                        final String getKey = dataSnapshot2.getKey();
+                        chatKey[0] = Integer.parseInt(getKey);
+                        maxKey[0] = Math.max(maxKey[0], chatKey[0]);
+                        final String getUserOne = dataSnapshot2.child("user_1").getValue(String.class); //User 1
+                        final String getUserTwo = dataSnapshot2.child("user_2").getValue(String.class); //User 2
+                        if ((getUserOne.equals(mAuth.getCurrentUser().getUid()) && getUserTwo.equals(user2)) || (getUserOne.equals(user2) && getUserTwo.equals(mAuth.getCurrentUser().getUid()))) {
+                            databaseReference.child("chat").child(chatKey[0] + "").child("messages").child(currentTimestamp).child("msg").setValue("[Updated Offer] Hello The User " + user2 + " didn't have enough coupoints to pay for the coupon!");
+                            System.out.println(chatKey[0] + " this is the  chatkey");
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

@@ -9,6 +9,7 @@ public class User
     private String email;
     private String fullName;
     private String date;
+    private int coupoints;
     private ArrayList<String> interests;
     private ArrayList<Coupon> coupons;
     private ArrayList<Coupon> likedCoupons;
@@ -26,6 +27,7 @@ public class User
         this.chattingUserUIDs = chattingString;
         this.notifications = new ArrayList<>();
         this.notifications = notifications;
+        this.coupoints = 0;
     }
 
     public User(String email, String fullName, String date, ArrayList<String> chattingString, ArrayList<String> interests) {
@@ -38,6 +40,7 @@ public class User
         this.coupons = new ArrayList<>();
         this.chattingUserUIDs = chattingString;
         this.notifications = new ArrayList<>();
+        this.coupoints = 0;
     }
 
     public User(String email, String fullName, String date, ArrayList<String> chattingString) {
@@ -49,6 +52,7 @@ public class User
         this.chattingUserUIDs = chattingString;
         this.interests = new ArrayList<>();
         this.notifications = new ArrayList<>();
+        this.coupoints = 0;
     }
 
     public User(String email, String fullName, String date) {
@@ -59,6 +63,7 @@ public class User
         this.chattingUserUIDs = new ArrayList<>();
         this.interests = new ArrayList<>();
         this.notifications = new ArrayList<>();
+        this.coupoints = 0;
     }
 
     public void addCouponToUser(Coupon coupon){
@@ -100,6 +105,14 @@ public class User
 
     public void setNotifications(ArrayList<String> notifications) {
         this.notifications = notifications;
+    }
+
+    public int getCoupoints() {
+        return coupoints;
+    }
+
+    public void setCoupoints(int coupoints) {
+        this.coupoints = coupoints;
     }
 
     @Override
