@@ -36,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class MainDB
@@ -329,6 +330,23 @@ public class MainDB
 
                     }
                 });         //end on success
+    }
+
+    public void boughtCoupoints(int amount)
+    {
+        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    System.out.println("there is a problem");
+                }
+                else {
+                    String coupoints = String.valueOf(task.getResult().getValue());
+                    int coupoint = Integer.parseInt(coupoints);
+                    databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(coupoint + amount);
+                }
+            }
+        });
     }
 
     public ArrayList<Cards> getCouponCards() {

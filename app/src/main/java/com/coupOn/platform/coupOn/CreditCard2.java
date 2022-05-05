@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.coupOn.platform.coupOn.Model.MainDB;
 import com.craftman.cardform.Card;
 import com.craftman.cardform.CardForm;
 import com.craftman.cardform.OnPayBtnClickListner;
@@ -24,7 +25,7 @@ public class CreditCard2 extends AppCompatActivity {
         TextView txtDes = (TextView) findViewById(R.id.payment_amount);
         Button btnPay = (Button) findViewById(R.id.btn_pay);
 
-        txtDes.setText("40 NIS");
+        txtDes.setText("40 Coupoints");
         btnPay.setText(String.format("Payer %s", txtDes.getText()));
 
         cardForm1.setPayBtnClickListner(new OnPayBtnClickListner() {
@@ -32,6 +33,7 @@ public class CreditCard2 extends AppCompatActivity {
             public void onClick(Card card) {
                 Toast.makeText(CreditCard2.this, "Name: "+card.getName()+ " | Last 4 digits: "+card.getLast4()+ ", Payment approved. ",
                         Toast.LENGTH_SHORT).show();
+                MainDB.getInstance().boughtCoupoints(40);
                 Intent intent = new Intent(CreditCard2.this, SwipeCards.class);
                 startActivity(intent);
             }
