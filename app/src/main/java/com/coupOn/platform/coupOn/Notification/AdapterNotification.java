@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -32,8 +33,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.shashank.platform.coup_on.R;
@@ -346,10 +349,23 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                                         .document(user2);
                                 updateUser1.update("ChatUsers", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
                             }
+                            db.collection("coupons").document(couponId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                    String uid = value.getString("UserUid");
+                                    System.out.println(uid + " this is the uid");
+                                    if(uid.equals(mAuth.getCurrentUser().getUid()))
+                                    {
+                                        databaseReference.child("chat").child((chatKey[0]) + "").child("coupons").child(user2).child(couponId).setValue(couponId);
+                                    }
+                                    else if(uid.equals(user2))
+                                    {
+                                        databaseReference.child("chat").child((chatKey[0]) + "").child("coupons").child(mAuth.getCurrentUser().getUid()).child(couponId).setValue(couponId);
+                                    }
+                                }
+                            });
                         }
-                        System.out.println(maxKey[0] + " this is the chatKey (UserChatList)");
                     }
-
                 }
                 final String currentTimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
                 if(!checker[0]) {
@@ -357,8 +373,21 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("user_2").setValue(user2);
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("msg").setValue("Hello I Opened a chat with you!");
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("messages").child(currentTimestamp).child("mobile").setValue(mAuth.getCurrentUser().getUid());
-                    databaseReference.child("chat").child((maxKey[0] + 1) + "").child("coupons").setValue(couponId);
                     databaseReference.child("chat").child((maxKey[0] + 1) + "").child("agreed").child(mAuth.getCurrentUser().getUid()).setValue("1");
+                    db.collection("coupons").document(couponId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            String uid = value.getString("UserUid");
+                            if(uid.equals(mAuth.getCurrentUser().getUid()))
+                            {
+                                databaseReference.child("chat").child((maxKey[0] + 1) + "").child("coupons").child(user2).child(couponId).setValue(couponId);
+                            }
+                            else if(uid.equals(user2))
+                            {
+                                databaseReference.child("chat").child((maxKey[0] + 1) + "").child("coupons").child(mAuth.getCurrentUser().getUid()).child(couponId).setValue(couponId);
+                            }
+                        }
+                    });
                 }
             }
             @Override
