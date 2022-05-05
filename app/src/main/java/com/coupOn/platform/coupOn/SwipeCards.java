@@ -411,6 +411,7 @@ public class SwipeCards extends AppCompatActivity {
     }
     public void gotoUserCoupons(View view){
         Intent intent = new Intent(this, UserCoupons.class);
+        intent.putExtra("cameFrom", 1);     //1 is for swipeCards
         startActivity(intent);
     }
 

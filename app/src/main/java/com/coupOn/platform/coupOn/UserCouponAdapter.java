@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
         private TextView descriptionItem;
         private Button deleteCoupon;
         private ImageView imageView;
+        private RelativeLayout couponCard;
 
         public CouponsListViewHolder(final View view){
             super(view);
@@ -65,6 +67,14 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
             descriptionItem = view.findViewById(R.id.descriptionItem);
             deleteCoupon = view.findViewById(R.id.deleteCoupon);
             imageView = view.findViewById(R.id.imageCoupon);
+            couponCard = view.findViewById(R.id.couponCard);
+
+            if(UserCoupons.getCameFrom() == 2)
+            {
+                deleteCoupon.setVisibility(View.INVISIBLE);
+            }
+            else
+                deleteCoupon.setVisibility(View.VISIBLE);
 
         }
     }
@@ -169,6 +179,16 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
             }
         });
 
+        holder.couponCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if( UserCoupons.getCameFrom() == 2){    //came from chat
+
+                    //choose this coupon for trade
+                }
+            }
+        });
 
     }
 

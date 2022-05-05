@@ -1,5 +1,6 @@
 package com.coupOn.platform.coupOn;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,11 @@ import com.coupOn.platform.coupOn.Model.Coupon;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -26,10 +32,15 @@ public class UserCoupons extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UserCouponAdapter userCouponAdapter;
     private static UserCoupons instance;
+    private static String chatKey;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference databaseReference = database.getReference();
+
+    private static int cameFrom;
 
     public static UserCoupons getInstance() {
         if(instance == null)
@@ -46,6 +57,15 @@ public class UserCoupons extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.couponsList);
         setAdapter();
+
+        Intent infoIntent = getIntent();     //get data from last screen
+        Bundle info = infoIntent.getExtras();
+
+
+        cameFrom = (int) info.get("cameFrom");  //1 is for swipeCards
+                                                //2 is for chatScreen
+        if(cameFrom == 2)
+            chatKey = (String) info.get("chatKey");
 
         new Thread(new setCouponInfo()).start(); //Making a Thread for the User's Info
     }
@@ -89,7 +109,31 @@ public class UserCoupons extends AppCompatActivity {
                                         , snapshot.getString("CouponCode")
                                         ,snapshot.getLong("Rank").intValue()
                                         ,snapshot.getLong("Price").intValue());
-                                userCouponsList.add(coupon);
+                                if (cameFrom == 1)
+                                    userCouponsList.add(coupon);
+                                else{
+                                    // go over the real-time db to fetch the cid of the desired coupons
+                                    Coupon finalCoupon = coupon;
+                                    databaseReference.child("chat").child(chatKey + "").child("coupons").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+
+                                                if (finalCoupon.getCouponId() == dataSnapshot2.toString())
+                                                {
+                                                    userCouponsList.add(finalCoupon);
+                                                }
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
+                                }
                             }
                             userCouponAdapter.updateData(userCouponsList);
 
@@ -103,4 +147,7 @@ public class UserCoupons extends AppCompatActivity {
         }
     }
 
+    public static int getCameFrom() {
+        return cameFrom;
+    }
 }

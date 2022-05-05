@@ -39,6 +39,7 @@ public class ChatScreen extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private boolean loadingFirstTime = true;
 
+
     private String getName;
 
     //firebase
@@ -56,6 +57,38 @@ public class ChatScreen extends AppCompatActivity {
         final TextView nameTV = findViewById(R.id.name);
         final EditText messageEditText = findViewById(R.id.messageEditText);
         final ImageView sendBtn = findViewById(R.id.sendBtn);
+        final ImageView tradeIcon = findViewById(R.id.tradeIcon);
+        tradeIcon.setVisibility(View.VISIBLE);
+
+        databaseReference.child("chat").child(chatKey + "").child("coupons").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                int couponsCount = (int)snapshot.getChildrenCount();
+                switch (couponsCount){
+                    case 0:
+                        tradeIcon.setVisibility(View.INVISIBLE);
+                        break;
+                    case 1:
+                        for (DataSnapshot dataSnapshot2 : snapshot.getChildren())
+                        {
+                            final String getKey = dataSnapshot2.getKey();
+                            if (!getKey.equals(mAuth.getCurrentUser().getUid())){
+                                tradeIcon.setVisibility(View.INVISIBLE);
+                            }
+                        }
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+            tradeIcon.setVisibility(View.INVISIBLE);
+
 
         chattingRecyclerView = findViewById(R.id.chattingRecyclerView);
 
@@ -131,33 +164,7 @@ public class ChatScreen extends AppCompatActivity {
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Confirm");
-        builder.setMessage("Did you trade your coupons?");
-
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                // Do nothing but close the dialog
-                Intent intent = new Intent(ChatScreen.this, UserCoupons.class);
-                startActivity(intent);
-                dialog.dismiss();
-            }
-        });
-
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                // Do nothing
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,5 +192,45 @@ public class ChatScreen extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void tradeCoupon(View view){
+
+        Intent intent = new Intent(this, UserCoupons.class);
+//        intent.putExtra("chatKey", chatKey);
+        intent.putExtra("cameFrom", 2);     //2 is for chatScreen
+        startActivity(intent);
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        builder.setTitle("Confirm");
+//        builder.setMessage("Did you trade your coupons?");
+//
+//        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//
+//            public void onClick(DialogInterface dialog, int which) {
+//                // Do nothing but close the dialog
+//                Intent intent = new Intent(ChatScreen.this, UserCoupons.class);
+//                startActivity(intent);
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                // Do nothing
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        AlertDialog alert = builder.create();
+//        alert.show();
+    }
+
+    public String getChatKey() {
+        return chatKey;
     }
 }

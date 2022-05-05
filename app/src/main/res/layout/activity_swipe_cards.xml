@@ -67,6 +67,7 @@
             android:id="@+id/nopeArrow"
             android:layout_width="115dp"
             android:layout_height="50dp"
+            android:alpha="0.7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_constraintLayout"
             app:srcCompat="@drawable/nope_arrow" />
@@ -75,6 +76,7 @@
             android:id="@+id/yesArrow"
             android:layout_width="115dp"
             android:layout_height="50dp"
+            android:alpha="0.7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_constraintLayout"
             app:srcCompat="@drawable/yes_arrow" />
