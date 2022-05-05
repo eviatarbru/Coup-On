@@ -323,6 +323,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     public void addToRealtimeAndFirestore(int position, String user2, String couponId)
     {
         final int[] chatKey = {0};
+        final int[] chatkeyFinal = {0};
         final int[] maxKey = {0};
         final boolean checker[] = {false};
         databaseReference.child("chat").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -339,6 +340,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                         if ((getUserOne.equals(mAuth.getCurrentUser().getUid()) && getUserTwo.equals(user2)) || (getUserOne.equals(user2) && getUserTwo.equals(mAuth.getCurrentUser().getUid()))) {
                             checker[0] = true;
                             if (dataSnapshot2.child("agreed").exists()) {
+                                chatkeyFinal[0] = chatKey[0];
                                 System.out.println(chatKey[0] + " this is the chatKey");
                                 databaseReference.child("chat").child((chatKey[0]) + "").child("agreed").child(mAuth.getCurrentUser().getUid()).setValue("1");
                                 DocumentReference updateUser = db.collection("users")
@@ -348,22 +350,22 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                                 DocumentReference updateUser1 = db.collection("users")
                                         .document(user2);
                                 updateUser1.update("ChatUsers", FieldValue.arrayUnion(mAuth.getCurrentUser().getUid()));
+                                db.collection("coupons").document(couponId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                        String uid = value.getString("UserUid");
+                                        System.out.println(chatkeyFinal[0] + " this is the uid");
+                                        if(uid.equals(mAuth.getCurrentUser().getUid()))
+                                        {
+                                            databaseReference.child("chat").child((chatkeyFinal[0]) + "").child("coupons").child(user2).child(couponId).setValue(couponId);
+                                        }
+                                        else if(uid.equals(user2))
+                                        {
+                                            databaseReference.child("chat").child((chatkeyFinal[0]) + "").child("coupons").child(mAuth.getCurrentUser().getUid()).child(couponId).setValue(couponId);
+                                        }
+                                    }
+                                });
                             }
-                            db.collection("coupons").document(couponId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                    String uid = value.getString("UserUid");
-                                    System.out.println(uid + " this is the uid");
-                                    if(uid.equals(mAuth.getCurrentUser().getUid()))
-                                    {
-                                        databaseReference.child("chat").child((chatKey[0]) + "").child("coupons").child(user2).child(couponId).setValue(couponId);
-                                    }
-                                    else if(uid.equals(user2))
-                                    {
-                                        databaseReference.child("chat").child((chatKey[0]) + "").child("coupons").child(mAuth.getCurrentUser().getUid()).child(couponId).setValue(couponId);
-                                    }
-                                }
-                            });
                         }
                     }
                 }
