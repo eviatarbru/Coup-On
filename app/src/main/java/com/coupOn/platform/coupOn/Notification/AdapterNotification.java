@@ -153,6 +153,18 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                     case 1:
                         break;
                     case 2:
+                        databaseReference.child("Users").child(SenderName).child("coupoints").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (!task.isSuccessful()) {
+                                    System.out.println("there is a problem");
+                                }
+                                else {
+                                    String coupoints = String.valueOf(task.getResult().getValue());
+
+                                }
+                            }
+                        });
                         removeRealtime(holder.getAdapterPosition(), SenderName, couponId);
                         break;
                 }
@@ -412,6 +424,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                 if (getChatCounts > 0) {
                     for (DataSnapshot dataSnapshot2 : snapshot.getChildren()) {
                         final String getKey = dataSnapshot2.getKey();
+                        final boolean[] twoAgrees = {false};
                         chatKey[0] = Integer.parseInt(getKey);
                         maxKey[0] = Math.max(maxKey[0], chatKey[0]);
                         final String getUserOne = dataSnapshot2.child("user_1").getValue(String.class); //User 1
@@ -421,8 +434,33 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     System.out.println(snapshot.getValue().toString().split(",").length + "this is the snapshot");
-                                    if(snapshot.getValue().toString().split(",").length != 2)
+                                    if(snapshot.getValue().toString().split(",").length != 2) {
                                         databaseReference.child("chat").child(chatKey[0] + "").removeValue();
+                                    }
+                                    else
+                                        twoAgrees[0] = true;
+                                    if(twoAgrees[0]) {
+                                        System.out.println("chat key: " + chatKey[0] + " in two agrees");
+                                        databaseReference.child("chat").child(chatKey[0] + "").child("coupons").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for(DataSnapshot snapshot1: snapshot.getChildren()) {
+                                                    for(DataSnapshot snapshot2: snapshot1.getChildren()) {
+                                                        String snapShot2Key = snapshot2.getKey() + "";
+                                                        if (snapShot2Key.equals(couponId)) {
+                                                            System.out.println("chatkey: " + chatKey[0] + " userUid: " + snapshot1.getKey() + " couponID: " + couponId);
+                                                            databaseReference.child("chat").child(chatKey[0] + "").child("coupons").child(snapshot1.getKey()).child(couponId).removeValue();
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
                                 }
 
                                 @Override
