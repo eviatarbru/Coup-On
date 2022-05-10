@@ -36,7 +36,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Profile_screen extends AppCompatActivity {
 
@@ -183,6 +186,26 @@ public class Profile_screen extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                         String imageName = documentSnapshot.getString("CouponImage");
+                                        String ownerId = documentSnapshot.getString("UserUid");
+                                        String couponName = documentSnapshot.getString("CoupName");
+                                        String CouponId = documentSnapshot.getString("CouponId");
+
+                                        //timestamp for time and notification id
+                                        String timeStamp = ""+System.currentTimeMillis();
+
+                                        List<String> notifications = new ArrayList<>();
+
+                                        // Firebase-Firestore
+                                        Map<String, Object> dataEdit = new HashMap<>();
+                                        //data.put("CoupUid", "coupon");
+                                        dataEdit.put("Notifications", notifications);
+                                        DocumentReference updateUser = db.collection("users")
+                                                .document(ownerId);
+                                        updateUser.update("Notifications", FieldValue.arrayUnion("4" + "*"
+                                                + mAuth.getCurrentUser().getUid() + "*" + timeStamp + "*" + couponName + "*"
+                                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*"
+                                                + CouponId + "*" + 0));
+                                        //send a notification to the user that his coupon got deleted
 
                                         db.collection("coupons").document(cid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
