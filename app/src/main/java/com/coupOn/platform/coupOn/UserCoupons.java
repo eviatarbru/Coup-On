@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coupOn.platform.coupOn.Model.Coupon;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -85,65 +87,93 @@ public class UserCoupons extends AppCompatActivity {
         @Override
         public void run() {
             String userUid = mAuth.getCurrentUser().getUid();
-            FirebaseFirestore.getInstance()
-                    .collection("coupons")
-                    .whereEqualTo("UserUid", userUid)
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+            if(cameFrom == 1) {
+                FirebaseFirestore.getInstance()
+                        .collection("coupons")
+                        .whereEqualTo("UserUid", userUid)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                            Coupon coupon;
-                            List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                            for (DocumentSnapshot snapshot : snapshotList) {
+                                Coupon coupon;
+                                List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot snapshot : snapshotList) {
 
-                                coupon = new Coupon(snapshot.getString("CouponImage")
-                                        , snapshot.getString("CoupName")
-                                        , snapshot.getString("ExpireDate")
-                                        , snapshot.getString("Location")
-                                        , snapshot.getString("Description")
-                                        , snapshot.getString("UserUid")
-                                        , snapshot.getString("CouponId")
-                                        , snapshot.getString("Interest")
-                                        , snapshot.getString("DiscountType")
-                                        , snapshot.getString("CouponCode")
-                                        ,snapshot.getLong("Rank").intValue()
-                                        ,snapshot.getLong("Price").intValue());
-                                if (cameFrom == 1)
+                                    coupon = new Coupon(snapshot.getString("CouponImage")
+                                            , snapshot.getString("CoupName")
+                                            , snapshot.getString("ExpireDate")
+                                            , snapshot.getString("Location")
+                                            , snapshot.getString("Description")
+                                            , snapshot.getString("UserUid")
+                                            , snapshot.getString("CouponId")
+                                            , snapshot.getString("Interest")
+                                            , snapshot.getString("DiscountType")
+                                            , snapshot.getString("CouponCode")
+                                            , snapshot.getLong("Rank").intValue()
+                                            , snapshot.getLong("Price").intValue());
                                     userCouponsList.add(coupon);
-                                else{
-                                    // go over the real-time db to fetch the cid of the desired coupons
-                                    Coupon finalCoupon = coupon;
-                                    databaseReference.child("chat").child(chatKey + "").child("coupons").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                }
+                                userCouponAdapter.updateData(userCouponsList);
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
+            }
+            if(cameFrom == 2)
+            {
+                ArrayList<String> buckets = new ArrayList<>();
+                System.out.println("chatkey: " + chatKey);
+                databaseReference.child("chat").child(chatKey + "").child("coupons").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        System.out.println("count snapshot: " + snapshot.getChildrenCount());
+                        for (DataSnapshot dataSnapshot2 : snapshot.getChildren()) {
+                            System.out.println("data2: " + dataSnapshot2.getKey());
+                            buckets.add(dataSnapshot2.getKey());
+                        }
+                        for(String bucket: buckets) {
+                            FirebaseFirestore.getInstance()
+                                    .collection("coupons")
+                                    .document(bucket)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            for (DataSnapshot dataSnapshot2 : snapshot.getChildren()){
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            Coupon coupon;
+                                            DocumentSnapshot snapshot = task.getResult();
 
-                                                if (finalCoupon.getCouponId() == dataSnapshot2.toString())
-                                                {
-                                                    userCouponsList.add(finalCoupon);
-                                                }
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
+                                            coupon = new Coupon(snapshot.getString("CouponImage")
+                                                    , snapshot.getString("CoupName")
+                                                    , snapshot.getString("ExpireDate")
+                                                    , snapshot.getString("Location")
+                                                    , snapshot.getString("Description")
+                                                    , snapshot.getString("UserUid")
+                                                    , snapshot.getString("CouponId")
+                                                    , snapshot.getString("Interest")
+                                                    , snapshot.getString("DiscountType")
+                                                    , snapshot.getString("CouponCode")
+                                                    , snapshot.getLong("Rank").intValue()
+                                                    , snapshot.getLong("Price").intValue());
+                                            // go over the real-time db to fetch the cid of the desired coupons
+                                            userCouponsList.add(coupon);
+                                            System.out.println(coupon + " this is a the");
+                                            userCouponAdapter.updateData(userCouponsList);
                                         }
                                     });
-
-                                }
-                            }
-                            userCouponAdapter.updateData(userCouponsList);
-
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        }
-                    });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
         }
     }
 

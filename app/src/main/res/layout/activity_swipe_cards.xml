@@ -131,7 +131,6 @@
                 android:id="@+id/coupointsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:textColor="@color/textInputLayoutLight"
                 android:textSize="28sp"
                 android:textStyle="bold|italic"

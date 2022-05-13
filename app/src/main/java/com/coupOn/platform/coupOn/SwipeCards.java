@@ -93,6 +93,8 @@ public class SwipeCards extends AppCompatActivity {
 //
             new Thread(new setUrisToCoupons()).start();
         }
+        else
+            MainDB.getInstance().onChangeCoupoints();
         new Thread(new GetUserFirebaseS(flingContainer)).start(); //Just an example to test the random user info.
 
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()

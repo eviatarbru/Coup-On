@@ -430,7 +430,11 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                         final String getUserOne = dataSnapshot2.child("user_1").getValue(String.class); //User 1
                         final String getUserTwo = dataSnapshot2.child("user_2").getValue(String.class); //User 2
                         if ((getUserOne.equals(mAuth.getCurrentUser().getUid()) && getUserTwo.equals(user2)) || (getUserOne.equals(user2) && getUserTwo.equals(mAuth.getCurrentUser().getUid()))) {
-                            databaseReference.child("chat").child(chatKey[0] + "").child("agreed").addListenerForSingleValueEvent(new ValueEventListener() {
+                            System.out.println("user1: " + getUserOne + " user2: " + getUserTwo);
+
+                            System.out.println(chatKey[0] + " this is the chatkey");
+                            int finalkey = chatKey[0];
+                            databaseReference.child("chat").child(finalkey + "").child("agreed").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     System.out.println(snapshot.getValue().toString().split(",").length + "this is the snapshot");
@@ -440,16 +444,15 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                                     else
                                         twoAgrees[0] = true;
                                     if(twoAgrees[0]) {
-                                        System.out.println("chat key: " + chatKey[0] + " in two agrees");
-                                        databaseReference.child("chat").child(chatKey[0] + "").child("coupons").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        System.out.println("chat key: " + finalkey + " in two agrees");
+                                        databaseReference.child("chat").child(finalkey + "").child("coupons").addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 for(DataSnapshot snapshot1: snapshot.getChildren()) {
                                                     for(DataSnapshot snapshot2: snapshot1.getChildren()) {
                                                         String snapShot2Key = snapshot2.getKey() + "";
                                                         if (snapShot2Key.equals(couponId)) {
-                                                            System.out.println("chatkey: " + chatKey[0] + " userUid: " + snapshot1.getKey() + " couponID: " + couponId);
-                                                            databaseReference.child("chat").child(chatKey[0] + "").child("coupons").child(snapshot1.getKey()).child(couponId).removeValue();
+                                                            databaseReference.child("chat").child(finalkey + "").child("coupons").child(snapshot1.getKey()).child(couponId).removeValue();
                                                         }
                                                     }
                                                 }
@@ -482,7 +485,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     //Opens a chat with the user (Case 2)
     public void noCoupointMessage(String user2)
     {
-        final String currentTimestamp = String.valueOf(System.currentTimeMillis()).substring(0, 10);
+        final String currentTimestamp = String.valueOf(System.currentTimeMillis());
         final int[] chatKey = {0};
         final int[] maxKey = {0};
         final boolean checker[] = {false};
@@ -498,7 +501,8 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                         final String getUserOne = dataSnapshot2.child("user_1").getValue(String.class); //User 1
                         final String getUserTwo = dataSnapshot2.child("user_2").getValue(String.class); //User 2
                         if ((getUserOne.equals(mAuth.getCurrentUser().getUid()) && getUserTwo.equals(user2)) || (getUserOne.equals(user2) && getUserTwo.equals(mAuth.getCurrentUser().getUid()))) {
-                            databaseReference.child("chat").child(chatKey[0] + "").child("messages").child(currentTimestamp).child("msg").setValue("[Updated Offer] Hello The User " + user2 + " didn't have enough coupoints to pay for the coupon!");
+                            databaseReference.child("chat").child(chatKey[0] + "").child("messages").child(currentTimestamp).child("mobile").setValue(user2);
+                            databaseReference.child("chat").child(chatKey[0] + "").child("messages").child(currentTimestamp).child("msg").setValue("[Updated Offer] Hello The User didn't have enough coupoints to pay for the coupon!");
                             System.out.println(chatKey[0] + " this is the  chatkey");
                         }
                     }

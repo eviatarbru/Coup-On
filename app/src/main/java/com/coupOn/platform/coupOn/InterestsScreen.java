@@ -19,6 +19,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coupOn.platform.coupOn.Model.MainDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -106,6 +107,23 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         }
         GridLayout.LayoutParams params;
         this.isPressed = new boolean[this.interests.length];
+        if(this.fromScreen == 3)
+        {
+            mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
+            ArrayList<String> myInterests = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getInterests();
+            for(int i = 0; i < this.interests.length; i++)
+            {
+                this.isPressed[i] = false;
+                for (int j = 0; j < myInterests.size(); j++)
+                {
+                    if(this.interests[i].equals(myInterests.get(j)))
+                    {
+                        System.out.println(this.interests[i]);
+                        this.isPressed[i] = true;
+                    }
+                }
+            }
+        }
         for(int i = 0; i < this.interests.length / 3 * 3; i++)
         {
             params = new GridLayout.LayoutParams();
@@ -130,8 +148,15 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
         btn.setText(st);
         btn.setAllCaps(false);
         btn.setOnClickListener(this);
-        btn.setTextColor(getResources().getColor(R.color.textInputLayout));
-        btn.setBackground(getDrawable(R.drawable.gridbuttonunselected));
+        if(this.isPressed[val])
+        {
+            btn.setTextColor(getResources().getColor(R.color.textInputLayoutLight));
+            btn.setBackground(getDrawable(R.drawable.gridbuttonselected));
+        }
+        else {
+            btn.setTextColor(getResources().getColor(R.color.textInputLayout));
+            btn.setBackground(getDrawable(R.drawable.gridbuttonunselected));
+        }
         return btn;
     }
 
@@ -221,12 +246,12 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                             db.collection("users")
                                     .document(mAuth.getCurrentUser().getUid())
                                     .set(user);
+                            // Adds the currency to the realtime firebase
+                            databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(25);
 
                         }
                     }
                 });
-                // Adds the currency to the realtime firebase
-                databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(0);
                 break;
             case 2: //The coupon registration
                 String coupName = (String) infoReg.get("name");

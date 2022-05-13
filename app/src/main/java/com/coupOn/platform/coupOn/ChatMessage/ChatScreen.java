@@ -58,12 +58,12 @@ public class ChatScreen extends AppCompatActivity {
         final EditText messageEditText = findViewById(R.id.messageEditText);
         final ImageView sendBtn = findViewById(R.id.sendBtn);
         final ImageView tradeIcon = findViewById(R.id.tradeIcon);
-        tradeIcon.setVisibility(View.VISIBLE);
+        tradeIcon.setVisibility(View.INVISIBLE);
+        chatKey = getIntent().getStringExtra("chatKey");
 
         databaseReference.child("chat").child(chatKey + "").child("coupons").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 int couponsCount = (int)snapshot.getChildrenCount();
                 switch (couponsCount){
                     case 0:
@@ -72,11 +72,14 @@ public class ChatScreen extends AppCompatActivity {
                     case 1:
                         for (DataSnapshot dataSnapshot2 : snapshot.getChildren())
                         {
-                            final String getKey = dataSnapshot2.getKey();
-                            if (!getKey.equals(mAuth.getCurrentUser().getUid())){
-                                tradeIcon.setVisibility(View.INVISIBLE);
+                            final String getUIDKey = dataSnapshot2.getKey();
+                            if (getUIDKey.equals(mAuth.getCurrentUser().getUid())){
+                                tradeIcon.setVisibility(View.VISIBLE);
                             }
                         }
+                        break;
+                    case 2:
+                        tradeIcon.setVisibility(View.VISIBLE);
                         break;
                 }
 
@@ -87,14 +90,11 @@ public class ChatScreen extends AppCompatActivity {
 
             }
         });
-            tradeIcon.setVisibility(View.INVISIBLE);
-
 
         chattingRecyclerView = findViewById(R.id.chattingRecyclerView);
 
         //get data from messages adapter class
         final String getName = getIntent().getStringExtra("name");
-        chatKey = getIntent().getStringExtra("chatKey");
         final String getMobile = getIntent().getStringExtra("mobile");
         this.getName = getName;
 
@@ -197,8 +197,8 @@ public class ChatScreen extends AppCompatActivity {
     public void tradeCoupon(View view){
 
         Intent intent = new Intent(this, UserCoupons.class);
-//        intent.putExtra("chatKey", chatKey);
         intent.putExtra("cameFrom", 2);     //2 is for chatScreen
+        intent.putExtra("chatKey", chatKey);     //2 is for chatScreen
         startActivity(intent);
 
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
