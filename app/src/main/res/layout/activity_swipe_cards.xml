@@ -40,6 +40,14 @@
             android:minWidth="50dp"
             android:minHeight="50dp" />
 
+        <com.lorentzos.flingswipe.SwipeFlingAdapterView
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rotation_degrees="15.5"
+            tools:context=".MyActivity"
+            tools:layout_editor_absoluteY="50dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -80,14 +88,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_constraintLayout"
             app:srcCompat="@drawable/yes_arrow" />
-
-        <com.lorentzos.flingswipe.SwipeFlingAdapterView
-            android:id="@+id/frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="@+id/imageView2"
-            app:rotation_degrees="15.5"
-            tools:context=".MyActivity" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/top_constraintLayout"
@@ -134,6 +134,7 @@
                 android:textColor="@color/textInputLayoutLight"
                 android:textSize="28sp"
                 android:textStyle="bold|italic"
+                android:onClick="moreCoupoints"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/logo"

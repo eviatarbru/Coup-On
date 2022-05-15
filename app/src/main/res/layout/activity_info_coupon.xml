@@ -149,6 +149,27 @@
                 tools:text="ownerEmail" />
 
             <TextView
+                android:id="@+id/ownerCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ownerEmail"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textColor="@color/textInputLayoutLight"
+                android:textSize="24sp"
+                android:textStyle="normal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.064"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.064"
+                tools:text="ownerCode" />
+
+            <TextView
                 android:id="@+id/ownerDetailsDummy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

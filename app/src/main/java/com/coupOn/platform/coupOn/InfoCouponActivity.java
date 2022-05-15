@@ -34,12 +34,16 @@ public class InfoCouponActivity extends AppCompatActivity {
         TextView couponName = findViewById(R.id.couponName);
         TextView ownerName = findViewById(R.id.ownerName);
         TextView ownerEmail = findViewById(R.id.ownerEmail);
+        TextView ownerCode = findViewById(R.id.ownerCode);
+        ownerCode.setVisibility(View.INVISIBLE);
+
 
         Intent infoIntent = getIntent();     //get data from last screen
         Bundle info = infoIntent.getExtras();
         String name = (String) info.get("couponName"); // need to get from swipeCards the name of the coupon
         Uri imageUri = (Uri) info.get("imageUri");
         String ownerId = (String) info.get("ownerId");
+        String couponId = (String) info.get("couponID");
 
         db.collection("users")
                 .document(ownerId)
@@ -50,6 +54,30 @@ public class InfoCouponActivity extends AppCompatActivity {
 
                         ownerName.setText(documentSnapshot.getString("FullName"));
                         ownerEmail.setText(documentSnapshot.getString("Email"));
+//                        ownerCode.setText(documentSnapshot.getString("CouponCode"));
+//                        if(!documentSnapshot.getBoolean("Tradeable")){
+//                            ownerCode.setVisibility(View.VISIBLE);
+//                        }
+//                        else{
+//                            System.out.println("we got a null");
+//                        }
+                    }
+                });
+
+        db.collection("coupons")
+                .document(couponId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        ownerCode.setText(documentSnapshot.getString("CouponCode"));
+                        if(!documentSnapshot.getBoolean("Tradeable")){
+                            ownerCode.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            System.out.println("we got a null");
+                        }
                     }
                 });
 

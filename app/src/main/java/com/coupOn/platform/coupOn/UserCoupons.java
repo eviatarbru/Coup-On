@@ -73,7 +73,7 @@ public class UserCoupons extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        userCouponAdapter = new UserCouponAdapter(userCouponsList);
+        userCouponAdapter = new UserCouponAdapter(userCouponsList, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

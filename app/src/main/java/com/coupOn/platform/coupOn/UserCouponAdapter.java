@@ -55,7 +55,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
     private FirebaseAuth mAuth = FirebaseAuth.getInstance(); //Connects to Authentication.
     StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
 
-    public UserCouponAdapter(ArrayList<Coupon> usersCoupList){
+    public UserCouponAdapter(ArrayList<Coupon> usersCoupList, Context context){
         this.usersCoupList = usersCoupList;
         this.context = context;
     }
@@ -107,6 +107,8 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
         String expireDate = usersCoupList.get(position).getExpireDate();
         String location = usersCoupList.get(position).getLocation();
         String description = usersCoupList.get(position).getDescription();
+        final Uri[] uriMain = new Uri[1];
+        final String[] ownerID = {""};
         int price = usersCoupList.get(position).getPrice();
 
         holder.couponNameItem.setText(couponName);
@@ -121,6 +123,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String imageName = documentSnapshot.getString("CouponImage");
+                        ownerID[0] = documentSnapshot.getString("UserUid");
                         mStorageReference = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
 
                         try {
@@ -128,6 +131,7 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
                                 @Override
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     Uri uri = task.getResult();
+                                    uriMain[0] = uri;
                                     Glide.with(context)
                                             .load(uri) // the uri you got from Firebase
                                             .into(holder.imageView); //Your imageView variable
@@ -138,6 +142,8 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
                         }
                     }
                 });
+
+
 
         holder.couponRootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -268,6 +274,19 @@ public class UserCouponAdapter extends RecyclerView.Adapter<UserCouponAdapter.Co
 
                 AlertDialog alert = builder.create();
                 alert.show();
+            }
+        });
+
+        holder.couponCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context , InfoCouponActivity.class);
+                intent.putExtra("couponName", couponName);
+                intent.putExtra("imageUri", uriMain[0]);
+                intent.putExtra("ownerId", ownerID[0]);
+                intent.putExtra("couponID", cid);
+
+                context.startActivity(intent);
             }
         });
 

@@ -417,4 +417,9 @@ public class SwipeCards extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void moreCoupoints(View view) {
+        Intent intent = new Intent(this, CouponPoints.class);
+        startActivity(intent);
+    }
+
 }
