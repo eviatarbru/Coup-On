@@ -40,14 +40,6 @@
             android:minWidth="50dp"
             android:minHeight="50dp" />
 
-        <com.lorentzos.flingswipe.SwipeFlingAdapterView
-            android:id="@+id/frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:rotation_degrees="15.5"
-            tools:context=".MyActivity"
-            tools:layout_editor_absoluteY="50dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -88,6 +80,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_constraintLayout"
             app:srcCompat="@drawable/yes_arrow" />
+
+        <com.lorentzos.flingswipe.SwipeFlingAdapterView
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rotation_degrees="15.5"
+            tools:context=".MyActivity"
+            tools:layout_editor_absoluteY="50dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/top_constraintLayout"
@@ -208,7 +208,6 @@
                 android:id="@+id/add_coupon"
                 android:layout_width="98dp"
                 android:layout_height="84dp"
-                android:onClick="gotoAddCoupon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.111"

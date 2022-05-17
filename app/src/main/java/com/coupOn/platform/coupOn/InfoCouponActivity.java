@@ -35,8 +35,10 @@ public class InfoCouponActivity extends AppCompatActivity {
         TextView ownerName = findViewById(R.id.ownerName);
         TextView ownerEmail = findViewById(R.id.ownerEmail);
         TextView ownerCode = findViewById(R.id.ownerCode);
-        ownerCode.setVisibility(View.INVISIBLE);
+        TextView ownerCodeTxt = findViewById(R.id.ownerCodeTxt);
 
+        ownerCode.setVisibility(View.INVISIBLE);
+        ownerCodeTxt.setVisibility(View.INVISIBLE);
 
         Intent infoIntent = getIntent();     //get data from last screen
         Bundle info = infoIntent.getExtras();
@@ -74,6 +76,7 @@ public class InfoCouponActivity extends AppCompatActivity {
                         ownerCode.setText(documentSnapshot.getString("CouponCode"));
                         if(!documentSnapshot.getBoolean("Tradeable")){
                             ownerCode.setVisibility(View.VISIBLE);
+                            ownerCodeTxt.setVisibility(View.VISIBLE);
                         }
                         else{
                             System.out.println("we got a null");

@@ -158,6 +158,7 @@ public class AddCouponImage extends AppCompatActivity {
                 data.put("DiscountType", discountType);
                 data.put("Rank", rank);
                 data.put("Price", price);
+                data.put("Tradeable", true);
 
                 db.collection("coupons").document(couponId)
                         .set(data)

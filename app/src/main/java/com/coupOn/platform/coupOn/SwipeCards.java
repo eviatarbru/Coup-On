@@ -214,10 +214,13 @@ public class SwipeCards extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), InfoCouponActivity.class);
                 String couponName = rowItems.get(0).getCouponName(); //couponName is a value that needs to be fetched from firebase
                 Uri imageUri = rowItems.get(0).getUri();
+                String couponID = MainDB.getInstance().getCouponCards().get(0).getCouponId();
                 String ownerId = rowItems.get(0).getOwnerId();
                 intent.putExtra("couponName", couponName);
                 intent.putExtra("imageUri", imageUri);
                 intent.putExtra("ownerId", ownerId);
+                intent.putExtra("couponID", couponID);
+
                 startActivity(intent);
 
             }
@@ -348,6 +351,7 @@ public class SwipeCards extends AppCompatActivity {
 
                                 Coupon c = MainDB.getInstance().getUnmatchCoupons().get(0);
                                 MainDB.getInstance().getUnmatchCoupons().remove(0);
+
                                 rowItems.add(new Cards(c.getCouponName(), c.getInterest(), c.getDescription(), c.getExpireDate(), c.getLocation()
                                         , c.getDiscountType(), c.getCouponId(), c.getUri(), c.getOwnerId(), c.getPrice()));
                             }
@@ -365,7 +369,6 @@ public class SwipeCards extends AppCompatActivity {
                     public void run() {
                         coupointsAmount.setText(MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getCoupoints() + "");
                         arrayAdapter = new ArrayAdapterCoupon(SwipeCards.this, R.layout.item, rowItems);
-
                         flingContainer.setAdapter(arrayAdapter);
 
                         arrayAdapter.notifyDataSetChanged();
@@ -381,15 +384,6 @@ public class SwipeCards extends AppCompatActivity {
 
     static void makeToast(Context ctx, String s){
         Toast.makeText(ctx, s, Toast.LENGTH_SHORT).show();
-    }
-
-    public void gotoCouponInfo(View view){  // Identical to onItemClicked, currently not used
-        Intent intent = new Intent(this, InfoCouponActivity.class);
-        String couponName = rowItems.get(0).getCouponName(); //couponName is a value that needs to be fetched from firebase
-        Uri imageUri = rowItems.get(0).getUri();
-        intent.putExtra("couponName", couponName);
-        intent.putExtra("imageUri", imageUri);
-        startActivity(intent);
     }
 
     public void gotoProfile(View view){
