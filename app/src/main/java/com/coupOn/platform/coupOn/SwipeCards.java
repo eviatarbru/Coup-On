@@ -93,10 +93,10 @@ public class SwipeCards extends AppCompatActivity {
 //
             new Thread(new setUrisToCoupons()).start();
         }
-        else
+        else {
             MainDB.getInstance().onChangeCoupoints();
+        }
         new Thread(new GetUserFirebaseS(flingContainer)).start(); //Just an example to test the random user info.
-
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener()
         {
 //            String tempCouponId;
@@ -367,7 +367,6 @@ public class SwipeCards extends AppCompatActivity {
 
                     @Override
                     public void run() {
-                        coupointsAmount.setText(MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getCoupoints() + "");
                         arrayAdapter = new ArrayAdapterCoupon(SwipeCards.this, R.layout.item, rowItems);
                         flingContainer.setAdapter(arrayAdapter);
 

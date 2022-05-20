@@ -173,6 +173,8 @@ public class MainDB
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     System.out.println(snapshot.getValue() + " this is the value");
+                    SwipeCards.changeCoupoints(snapshot.getValue() + "");
+                    curUser.get(mAuth.getCurrentUser().getUid()).setCoupoints(Integer.parseInt(snapshot.getValue() + ""));
                 }
 
                 @Override

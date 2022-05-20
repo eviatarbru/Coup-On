@@ -41,11 +41,11 @@ public class ArrayAdapterCoupon extends android.widget.ArrayAdapter<Cards> {
         discountType.setText(card_item.getDiscountType());  // null for some reason
         couponDescription.setText(card_item.getDescription());
         if(card_item.getPrice() % 1 != 0)
-            couponPrice.setText("₪" + card_item.getPrice() + "");
+            couponPrice.setText(card_item.getPrice() + " cp");
         else
         {
             int intPrice = (int)card_item.getPrice();
-            couponPrice.setText("₪" + intPrice + "");
+            couponPrice.setText(intPrice + " cp");
         }
 
 

@@ -22,10 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.coupOn.platform.coupOn.Model.MainDB;
+import com.coupOn.platform.coupOn.SwipeCards;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -90,9 +92,6 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
         String couponId = info[5];
         String offer = info[6];
         int numOffer = Integer.parseInt(info[6]);
-
-        int myCoupoints = MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getCoupoints();
-
 
         String pTime = DateFormat.format("dd/MM/yyyy hh:mm aa", Long.parseLong(timestamp)).toString();
         //set to views
@@ -200,16 +199,22 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                                     if(numOffer <= coupoint) //Checks The other user's Coupoints
                                     {
                                         databaseReference.child("Users").child(SenderName).child("coupoints").setValue(coupoint - numOffer);
-                                        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(myCoupoints + numOffer);
+                                        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                int newCoupoints = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                                                databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(newCoupoints + numOffer);
+                                            }
+                                        });
                                         addUserNotification("5" + "*" + mAuth.getCurrentUser().getUid() + "*" + timestampNow + "*" + coupName + "*"
-                                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +couponId
+                                                + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" + couponId
                                                 + "*" + offer, SenderName);
                                         ArrayList <String> notificationClearCouponId = new ArrayList<>();
                                         notificationClearCouponId.add(couponId);
                                         MainDB.getInstance().NotificationClear(notificationClearCouponId);
                                         Map<String, Object> dataEdit = new HashMap<>();
                                         dataEdit.put("UserUid", SenderName);
-                                        dataEdit.put("Tradable", false);
+                                        dataEdit.put("Tradeable", false);
                                         DocumentReference updateUser = db.collection("coupons")
                                                 .document(couponId);
                                         updateUser.update(dataEdit);
@@ -246,11 +251,16 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                                     if(numOffer <= coupoint) //Checks The other user's Coupoints
                                     {
                                         databaseReference.child("Users").child(SenderName).child("coupoints").setValue(coupoint - numOffer);
-                                        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(myCoupoints + numOffer);
+                                        databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                                int newCoupoints = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                                                databaseReference.child("Users").child(mAuth.getCurrentUser().getUid()).child("coupoints").setValue(newCoupoints + numOffer);
+                                            }
+                                        });
                                         addUserNotification("5" + "*" + mAuth.getCurrentUser().getUid() + "*" + timestampNow + "*" + coupName + "*"
                                                 + MainDB.getInstance().getCurUser().get(mAuth.getCurrentUser().getUid()).getFullName() + "*" +couponId
                                                 + "*" + offer, SenderName);
-
                                         Map<String, Object> dataEdit = new HashMap<>();
                                         dataEdit.put("UserUid", SenderName);
                                         dataEdit.put("Tradable", false);
@@ -286,11 +296,10 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     //Adds the notification to the user
     public void addUserNotification(String notification, String ownerCoupon)
     {
-        List<String> notifications = new ArrayList<>();
+        System.out.println(" this is the owner" + ownerCoupon + " this is the message " + notification);
 
         Map<String, Object> dataEdit = new HashMap<>();
-        //data.put("CoupUid", "coupon");
-        dataEdit.put("Notifications", notifications);
+        dataEdit.put("Notifications", notification);
         DocumentReference updateUser = db.collection("users")
                 .document(ownerCoupon);
         updateUser.update("Notifications", FieldValue.arrayUnion(notification));

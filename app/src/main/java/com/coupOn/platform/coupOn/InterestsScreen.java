@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -284,8 +286,25 @@ public class InterestsScreen extends AppCompatActivity implements View.OnClickLi
                 DocumentReference updateUser = db.collection("users")
                         .document(mAuth.getCurrentUser().getUid());
                 updateUser.update(dataEdit);
-                Intent intent3 = new Intent(InterestsScreen.this, Profile_screen.class);
-                startActivity(intent3);
+                AlertDialog.Builder builder = new AlertDialog.Builder(InterestsScreen.this);
+                builder.setTitle("Updated Interests!");
+                builder.setMessage("Please Restart the app to get the new coupons!");
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)  //FAKE positive button
+                    {
+                        Toast.makeText(InterestsScreen.this, "Updated Interests!", Toast.LENGTH_SHORT).show();
+                        Intent intent3 = new Intent(InterestsScreen.this, Profile_screen.class);
+                        startActivity(intent3);
+                        //Do nothing here because we override this button later to change the close behaviour.
+                        //However, we still need this because on older versions of Android unless we
+                        //pass a handler the button doesn't get instantiated
+                    }
+                });
+                // start positive button
+                final AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
         }
 
