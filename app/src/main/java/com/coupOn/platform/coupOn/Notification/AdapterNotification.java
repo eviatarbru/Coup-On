@@ -263,7 +263,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                                                 + "*" + offer, SenderName);
                                         Map<String, Object> dataEdit = new HashMap<>();
                                         dataEdit.put("UserUid", SenderName);
-                                        dataEdit.put("Tradable", false);
+                                        dataEdit.put("Tradeable", false);
                                         DocumentReference updateUser = db.collection("coupons")
                                                 .document(couponId);
                                         updateUser.update(dataEdit);
